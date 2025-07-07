@@ -27,6 +27,11 @@ Requires-Dist: types-beautifulsoup4>=4.12.0.20250516
 Requires-Dist: mupy>=0.1.13
 Requires-Dist: mypy>=1.16.0
 Requires-Dist: types-requests>=2.32.4.20250611
+Requires-Dist: pytest>=8.4.1
+Requires-Dist: coverage>=7.9.2
+Requires-Dist: pytest-cov>=6.2.1
+Requires-Dist: ruff>=0.12.2
+Requires-Dist: bandit>=1.8.6
 Provides-Extra: dev
 Requires-Dist: pytest>=8.4.0; extra == "dev"
 Requires-Dist: pytest-cov>=6.2.0; extra == "dev"

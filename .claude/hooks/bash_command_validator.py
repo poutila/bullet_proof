@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""
-Claude Code Hook: Bash Command Validator
-=========================================
+"""Claude Code Hook: Bash Command Validator.
+
 This hook runs as a PreToolUse hook for the Bash tool.
 It validates bash commands against a set of rules before execution.
 In this case it changes grep calls to using rg.
@@ -25,7 +24,6 @@ Make sure to change your path to your actual script.
     ]
   }
 }
-
 """
 
 import json
@@ -54,6 +52,7 @@ def _validate_command(command: str) -> list[str]:
 
 
 def main():
+    """Main entry point for the bash command validator hook."""
     try:
         input_data = json.load(sys.stdin)
     except json.JSONDecodeError as e:

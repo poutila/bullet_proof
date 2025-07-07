@@ -34,6 +34,11 @@ dependencies = [
     "mupy>=0.1.13",
     "mypy>=1.16.0",
     "types-requests>=2.32.4.20250611",
+    "pytest>=8.4.1",
+    "coverage>=7.9.2",
+    "pytest-cov>=6.2.1",
+    "ruff>=0.12.2",
+    "bandit>=1.8.6",
 ]
 
 [project.optional-dependencies]
@@ -53,7 +58,7 @@ dev = [
 
 
 [tool.setuptools]
-packages = ["document_analyzer"]
+packages = []
 
 [tool.black]
 line-length = 125
