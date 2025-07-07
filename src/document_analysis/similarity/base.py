@@ -6,19 +6,19 @@ must implement, following the Dependency Inversion Principle from CLAUDE.md.
 
 import logging
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Protocol, Union
+from typing import Any, Protocol, TypeAlias
 
 import numpy as np
 import pandas as pd
 
-from ..validation import ValidationError
+from document_analysis.validation import ValidationError
 
 logger = logging.getLogger(__name__)
 
 # Type aliases for better readability
-SimilarityMatrix = Union[list[list[float]], np.ndarray, pd.DataFrame]
+SimilarityMatrix: TypeAlias = list[list[float]] | np.ndarray | pd.DataFrame
 TextList = list[str]
 PathList = list[Path]
 
@@ -39,14 +39,12 @@ class SimilarityResult:
     target: str
     score: float
     technique: str
-    metadata: dict[str, Any] = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         """Validate similarity result after initialization."""
         if not 0.0 <= self.score <= 1.0:
             raise ValueError(f"Similarity score must be between 0.0 and 1.0, got {self.score}")
-        if self.metadata is None:
-            self.metadata = {}
 
 
 class SimilarityCalculator(Protocol):

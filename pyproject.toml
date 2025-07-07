@@ -167,6 +167,12 @@ ignore = [
 preview = true  # Enable preview rules for cutting-edge checks
 
 [tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101",     # Use of assert is allowed in tests
+    "PLR2004",  # Magic values are common in tests
+    "S105",     # Possible hardcoded password (test data)
+    "S106",     # Possible hardcoded password (test data)
+]
 
 [tool.ruff.lint.pylint]
 max-args = 7
@@ -174,6 +180,7 @@ max-returns = 3
 max-branches = 12
 max-statements = 50
 max-public-methods = 20
+max-locals = 20  # Increased from default 15 for report generation functions
 
 [tool.ruff.lint.isort]
 known-first-party = ["src"]
@@ -193,7 +200,7 @@ skip-magic-trailing-comma = false
 line-ending = "lf"
 
 [tool.ruff.lint.flake8-tidy-imports]
-ban-relative-imports = "all"
+ban-relative-imports = "parents"  # Allow relative imports within the same package
 
 [tool.mypy]
 python_version = "3.11"

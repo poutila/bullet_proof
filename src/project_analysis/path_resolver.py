@@ -38,10 +38,7 @@ class PathResolver:
             path = path[2:]
 
         # Try resolving from the given directory
-        if path.startswith("../"):
-            resolved = (from_dir / path).resolve()
-        else:
-            resolved = from_dir / path
+        resolved = (from_dir / path).resolve() if path.startswith("../") else from_dir / path
 
         # Check if file exists at resolved path
         if resolved.exists():

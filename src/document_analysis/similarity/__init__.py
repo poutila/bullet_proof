@@ -15,13 +15,13 @@ from .semantic_similarity import SemanticSimilarityCalculator
 from .string_similarity import StringSimilarityCalculator
 
 __all__ = [
+    "SemanticSimilarityCalculator",
     # Base interfaces
     "SimilarityCalculator",
     "SimilarityMatrix",
     "SimilarityResult",
     # Implementations
     "StringSimilarityCalculator",
-    "SemanticSimilarityCalculator",
     # Utilities
     "create_empty_matrix",
     "find_clusters_in_matrix",

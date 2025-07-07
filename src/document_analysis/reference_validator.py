@@ -177,10 +177,7 @@ class ReferenceValidator:
             actual_refs = self.extract_references_from_document(doc_path)
 
             # Get relative path for the document
-            if self.enhanced_mode:
-                doc_name = str(doc_path.relative_to(self.root_dir))
-            else:
-                doc_name = doc_path.name
+            doc_name = str(doc_path.relative_to(self.root_dir)) if self.enhanced_mode else doc_path.name
 
             link_status[doc_name] = {
                 "path": str(doc_path.relative_to(self.root_dir)),
@@ -260,7 +257,7 @@ class ReferenceValidator:
 
         return dict(invalid_refs)
 
-    def generate_validation_report(self) -> None:
+    def generate_validation_report(self) -> None:  # noqa: PLR0914
         """Generate a comprehensive validation report."""
         report_title = (
             "ENHANCED DOCUMENT REFERENCE VALIDATION REPORT" if self.enhanced_mode else "DOCUMENT REFERENCE VALIDATION REPORT"

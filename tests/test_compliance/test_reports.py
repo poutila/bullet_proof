@@ -371,13 +371,16 @@ class TestPerformanceReporting:
                 files.append(file_path)
 
             # Create many matches
-            matches = [DocumentMatch(
-                        file1=files[i],
-                        file2=files[i + 1],
-                        similarity_score=0.7 + (i * 0.01),
-                        match_type="content",
-                        details={},
-                    ) for i in range(19)]
+            matches = [
+                DocumentMatch(
+                    file1=files[i],
+                    file2=files[i + 1],
+                    similarity_score=0.7 + (i * 0.01),
+                    match_type="content",
+                    details={},
+                )
+                for i in range(19)
+            ]
 
             start_time = time.time()
             result = generate_detailed_report(matches)

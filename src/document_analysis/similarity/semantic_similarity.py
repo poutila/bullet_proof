@@ -11,9 +11,15 @@ from typing import Any
 import pandas as pd
 from sentence_transformers import SentenceTransformer, util
 
-from ..analyzers import load_markdown_files
-from ..config import DEFAULT_MODEL_NAME, SIMILARITY_THRESHOLD_HIGH, SIMILARITY_THRESHOLD_LOW, SIMILARITY_THRESHOLD_MEDIUM
-from ..validation import ValidationError, validate_file_path, validate_list_input, validate_threshold
+from document_analysis.analyzers import load_markdown_files
+from document_analysis.config import (
+    DEFAULT_MODEL_NAME,
+    SIMILARITY_THRESHOLD_HIGH,
+    SIMILARITY_THRESHOLD_LOW,
+    SIMILARITY_THRESHOLD_MEDIUM,
+)
+from document_analysis.validation import ValidationError, validate_file_path, validate_list_input, validate_threshold
+
 from .base import BaseSimilarityCalculator, ClusteringMixin, SimilarityResult
 
 logger = logging.getLogger(__name__)
@@ -252,9 +258,7 @@ def analyze_semantic_similarity(
         raise
 
     # Convert to legacy DataFrame format
-    data = []
-    for result in results:
-        data.append({"not_in_use": result.source, "matched_file": result.target, "similarity": result.score})
+    data = [{"not_in_use": result.source, "matched_file": result.target, "similarity": result.score} for result in results]
 
     return pd.DataFrame(data)
 

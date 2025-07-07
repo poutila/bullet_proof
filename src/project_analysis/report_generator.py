@@ -45,7 +45,7 @@ class ReportGenerator:
         for i, child in enumerate(node.children):
             is_last = i == len(node.children) - 1
             child_prefix = prefix + ("  └─ " if is_last else "  ├─ ")
-            next_prefix = prefix + ("     " if is_last else "  │  ")
+            prefix + ("     " if is_last else "  │  ")
             self.print_instruction_tree(child, child_prefix)
 
     def print_coverage_report(self, coverage: dict[str, list[str]]) -> None:

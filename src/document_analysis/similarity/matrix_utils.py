@@ -5,17 +5,17 @@ across different similarity calculation techniques.
 """
 
 import logging
-from typing import Union
+from typing import Any, TypeAlias
 
 import numpy as np
 import pandas as pd
 
-from ..validation import ValidationError
+from document_analysis.validation import ValidationError
 
 logger = logging.getLogger(__name__)
 
 # Type alias for matrix types
-MatrixType = Union[list[list[float]], np.ndarray, pd.DataFrame]
+MatrixType: TypeAlias = list[list[float]] | np.ndarray | pd.DataFrame
 
 
 def create_empty_matrix(size: int, fill_value: float = 0.0) -> list[list[float]]:
@@ -212,7 +212,7 @@ def find_clusters_in_matrix(matrix: MatrixType, threshold: float = 0.7) -> list[
     return clusters
 
 
-def get_matrix_stats(matrix: MatrixType) -> dict:
+def get_matrix_stats(matrix: MatrixType) -> dict[str, Any]:
     """Get statistical information about similarity matrix.
 
     Args:
@@ -314,7 +314,7 @@ def filter_matrix_by_threshold(matrix: MatrixType, threshold: float) -> MatrixTy
         raise ValidationError(f"Threshold must be between 0.0 and 1.0, got {threshold}")
 
     if isinstance(matrix, list):
-        filtered = []
+        filtered: list[list[float]] = []
         for row in matrix:
             filtered_row = [val if val >= threshold else 0.0 for val in row]
             filtered.append(filtered_row)
@@ -325,24 +325,24 @@ def filter_matrix_by_threshold(matrix: MatrixType, threshold: float) -> MatrixTy
         return filtered
 
     if isinstance(matrix, pd.DataFrame):
-        filtered = matrix.copy()
-        filtered[filtered < threshold] = 0.0
+        filtered_df = matrix.copy()
+        filtered_df[filtered_df < threshold] = 0.0
         # Preserve diagonal
-        for i in range(len(filtered)):
-            filtered.iloc[i, i] = 1.0
-        return filtered
+        for i in range(len(filtered_df)):
+            filtered_df.iloc[i, i] = 1.0
+        return filtered_df
 
     if isinstance(matrix, np.ndarray):
-        filtered = matrix.copy()
-        filtered[filtered < threshold] = 0.0
+        filtered_arr = matrix.copy()
+        filtered_arr[filtered_arr < threshold] = 0.0
         # Preserve diagonal
-        np.fill_diagonal(filtered, 1.0)
-        return filtered
+        np.fill_diagonal(filtered_arr, 1.0)
+        return filtered_arr
 
     raise ValidationError(f"Unsupported matrix type: {type(matrix)}")
 
 
-def convert_matrix_format(matrix: MatrixType, target_format: str, labels: list[str] = None) -> MatrixType:
+def convert_matrix_format(matrix: MatrixType, target_format: str, labels: list[str] | None = None) -> MatrixType:
     """Convert similarity matrix between different formats.
 
     Args:

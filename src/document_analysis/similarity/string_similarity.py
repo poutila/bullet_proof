@@ -10,11 +10,18 @@ from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Any
 
+import pandas as pd
 from rapidfuzz import fuzz
 
-from ..analyzers import load_markdown_files
-from ..config import DUPLICATE_THRESHOLD, MIN_CONTENT_LENGTH, SIMILARITY_THRESHOLD_HIGH, SIMILARITY_THRESHOLD_LOW
-from ..validation import ValidationError, validate_file_path, validate_string_input, validate_threshold
+from document_analysis.analyzers import load_markdown_files
+from document_analysis.config import (
+    DUPLICATE_THRESHOLD,
+    MIN_CONTENT_LENGTH,
+    SIMILARITY_THRESHOLD_HIGH,
+    SIMILARITY_THRESHOLD_LOW,
+)
+from document_analysis.validation import ValidationError, validate_file_path, validate_string_input, validate_threshold
+
 from .base import BaseSimilarityCalculator, ClusteringMixin, SimilarityResult
 
 logger = logging.getLogger(__name__)
@@ -160,7 +167,17 @@ def get_similarity_matrix(texts: list[str], threshold: float | None = None) -> l
         threshold = SIMILARITY_THRESHOLD_LOW
 
     calculator = StringSimilarityCalculator()
-    return calculator.calculate_matrix(texts, threshold)
+    matrix = calculator.calculate_matrix(texts, threshold)
+    
+    # Convert to list format if needed
+    if isinstance(matrix, list):
+        return matrix
+    elif isinstance(matrix, pd.DataFrame):
+        result: list[list[float]] = matrix.values.tolist()
+        return result
+    else:  # numpy array
+        result = matrix.tolist()
+        return result
 
 
 def find_duplicate_groups(similarity_matrix: list[list[float]], threshold: float | None = None) -> list[list[int]]:
@@ -238,11 +255,11 @@ def find_best_match(section: str, targets: list[str], threshold: float | None = 
 
     for i, target in enumerate(targets):
         try:
-            target = validate_string_input(target, f"target[{i}]", max_length=100_000)
-            score = calculator._calculate_similarity(section, target)
+            validated_target = validate_string_input(target, f"target[{i}]", max_length=100_000)
+            score = calculator._calculate_similarity(section, validated_target)
 
             if score > best_score and score >= threshold:
-                best_match = target
+                best_match = validated_target
                 best_score = score
 
         except ValidationError as e:

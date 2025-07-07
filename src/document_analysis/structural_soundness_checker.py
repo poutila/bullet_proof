@@ -70,8 +70,8 @@ class StructuralSoundnessChecker:
 
     def find_adr_and_architecture_files(self) -> tuple[list[Path], list[Path]]:
         """Find all ADR and architecture files."""
-        adr_files = []
-        arch_files = []
+        adr_files: list[Path] = []
+        arch_files: list[Path] = []
 
         # Find ADR files
         adr_dir = self.root_dir / "docs" / "adr"

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """UV command blocker hook for Claude Code."""
+
 import json
 import re
 import sys
