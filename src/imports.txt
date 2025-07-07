@@ -1,0 +1,87 @@
+document_analysis/__init__.py:from document_analysis.analyzers import find_active_documents, find_not_in_use_documents, load_markdown_files
+document_analysis/__init__.py:from document_analysis.core import get_best_match_seq, is_similar, split_sections
+document_analysis/__init__.py:from document_analysis.embeddings import analyze_active_document_similarities, analyze_semantic_similarity
+document_analysis/__init__.py:from document_analysis.merging import merge_documents, merge_similar_documents
+document_analysis/__init__.py:from document_analysis.reports import (
+document_analysis/analyzers.py:from pathlib import Path
+document_analysis/analyzers.py:from src.document_analysis.config import (
+document_analysis/analyzers.py:from src.validation.validation import ValidationError, validate_directory_path, validate_file_path, validate_string_input
+document_analysis/config.py:from pathlib import Path
+document_analysis/config.py:from typing import Any, Final
+document_analysis/core.py:from difflib import SequenceMatcher
+document_analysis/core.py:from rapidfuzz import fuzz
+document_analysis/core.py:from src.document_analysis.config import (
+document_analysis/core.py:from src.validation.validation import ValidationError, validate_string_input, validate_threshold
+document_analysis/embeddings.py:from pathlib import Path
+document_analysis/embeddings.py:from typing import Any, cast
+document_analysis/embeddings.py:from sentence_transformers import SentenceTransformer, util
+document_analysis/embeddings.py:from document_analysis.analyzers import load_markdown_files
+document_analysis/embeddings.py:from document_analysis.config import (
+document_analysis/embeddings.py:from src.validation.validation import ValidationError, validate_file_path, validate_list_input, validate_threshold
+document_analysis/markdown_analyzer.py:from dataclasses import dataclass
+document_analysis/markdown_analyzer.py:from enum import Enum
+document_analysis/markdown_analyzer.py:from typing import Any
+document_analysis/markdown_analyzer.py:    from rapidfuzz import fuzz
+document_analysis/merging.py:from datetime import datetime
+document_analysis/merging.py:from pathlib import Path
+document_analysis/merging.py:from typing import Any
+document_analysis/merging.py:from .core import get_best_match_seq, is_similar, split_sections
+document_analysis/reports.py:from pathlib import Path
+document_analysis/reports.py:from typing import TYPE_CHECKING, Any, Optional
+document_analysis/reports.py:from rapidfuzz import fuzz
+document_analysis/reports.py:from .embeddings import analyze_active_document_similarities, analyze_semantic_similarity
+document_analysis/reports.py:from .markdown_analyzer import MarkdownAnalyzer, compare_markdown_blocks
+document_analysis/reports.py:    from sentence_transformers import SentenceTransformer
+document_analysis/reports.py:    from sentence_transformers import SentenceTransformer
+document_analysis/reports.py:        import matplotlib.pyplot as plt
+document_analysis/reports.py:        import seaborn as sns
+project_analysis/__init__.py:from .coverage_analyzer import CoverageAnalyzer
+project_analysis/__init__.py:from .document_parser import DocumentParser
+project_analysis/__init__.py:from .instruction_node import InstructionNode
+project_analysis/__init__.py:from .instruction_path_tracer import InstructionPathTracer
+project_analysis/__init__.py:from .path_resolver import PathResolver
+project_analysis/__init__.py:from .report_generator import ReportGenerator
+project_analysis/coverage_analyzer.py:from pathlib import Path
+project_analysis/coverage_analyzer.py:from .instruction_node import InstructionNode
+project_analysis/coverage_analyzer.py:from .path_resolver import PathResolver
+project_analysis/coverage_analyzer.py:from .patterns import ARCHITECTURE_TERMS, CI_CD_TERMS, FILE_SEARCH_PATHS, TEST_TERMS
+project_analysis/document_parser.py:from pathlib import Path
+project_analysis/document_parser.py:from .instruction_node import InstructionNode
+project_analysis/document_parser.py:from .patterns import FILE_GENERATION_PATTERNS, INSTRUCTION_PATTERNS
+project_analysis/instruction_node.py:from dataclasses import dataclass, field
+project_analysis/instruction_node.py:from pathlib import Path
+project_analysis/instruction_node.py:from typing import Optional
+project_analysis/instruction_path_tracer.py:from collections import deque
+project_analysis/instruction_path_tracer.py:from pathlib import Path
+project_analysis/instruction_path_tracer.py:from typing import Any
+project_analysis/instruction_path_tracer.py:from .coverage_analyzer import CoverageAnalyzer
+project_analysis/instruction_path_tracer.py:from .document_parser import DocumentParser
+project_analysis/instruction_path_tracer.py:from .instruction_node import InstructionNode
+project_analysis/instruction_path_tracer.py:from .path_resolver import PathResolver
+project_analysis/instruction_path_tracer.py:from .report_generator import ReportGenerator
+project_analysis/path_resolver.py:from pathlib import Path
+project_analysis/path_resolver.py:from .patterns import COMMON_PREFIXES
+project_analysis/patterns.py:from typing import Final
+project_analysis/report_generator.py:from pathlib import Path
+project_analysis/report_generator.py:from .instruction_node import InstructionNode
+project_analysis/test_instruction_path_tracer.py:from pathlib import Path
+project_analysis/test_instruction_path_tracer.py:from unittest.mock import MagicMock, patch
+project_analysis/test_instruction_path_tracer.py:from .coverage_analyzer import CoverageAnalyzer
+project_analysis/test_instruction_path_tracer.py:from .document_parser import DocumentParser
+project_analysis/test_instruction_path_tracer.py:from .instruction_node import InstructionNode
+project_analysis/test_instruction_path_tracer.py:from .instruction_path_tracer import InstructionPathTracer
+project_analysis/test_instruction_path_tracer.py:from .path_resolver import PathResolver
+project_analysis/test_instruction_path_tracer.py:from .report_generator import ReportGenerator
+validation/reference_validator_merged.py:from collections import defaultdict
+validation/reference_validator_merged.py:from pathlib import Path
+validation/reference_validator_merged.py:from typing import Any
+validation/reference_validator_merged.py:from src.document_analysis.analyzers import find_active_documents
+validation/reference_validator_merged.py:    import argparse
+validation/structural_soundness_checker.py:from dataclasses import dataclass
+validation/structural_soundness_checker.py:from pathlib import Path
+validation/structural_soundness_checker.py:from src.document_analysis.analyzers import find_active_documents
+validation/validation.py:from collections.abc import Callable
+validation/validation.py:from pathlib import Path
+validation/validation.py:from typing import Any
+validation/validation.py:from src.document_analysis.config import (
+validation/validation.py:    import codecs

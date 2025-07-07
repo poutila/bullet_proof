@@ -22,12 +22,12 @@ Main modules:
 from document_analysis.analyzers import find_active_documents, find_not_in_use_documents, load_markdown_files
 from document_analysis.core import get_best_match_seq, is_similar, split_sections
 from document_analysis.embeddings import analyze_active_document_similarities, analyze_semantic_similarity
-from src.compliance.reports import (
+from document_analysis.merging import merge_documents, merge_similar_documents
+from document_analysis.reports import (
     check_content_embedding,
     export_similarity_report,
     generate_comprehensive_similarity_report,
 )
-from src.project_analysis.merging import merge_documents, merge_similar_documents
 
 __version__ = "1.0.0"
 

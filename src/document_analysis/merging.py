@@ -7,7 +7,7 @@ from typing import Any
 
 import pandas as pd
 
-from src.document_analysis.core import get_best_match_seq, is_similar, split_sections
+from .core import get_best_match_seq, is_similar, split_sections
 
 logger = logging.getLogger(__name__)
 
