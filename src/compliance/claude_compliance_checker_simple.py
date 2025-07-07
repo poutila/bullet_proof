@@ -9,7 +9,7 @@ import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from compliance.compliance_checks import (
+from src.compliance.compliance_checks import (
     ComplianceIssue,
     calculate_complexity,
     check_docstrings,

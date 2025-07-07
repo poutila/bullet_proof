@@ -13,14 +13,14 @@ from typing import Any
 import pandas as pd
 from rapidfuzz import fuzz
 
-from document_analysis.analyzers import load_markdown_files
-from document_analysis.config import (
+from ..analyzers import load_markdown_files
+from ..config import (
     DUPLICATE_THRESHOLD,
     MIN_CONTENT_LENGTH,
     SIMILARITY_THRESHOLD_HIGH,
     SIMILARITY_THRESHOLD_LOW,
 )
-from document_analysis.validation import ValidationError, validate_file_path, validate_string_input, validate_threshold
+from ..validation import ValidationError, validate_file_path, validate_string_input, validate_threshold
 
 from .base import BaseSimilarityCalculator, ClusteringMixin, SimilarityResult
 
@@ -168,16 +168,16 @@ def get_similarity_matrix(texts: list[str], threshold: float | None = None) -> l
 
     calculator = StringSimilarityCalculator()
     matrix = calculator.calculate_matrix(texts, threshold)
-    
+
     # Convert to list format if needed
     if isinstance(matrix, list):
         return matrix
-    elif isinstance(matrix, pd.DataFrame):
-        result: list[list[float]] = matrix.values.tolist()
-        return result
-    else:  # numpy array
-        result = matrix.tolist()
-        return result
+    if isinstance(matrix, pd.DataFrame):
+        df_result: list[list[float]] = matrix.values.tolist()
+        return df_result
+    # numpy array
+    np_result: list[list[float]] = matrix.tolist()
+    return np_result
 
 
 def find_duplicate_groups(similarity_matrix: list[list[float]], threshold: float | None = None) -> list[list[int]]:

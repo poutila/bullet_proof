@@ -144,7 +144,7 @@ def merge_similar_documents(
                 {"source": source_name, "target": target_name, "similarity": similarity, "backup_created": backup}
             )
 
-        except Exception as e:
+        except (OSError, ValueError, KeyError) as e:
             logger.error("   ❌ Failed to merge %s and %s: %s", row["doc1"], row["doc2"], e)
             merge_results["errors"].append({"doc1": row["doc1"], "doc2": row["doc2"], "error": str(e)})
 
@@ -206,7 +206,7 @@ def create_merge_backup(documents: list[Path], backup_name: str | None = None) -
                 backed_up += 1
                 logger.debug("   📋 Backed up: %s", rel_path)
 
-            except Exception as e:
+            except OSError as e:
                 logger.warning("   ⚠️  Failed to backup %s: %s", doc_path, e)
 
     logger.info("✅ Backed up %d/%d documents to %s", backed_up, len(documents), backup_dir)
@@ -298,6 +298,6 @@ def merge_document_list(
 
         return result
 
-    except Exception as e:
+    except (OSError, ValueError) as e:
         logger.error("❌ Failed to merge documents: %s", e)
         return {"error": str(e)}

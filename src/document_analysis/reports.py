@@ -219,7 +219,7 @@ def check_content_embedding(
                 )
                 results.append(result)
                 continue  # Skip traditional analysis
-            except Exception as e:
+            except (ValueError, AttributeError, TypeError) as e:
                 # Fall back to traditional analysis
                 logger.warning("⚠️  Markdown analysis failed, using traditional method: %s", e)
 
@@ -455,6 +455,6 @@ def create_overlap_heatmap(
     except ImportError:
         logger.warning("⚠️  matplotlib/seaborn not available, skipping heatmap")
         return None
-    except Exception as e:
+    except (ValueError, TypeError, RuntimeError) as e:
         logger.error("❌ Failed to create heatmap: %s", e)
         return None

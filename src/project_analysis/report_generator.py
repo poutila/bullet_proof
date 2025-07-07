@@ -31,21 +31,20 @@ class ReportGenerator:
 
         # Print current node
         rel_path = node.path.relative_to(self.root_dir)
-        logger.info(f"{prefix}📄 {rel_path}")
+        logger.info("%s📄 %s", prefix, rel_path)
 
         if node.instructions:
-            logger.info(f"{prefix}  📝 {len(node.instructions)} instructions found")
+            logger.info("%s  📝 %d instructions found", prefix, len(node.instructions))
 
         if node.generates:
-            logger.info(f"{prefix}  🔧 Generates: {', '.join(node.generates[:3])}")
+            logger.info("%s  🔧 Generates: %s", prefix, ", ".join(node.generates[:3]))
             if len(node.generates) > 3:
-                logger.info(f"{prefix}     ... and {len(node.generates) - 3} more")
+                logger.info("%s     ... and %d more", prefix, len(node.generates) - 3)
 
         # Print children with proper tree formatting
         for i, child in enumerate(node.children):
             is_last = i == len(node.children) - 1
             child_prefix = prefix + ("  └─ " if is_last else "  ├─ ")
-            prefix + ("     " if is_last else "  │  ")
             self.print_instruction_tree(child, child_prefix)
 
     def print_coverage_report(self, coverage: dict[str, list[str]]) -> None:
@@ -58,12 +57,12 @@ class ReportGenerator:
         logger.info("-" * 40)
 
         for aspect, items in coverage.items():
-            logger.info(f"\n{aspect.replace('_', ' ').title()}:")
+            logger.info("\n%s:", aspect.replace("_", " ").title())
             if items:
                 for item in items[:5]:
-                    logger.info(f"  ✅ {item}")
+                    logger.info("  ✅ %s", item)
                 if len(items) > 5:
-                    logger.info(f"  ... and {len(items) - 5} more")
+                    logger.info("  ... and %d more", len(items) - 5)
             else:
                 logger.info("  ❌ No coverage found")
 
@@ -80,16 +79,16 @@ class ReportGenerator:
         exists_count = sum(1 for exists in alignment.values() if exists)
         total_count = len(alignment)
 
-        logger.info(f"\n✅ Exists: {exists_count}/{total_count} files ({exists_count / total_count * 100:.1f}%)")
+        logger.info("\n✅ Exists: %d/%d files (%.1f%%)", exists_count, total_count, exists_count / total_count * 100)
 
         missing = [f for f, exists in alignment.items() if not exists]
         if missing:
-            logger.info(f"❌ Missing: {len(missing)} files")
+            logger.info("❌ Missing: %d files", len(missing))
             logger.info("\nMissing files:")
             for f in missing[:10]:
-                logger.info(f"  - {f}")
+                logger.info("  - %s", f)
             if len(missing) > 10:
-                logger.info(f"  ... and {len(missing) - 10} more")
+                logger.info("  ... and %d more", len(missing) - 10)
 
     def print_summary(self, total_docs: int, entry_points: int) -> None:
         """Print analysis summary.
@@ -100,10 +99,10 @@ class ReportGenerator:
         """
         logger.info("\n" + "=" * 80)
         logger.info("📊 SUMMARY")
-        logger.info("=" * 80)
+        logger.info("%s", "=" * 80)
 
-        logger.info(f"📄 Documents traced: {total_docs}")
-        logger.info(f"🔗 Entry points analyzed: {entry_points}")
+        logger.info("📄 Documents traced: %d", total_docs)
+        logger.info("🔗 Entry points analyzed: %d", entry_points)
 
         # Overall assessment
         if total_docs > 10:

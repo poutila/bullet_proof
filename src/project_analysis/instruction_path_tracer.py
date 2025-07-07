@@ -142,9 +142,9 @@ class InstructionPathTracer:
             name: Name of the entry point
             path: Path to the entry point document
         """
-        logger.info(f"\n{'=' * 40}")
-        logger.info(f"🚀 TRACING FROM: {name}")
-        logger.info(f"{'=' * 40}")
+        logger.info("\n%s", "=" * 40)
+        logger.info("🚀 TRACING FROM: %s", name)
+        logger.info("%s", "=" * 40)
 
         self.visited.clear()
         root_node = self.trace_from_document(path)
@@ -160,9 +160,9 @@ class InstructionPathTracer:
 
     def _check_files_required_alignment(self) -> None:
         """Check and report FILES_REQUIRED.md alignment."""
-        logger.info("\n" + "=" * 80)
+        logger.info("\n%s", "=" * 80)
         logger.info("📁 FILES_REQUIRED.md ALIGNMENT CHECK")
-        logger.info("=" * 80)
+        logger.info("%s", "=" * 80)
 
         alignment = self.coverage_analyzer.check_files_required_alignment()
         self.report_generator.print_alignment_report(alignment)

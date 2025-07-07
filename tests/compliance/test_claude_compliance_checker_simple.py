@@ -114,12 +114,15 @@ class TestClaudeComplianceChecker:
     @patch("compliance.compliance_checks.check_test_coverage")
     def test_check_file_compliance_with_issues(self, mock_coverage, mock_hints, tmp_path: Path) -> None:
         """Test checking file compliance with issues."""
+        test_file = tmp_path / "test_module.py"
+        test_file.write_text("def test(): pass")
+        
         # Setup mocks to return issues
         hint_issue = ComplianceIssue(
-            file_path=file_path, issue_type="type-hints", severity="high", description="Missing type hints"
+            file_path=test_file, issue_type="type-hints", severity="high", description="Missing type hints"
         )
         coverage_issue = ComplianceIssue(
-            file_path=file_path, issue_type="test-coverage", severity="high", description="No test file"
+            file_path=test_file, issue_type="test-coverage", severity="high", description="No test file"
         )
 
         mock_hints.return_value = (False, [hint_issue])
@@ -166,7 +169,7 @@ def test_add() -> None:
 
         checker = ClaudeComplianceChecker(tmp_path)
         with patch.object(checker, "print_report") as mock_print:
-            overall_compliant = checker.check_project_compliance()
+            checker.check_project_compliance()
 
             # Should have checked both files
             assert mock_print.called

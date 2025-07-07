@@ -11,14 +11,14 @@ from typing import Any
 import pandas as pd
 from sentence_transformers import SentenceTransformer, util
 
-from document_analysis.analyzers import load_markdown_files
-from document_analysis.config import (
+from ..analyzers import load_markdown_files
+from ..config import (
     DEFAULT_MODEL_NAME,
     SIMILARITY_THRESHOLD_HIGH,
     SIMILARITY_THRESHOLD_LOW,
     SIMILARITY_THRESHOLD_MEDIUM,
 )
-from document_analysis.validation import ValidationError, validate_file_path, validate_list_input, validate_threshold
+from ..validation import ValidationError, validate_file_path, validate_list_input, validate_threshold
 
 from .base import BaseSimilarityCalculator, ClusteringMixin, SimilarityResult
 
@@ -52,7 +52,7 @@ class SemanticSimilarityCalculator(BaseSimilarityCalculator, ClusteringMixin):
             try:
                 logger.info(f"Loading SentenceTransformer model: {self.model_name}")
                 self._model = SentenceTransformer(self.model_name)
-            except Exception as e:
+            except (OSError, ValueError, RuntimeError) as e:
                 logger.error(f"Failed to load model {self.model_name}: {e}")
                 raise RuntimeError(f"Failed to load model {self.model_name}") from e
         return self._model
@@ -77,7 +77,7 @@ class SemanticSimilarityCalculator(BaseSimilarityCalculator, ClusteringMixin):
 
             return max(0.0, min(1.0, score))  # Clamp to [0.0, 1.0]
 
-        except Exception as e:
+        except (RuntimeError, ValueError, AttributeError) as e:
             logger.warning(f"Semantic similarity calculation failed: {e}")
             return 0.0
 
@@ -120,7 +120,7 @@ class SemanticSimilarityCalculator(BaseSimilarityCalculator, ClusteringMixin):
             text_labels = [f"text_{i}" for i in range(len(texts))]
             return pd.DataFrame(matrix, index=text_labels, columns=text_labels)
 
-        except Exception as e:
+        except (RuntimeError, ValueError, AttributeError) as e:
             logger.error(f"Failed to calculate semantic similarity matrix: {e}")
             raise RuntimeError("Failed to calculate similarity matrix") from e
 
@@ -160,7 +160,7 @@ class SemanticSimilarityCalculator(BaseSimilarityCalculator, ClusteringMixin):
         try:
             query_files = load_markdown_files(query_docs, root_dir)
             candidate_files = load_markdown_files(candidate_docs, root_dir)
-        except Exception as e:
+        except (OSError, ValueError) as e:
             logger.error(f"Failed to load documents: {e}")
             raise FileNotFoundError("Could not load documents") from e
 
@@ -179,7 +179,7 @@ class SemanticSimilarityCalculator(BaseSimilarityCalculator, ClusteringMixin):
             # Calculate similarities
             cosine_scores = util.pytorch_cos_sim(query_embeddings, candidate_embeddings)
 
-        except Exception as e:
+        except (RuntimeError, ValueError, AttributeError) as e:
             logger.error(f"Failed to generate embeddings or calculate similarities: {e}")
             raise RuntimeError("Failed to process documents for similarity") from e
 
@@ -253,7 +253,7 @@ def analyze_semantic_similarity(
 
     try:
         results = calculator.find_similar_documents(not_in_use_docs, active_docs, root_dir, threshold)
-    except Exception as e:
+    except (OSError, ValueError, RuntimeError) as e:
         logger.error(f"Semantic similarity analysis failed: {e}")
         raise
 
@@ -299,7 +299,7 @@ def create_similarity_matrix(
     # Load documents
     try:
         files = load_markdown_files(documents, root_dir)
-    except Exception as e:
+    except (OSError, ValueError) as e:
         logger.error(f"Failed to load files: {e}")
         raise RuntimeError("Failed to load document files") from e
 
@@ -325,7 +325,7 @@ def create_similarity_matrix(
 
         return matrix_df, file_names
 
-    except Exception as e:
+    except (RuntimeError, ValueError, AttributeError) as e:
         logger.error(f"Failed to create similarity matrix: {e}")
         raise RuntimeError("Failed to create similarity matrix") from e
 
@@ -433,7 +433,7 @@ def analyze_active_document_similarities(
     # Load file contents
     try:
         active_files = load_markdown_files(active_docs, root_dir)
-    except Exception as e:
+    except (OSError, ValueError) as e:
         logger.error(f"Failed to load files: {e}")
         raise RuntimeError("Failed to load document files") from e
 
@@ -446,7 +446,7 @@ def analyze_active_document_similarities(
         logger.info(f"Loading SentenceTransformer model: {DEFAULT_MODEL_NAME}")
         try:
             model = SentenceTransformer(DEFAULT_MODEL_NAME)
-        except Exception as e:
+        except (OSError, ValueError, RuntimeError) as e:
             logger.error(f"Failed to load model: {e}")
             raise RuntimeError(f"Failed to load model {DEFAULT_MODEL_NAME}") from e
 
@@ -455,7 +455,7 @@ def analyze_active_document_similarities(
 
     try:
         embeddings = model.encode(list(active_files.values()), convert_to_tensor=True, show_progress_bar=False)
-    except Exception as e:
+    except (RuntimeError, ValueError) as e:
         logger.error(f"Failed to generate embeddings: {e}")
         raise RuntimeError("Failed to generate document embeddings") from e
 
@@ -463,7 +463,7 @@ def analyze_active_document_similarities(
     logger.info("Computing similarity matrix...")
     try:
         cosine_scores = util.pytorch_cos_sim(embeddings, embeddings)
-    except Exception as e:
+    except (RuntimeError, ValueError, AttributeError) as e:
         logger.error(f"Failed to compute similarities: {e}")
         raise RuntimeError("Failed to compute similarity matrix") from e
 

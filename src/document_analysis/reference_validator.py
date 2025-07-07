@@ -200,7 +200,7 @@ class ReferenceValidator:
 
             try:
                 content = doc_path.read_text()
-            except Exception as e:
+            except OSError as e:
                 issues[doc_name].append(f"Error reading file: {e}")
                 continue
 

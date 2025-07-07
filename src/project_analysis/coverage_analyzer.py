@@ -70,8 +70,8 @@ class CoverageAnalyzer:
             if any(term in content for term in ARCHITECTURE_TERMS):
                 coverage["architecture"].append(node.path.name)
 
-        except Exception as e:
-            logger.warning(f"Failed to read {node.path}: {e}")
+        except OSError as e:
+            logger.warning("Failed to read %s: %s", node.path, e)
 
         # Check for implementation instructions
         if node.instructions:

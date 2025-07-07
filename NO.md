@@ -75,3 +75,4 @@ These are rules that must **NEVER** be violated under any circumstances during d
 ## Always run mypy . and fix remaining errors.
 ## Always run pytest and fix remaining errors.
 ## Always run bandit -r . and fix remaining errors. 
+## Never use PYTHONPATH to bypass errors.

@@ -27,8 +27,8 @@ def load_document_content(path: Path) -> str:
         raise ValidationError(f"File does not exist: {path}")
     try:
         return path.read_text(encoding="utf-8")
-    except UnicodeDecodeError:
-        raise ValidationError(f"Unable to decode file: {path}")
+    except UnicodeDecodeError as e:
+        raise ValidationError(f"Unable to decode file: {path}") from e
 
 
 def analyze_document_structure(content: str) -> dict[str, Any]:

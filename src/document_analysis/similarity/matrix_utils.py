@@ -10,7 +10,7 @@ from typing import Any, TypeAlias
 import numpy as np
 import pandas as pd
 
-from document_analysis.validation import ValidationError
+from ..validation import ValidationError
 
 logger = logging.getLogger(__name__)
 
