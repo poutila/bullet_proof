@@ -1,0 +1,2 @@
+[console_scripts]
+tukes = src.cli:main

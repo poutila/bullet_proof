@@ -1,0 +1,144 @@
+# 🛡️ Bullet Proof Project
+
+> **A robust, security-first project management and automation system**
+
+[![Standards](https://img.shields.io/badge/standards-CLAUDE.md-blue)](./CLAUDE.md)
+[![Tasks](https://img.shields.io/badge/tasks-TASK.md-green)](./planning/TASK.md)
+[![Architecture](https://img.shields.io/badge/architecture-PLANNING.md-orange)](./planning/PLANNING.md)
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.11.9+
+- Git
+- GitHub account with appropriate permissions
+
+### Local Development Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd bullet_proof
+   ```
+
+2. **Install uv (recommended for local development)**
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+3. **Create virtual environment**
+   ```bash
+   uv venv venv_local
+   source venv_local/bin/activate  # On Windows: venv_local\Scripts\activate
+   ```
+
+4. **Install dependencies**
+   ```bash
+   # Development dependencies (when requirements-dev.txt exists)
+   uv pip install -r requirements-dev.txt
+   
+   # Production dependencies (when requirements.txt exists)
+   uv pip install -r requirements.txt
+   ```
+
+5. **Run quality checks**
+   ```bash
+   # When nox is configured
+   nox -s lint
+   nox -s tests
+   nox -s format
+   ```
+
+## 📚 Documentation
+
+### Core Documents
+- **[CLAUDE.md](./CLAUDE.md)** - Development standards, security requirements, and coding guidelines
+- **[PLANNING.md](./planning/PLANNING.md)** - Project architecture, phases, and technical design
+- **[TASK.md](./planning/TASK.md)** - Current sprint tasks and task management system
+- **[GLOSSARY.md](./GLOSSARY.md)** - Project terminology and definitions
+
+### Project Management Documents
+- **[DOCUMENTS.md](./planning/DOCUMENTS.md)** - Complete document registry and governance
+- **[TECHNICAL_REGISTRY.md](./planning/TECHNICAL_REGISTRY.md)** - Technical components and file registry
+- **[FILES_REQUIRED.md](./FILES_REQUIRED.md)** - Required files and directory structure
+- **[FILES_TO_CREATE.md](./FILES_TO_CREATE.md)** - Tracking files that need to be created
+- **[TASK-template.md](./TASK-template.md)** - Template for creating new tasks
+
+### Implementation Plans
+- **[automation_recovery_plan.md](./automation_recovery_plan.md)** - Failure handling and recovery procedures
+- **[dependency_update_action_plan.md](./dependency_update_action_plan.md)** - Dependency management plan
+- **[DOCUMENT_REFERENCE_REFACTORING_PLAN.md](./DOCUMENT_REFERENCE_REFACTORING_PLAN.md)** - Documentation improvement plan
+- **[DOCUMENT_REFERENCE_MAP.md](./DOCUMENT_REFERENCE_MAP.md)** - Visual map of document relationships
+
+### Development Artifacts
+- **[generate_files_required_rewrite_summary.md](./generate_files_required_rewrite_summary.md)** - File generation summary
+
+### Contributing
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for contribution guidelines.
+
+## 🏗️ Project Structure
+
+```
+bullet_proof/
+├── planning/               # Project planning documents
+│   ├── PLANNING.md        # Architecture and design
+│   ├── TASK.md           # Task management
+│   └── TECHNICAL_REGISTRY.md
+├── docs/                  # Additional documentation
+│   └── automation/        # Automation documentation
+├── scripts/               # Utility scripts
+├── .github/               # GitHub configuration
+│   └── workflows/         # GitHub Actions
+└── extracted/             # Refactored Python scripts
+```
+
+## 🔒 Security First
+
+This project follows strict security guidelines:
+- **No secrets in code** - Use environment variables
+- **Input validation** - All inputs sanitized
+- **90% test coverage** - Comprehensive testing required
+- **Security scanning** - Automated with bandit and safety
+
+See [CLAUDE.md](./CLAUDE.md) for complete security requirements.
+
+## 🧪 Testing
+
+```bash
+# Run all tests with coverage
+pytest --cov=. --cov-fail-under=90
+
+# Run specific test categories
+pytest -k "security"       # Security tests
+pytest -k "performance"    # Performance tests
+```
+
+## 🔄 Development Workflow
+
+1. **Check current tasks** in [TASK.md](./planning/TASK.md)
+2. **Follow standards** in [CLAUDE.md](./CLAUDE.md)
+3. **Create tests first** - TDD approach required
+4. **Run quality checks** before committing
+5. **Update documentation** as you work
+
+## 📊 Project Status
+
+- **Current Sprint**: Sprint-07-2025
+- **Phase**: Implementation
+- **Focus**: Automation recovery and dependency updates
+
+See [CHANGELOG.md](./CHANGELOG.md) for version history.
+
+## 🤝 Support
+
+- **Issues**: Use GitHub Issues for bug reports
+- **Documentation**: Check [docs/](./docs/) for detailed guides
+- **Standards**: Refer to [CLAUDE.md](./CLAUDE.md) for any questions
+
+## 📄 License
+
+[License information to be added]
+
+---
+
+> **Note**: This project uses AI-assisted development following the guidelines in [CLAUDE.md](./CLAUDE.md)

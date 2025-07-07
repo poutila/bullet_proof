@@ -1,0 +1,10 @@
+{
+  "sprint_id": "Sprint-01-2025",
+  "sprint_number": 1,
+  "version": "v1.0.0",
+  "start_date": "2025-01-06",
+  "end_date": "2025-01-20",
+  "duration_days": 14,
+  "target_points": 20,
+  "last_sprint_velocity": 0
+}
