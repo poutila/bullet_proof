@@ -80,7 +80,7 @@ def check_type_hints(file_path: Path) -> tuple[bool, list[ComplianceIssue]]:
         else:
             has_type_hints = True  # No functions to type
 
-    except Exception as e:
+    except (SyntaxError, ValueError, TypeError) as e:
         issues.append(
             ComplianceIssue(
                 file_path=file_path,
@@ -88,6 +88,16 @@ def check_type_hints(file_path: Path) -> tuple[bool, list[ComplianceIssue]]:
                 severity="critical",
                 description=f"Failed to parse file: {e}",
                 suggestion="Fix syntax errors",
+            )
+        )
+    except OSError as e:
+        issues.append(
+            ComplianceIssue(
+                file_path=file_path,
+                issue_type="file_access",
+                severity="critical",
+                description=f"Failed to read file: {e}",
+                suggestion="Check file permissions and encoding",
             )
         )
 
@@ -126,13 +136,22 @@ def check_error_handling(file_path: Path) -> tuple[bool, list[ComplianceIssue]]:
         if try_blocks or any("Path" in str(type(node)) for node in ast.walk(tree)):
             has_error_handling = True
 
-    except Exception as e:
+    except (SyntaxError, ValueError, TypeError) as e:
         issues.append(
             ComplianceIssue(
                 file_path=file_path,
                 issue_type="parsing",
                 severity="critical",
                 description=f"Failed to analyze error handling: {e}",
+            )
+        )
+    except OSError as e:
+        issues.append(
+            ComplianceIssue(
+                file_path=file_path,
+                issue_type="file_access",
+                severity="critical",
+                description=f"Failed to read file for error handling analysis: {e}",
             )
         )
 
@@ -173,10 +192,16 @@ def check_forbidden_patterns(file_path: Path) -> list[ComplianceIssue]:
                         )
                     )
 
-    except Exception as e:
+    except OSError as e:
         issues.append(
             ComplianceIssue(
-                file_path=file_path, issue_type="parsing", severity="critical", description=f"Failed to check patterns: {e}"
+                file_path=file_path, issue_type="file_access", severity="critical", description=f"Failed to read file for pattern check: {e}"
+            )
+        )
+    except (UnicodeDecodeError, MemoryError) as e:
+        issues.append(
+            ComplianceIssue(
+                file_path=file_path, issue_type="parsing", severity="critical", description=f"Failed to process file content: {e}"
             )
         )
 
@@ -217,10 +242,16 @@ def check_security_issues(file_path: Path) -> tuple[bool, list[ComplianceIssue]]
                     )
                     has_security_issues = True
 
-    except Exception as e:
+    except OSError as e:
         issues.append(
             ComplianceIssue(
-                file_path=file_path, issue_type="parsing", severity="critical", description=f"Failed to check security: {e}"
+                file_path=file_path, issue_type="file_access", severity="critical", description=f"Failed to read file for security check: {e}"
+            )
+        )
+    except (UnicodeDecodeError, MemoryError) as e:
+        issues.append(
+            ComplianceIssue(
+                file_path=file_path, issue_type="parsing", severity="critical", description=f"Failed to process file content: {e}"
             )
         )
 
@@ -297,13 +328,22 @@ def check_docstrings(file_path: Path) -> tuple[bool, list[ComplianceIssue]]:
                     )
                 )
 
-    except Exception as e:
+    except (SyntaxError, ValueError, TypeError) as e:
         issues.append(
             ComplianceIssue(
                 file_path=file_path,
                 issue_type="parsing",
                 severity="critical",
-                description=f"Failed to check docstrings: {e}",
+                description=f"Failed to parse file for docstring check: {e}",
+            )
+        )
+    except OSError as e:
+        issues.append(
+            ComplianceIssue(
+                file_path=file_path,
+                issue_type="file_access",
+                severity="critical",
+                description=f"Failed to read file: {e}",
             )
         )
 
@@ -373,13 +413,22 @@ def calculate_complexity(file_path: Path) -> tuple[int, list[ComplianceIssue]]:
                     )
                 )
 
-    except Exception as e:
+    except (SyntaxError, ValueError, TypeError) as e:
         issues.append(
             ComplianceIssue(
                 file_path=file_path,
                 issue_type="parsing",
                 severity="critical",
-                description=f"Failed to calculate complexity: {e}",
+                description=f"Failed to parse file for complexity analysis: {e}",
+            )
+        )
+    except OSError as e:
+        issues.append(
+            ComplianceIssue(
+                file_path=file_path,
+                issue_type="file_access",
+                severity="critical",
+                description=f"Failed to read file: {e}",
             )
         )
 
@@ -405,10 +454,16 @@ def check_file_length(file_path: Path) -> list[ComplianceIssue]:
                 )
             )
 
-    except Exception as e:
+    except OSError as e:
         issues.append(
             ComplianceIssue(
-                file_path=file_path, issue_type="parsing", severity="critical", description=f"Failed to read file: {e}"
+                file_path=file_path, issue_type="file_access", severity="critical", description=f"Failed to read file: {e}"
+            )
+        )
+    except (UnicodeDecodeError, MemoryError) as e:
+        issues.append(
+            ComplianceIssue(
+                file_path=file_path, issue_type="parsing", severity="critical", description=f"Failed to process file content: {e}"
             )
         )
 

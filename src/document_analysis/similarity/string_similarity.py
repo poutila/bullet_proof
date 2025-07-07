@@ -65,7 +65,7 @@ class StringSimilarityCalculator(BaseSimilarityCalculator, ClusteringMixin):
             # rapidfuzz returns score 0-100, normalize to 0-1
             score = self._fuzz_func(text1, text2) / 100.0
             return float(score)
-        except Exception as e:
+        except (AttributeError, TypeError, ValueError) as e:
             logger.warning(f"Fuzzy matching failed: {e}")
             return 0.0
 
@@ -105,7 +105,7 @@ class StringSimilarityCalculator(BaseSimilarityCalculator, ClusteringMixin):
         try:
             query_files = load_markdown_files(query_docs, root_dir)
             candidate_files = load_markdown_files(candidate_docs, root_dir)
-        except Exception as e:
+        except (OSError, ValueError) as e:
             logger.error(f"Failed to load documents: {e}")
             raise FileNotFoundError("Could not load documents") from e
 
@@ -135,7 +135,7 @@ class StringSimilarityCalculator(BaseSimilarityCalculator, ClusteringMixin):
                         )
                         results.append(result)
 
-                except Exception as e:
+                except (AttributeError, TypeError, ValueError) as e:
                     logger.warning(f"Failed to compare {query_path} vs {candidate_path}: {e}")
                     continue
 
@@ -371,7 +371,7 @@ def is_similar(a: str, b: str, threshold: int | None = None) -> bool:
 
         return result
 
-    except Exception as e:
+    except (AttributeError, TypeError, ValueError) as e:
         logger.error(f"Error calculating similarity: {e}")
         raise
 

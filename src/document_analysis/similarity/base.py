@@ -156,7 +156,7 @@ class BaseSimilarityCalculator(ABC):
         try:
             score = self._calculate_similarity(text1, text2)
             return max(0.0, min(1.0, score))  # Clamp to [0.0, 1.0]
-        except Exception as e:
+        except (AttributeError, TypeError, ValueError) as e:
             logger.error(f"Similarity calculation failed: {e}")
             raise ValidationError(f"Failed to calculate similarity: {e}") from e
 
@@ -197,7 +197,7 @@ class BaseSimilarityCalculator(ABC):
                     if score >= threshold:
                         matrix[i][j] = score
                         matrix[j][i] = score  # Symmetric matrix
-                except Exception as e:
+                except (AttributeError, TypeError, ValueError) as e:
                     logger.warning(f"Failed to calculate similarity for texts {i}, {j}: {e}")
                     continue
 

@@ -243,7 +243,7 @@ class StructuralSoundnessChecker:
                         if re.search(indicator, content, re.IGNORECASE):
                             is_template = True
                             break
-                except Exception as e:
+                except OSError as e:
                     logger.warning(f"Failed to check if {doc} is a template: {e}")
                     continue
 

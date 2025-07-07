@@ -65,10 +65,16 @@ class ClaudeComplianceChecker:
         try:
             content = file_path.read_text()
             compliance.line_count = len(content.split("\n"))
-        except Exception as e:
+        except OSError as e:
             compliance.issues.append(
                 ComplianceIssue(
-                    file_path=file_path, issue_type="parsing", severity="critical", description=f"Failed to read file: {e}"
+                    file_path=file_path, issue_type="file_access", severity="critical", description=f"Failed to read file: {e}"
+                )
+            )
+        except (UnicodeDecodeError, MemoryError) as e:
+            compliance.issues.append(
+                ComplianceIssue(
+                    file_path=file_path, issue_type="parsing", severity="critical", description=f"Failed to process file content: {e}"
                 )
             )
             return compliance
