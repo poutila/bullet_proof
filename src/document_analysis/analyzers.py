@@ -8,12 +8,12 @@ comprehensive validation and security checks according to CLAUDE.md standards.
 import logging
 from pathlib import Path
 
-from src.document_analysis.config import (
+from .config import (
     DEFAULT_ENCODING,
     DEFAULT_EXCLUDE_PATTERNS,
     MARKDOWN_FILE_PATTERN,
 )
-from src.validation.validation import ValidationError, validate_directory_path, validate_file_path, validate_string_input
+from .validation import ValidationError, validate_directory_path, validate_file_path, validate_string_input
 
 logger = logging.getLogger(__name__)
 

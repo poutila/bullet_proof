@@ -13,7 +13,7 @@ class ReportGenerator:
 
     def __init__(self, root_dir: Path):
         """Initialize report generator.
-        
+
         Args:
             root_dir: Root directory for relative path calculation
         """
@@ -21,7 +21,7 @@ class ReportGenerator:
 
     def print_instruction_tree(self, node: InstructionNode | None, prefix: str = "") -> None:
         """Print the instruction tree.
-        
+
         Args:
             node: Node to print from
             prefix: Prefix for tree formatting
@@ -50,7 +50,7 @@ class ReportGenerator:
 
     def print_coverage_report(self, coverage: dict[str, list[str]]) -> None:
         """Print coverage analysis report.
-        
+
         Args:
             coverage: Coverage data to report
         """
@@ -69,7 +69,7 @@ class ReportGenerator:
 
     def print_alignment_report(self, alignment: dict[str, bool]) -> None:
         """Print FILES_REQUIRED.md alignment report.
-        
+
         Args:
             alignment: Alignment data to report
         """
@@ -80,10 +80,7 @@ class ReportGenerator:
         exists_count = sum(1 for exists in alignment.values() if exists)
         total_count = len(alignment)
 
-        logger.info(
-            f"\n✅ Exists: {exists_count}/{total_count} files "
-            f"({exists_count / total_count * 100:.1f}%)"
-        )
+        logger.info(f"\n✅ Exists: {exists_count}/{total_count} files ({exists_count / total_count * 100:.1f}%)")
 
         missing = [f for f, exists in alignment.items() if not exists]
         if missing:
@@ -96,7 +93,7 @@ class ReportGenerator:
 
     def print_summary(self, total_docs: int, entry_points: int) -> None:
         """Print analysis summary.
-        
+
         Args:
             total_docs: Total documents traced
             entry_points: Number of entry points analyzed
@@ -112,7 +109,4 @@ class ReportGenerator:
         if total_docs > 10:
             logger.info("\n✅ Overall: Good documentation connectivity")
         else:
-            logger.info(
-                "\n⚠️  Overall: Limited documentation reach - "
-                "consider adding more cross-references"
-            )
+            logger.info("\n⚠️  Overall: Limited documentation reach - consider adding more cross-references")

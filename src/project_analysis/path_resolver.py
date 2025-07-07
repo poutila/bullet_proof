@@ -13,7 +13,7 @@ class PathResolver:
 
     def __init__(self, root_dir: Path):
         """Initialize path resolver.
-        
+
         Args:
             root_dir: Root directory of the project
         """
@@ -21,11 +21,11 @@ class PathResolver:
 
     def normalize_path(self, path: str, from_dir: Path) -> Path | None:
         """Normalize a relative path to absolute.
-        
+
         Args:
             path: Path string to normalize
             from_dir: Directory to resolve relative paths from
-            
+
         Returns:
             Normalized absolute path or None if not found
         """
@@ -62,11 +62,11 @@ class PathResolver:
 
     def find_file_in_project(self, filename: str, search_paths: list[str]) -> Path | None:
         """Find a file in the project using search paths.
-        
+
         Args:
             filename: Name of the file to find
             search_paths: List of paths to search in
-            
+
         Returns:
             Path to the found file or None
         """

@@ -8,10 +8,9 @@ from typing import TYPE_CHECKING, Any, Optional
 import pandas as pd
 from rapidfuzz import fuzz
 
-from .embeddings import analyze_active_document_similarities, analyze_semantic_similarity
-
 # Import markdown analyzer if available
 from .markdown_analyzer import MarkdownAnalyzer, compare_markdown_blocks
+from .similarity.semantic_similarity import analyze_active_document_similarities, analyze_semantic_similarity
 
 if TYPE_CHECKING:
     from sentence_transformers import SentenceTransformer

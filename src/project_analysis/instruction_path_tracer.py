@@ -12,7 +12,6 @@ to ensure they lead to complete implementation coverage including:
 import logging
 from collections import deque
 from pathlib import Path
-from typing import Any
 
 from .coverage_analyzer import CoverageAnalyzer
 from .document_parser import DocumentParser
@@ -25,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 class InstructionPathTracer:
     """Traces instruction paths through documentation.
-    
+
     This class coordinates the tracing of instruction paths by delegating
     specific responsibilities to specialized components.
     """
@@ -40,7 +39,7 @@ class InstructionPathTracer:
         self.root_dir = root_dir or Path.cwd()
         self.max_depth = max_depth
         self.visited: set[str] = set()
-        
+
         # Initialize components
         self.parser = DocumentParser()
         self.path_resolver = PathResolver(self.root_dir)
@@ -49,16 +48,14 @@ class InstructionPathTracer:
 
     def trace_from_document(self, start_path: Path) -> InstructionNode | None:
         """Trace instruction paths starting from a document.
-        
+
         Args:
             start_path: Path to start tracing from
-            
+
         Returns:
             Root node of the instruction tree
         """
-        queue: deque[tuple[Path, int, InstructionNode | None]] = deque(
-            [(start_path, 0, None)]
-        )
+        queue: deque[tuple[Path, int, InstructionNode | None]] = deque([(start_path, 0, None)])
         root_node = None
         nodes_by_path: dict[str, InstructionNode] = {}
 
@@ -105,7 +102,7 @@ class InstructionPathTracer:
 
         # Find entry points
         entry_points = self._find_entry_points()
-        
+
         if not entry_points:
             logger.info("❌ No entry points found (README.md or PLANNING.md)")
             return
@@ -118,32 +115,29 @@ class InstructionPathTracer:
         self._check_files_required_alignment()
 
         # Print summary
-        self.report_generator.print_summary(
-            total_docs=len(self.visited),
-            entry_points=len(entry_points)
-        )
+        self.report_generator.print_summary(total_docs=len(self.visited), entry_points=len(entry_points))
 
     def _find_entry_points(self) -> list[tuple[str, Path]]:
         """Find documentation entry points.
-        
+
         Returns:
             List of (name, path) tuples for entry points
         """
         entry_points = []
-        
+
         readme_path = self.root_dir / "README.md"
         if readme_path.exists():
             entry_points.append(("README.md", readme_path))
-            
+
         planning_path = self.root_dir / "planning" / "PLANNING.md"
         if planning_path.exists():
             entry_points.append(("PLANNING.md", planning_path))
-            
+
         return entry_points
 
     def _trace_entry_point(self, name: str, path: Path) -> None:
         """Trace from a single entry point.
-        
+
         Args:
             name: Name of the entry point
             path: Path to the entry point document

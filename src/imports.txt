@@ -1,3 +1,24 @@
+compliance/claude_compliance_checker.py:from dataclasses import dataclass, field
+compliance/claude_compliance_checker.py:from pathlib import Path
+compliance/claude_compliance_checker_simple.py:from dataclasses import dataclass, field
+compliance/claude_compliance_checker_simple.py:from pathlib import Path
+compliance/claude_compliance_checker_simple.py:from compliance.compliance_checks import (
+compliance/compliance_checks.py:from dataclasses import dataclass
+compliance/compliance_checks.py:from pathlib import Path
+compliance/test_claude_compliance_checker.py:from pathlib import Path
+compliance/test_claude_compliance_checker.py:from unittest.mock import MagicMock, patch, mock_open
+compliance/test_claude_compliance_checker.py:from .claude_compliance_checker import (
+compliance/test_claude_compliance_checker.py:from pathlib import Path
+compliance/test_claude_compliance_checker.py:from typing import List, Optional
+compliance/test_claude_compliance_checker.py:from compliant import process_items
+compliance/test_claude_compliance_checker_simple.py:from pathlib import Path
+compliance/test_claude_compliance_checker_simple.py:from unittest.mock import MagicMock, patch
+compliance/test_claude_compliance_checker_simple.py:from .claude_compliance_checker_simple import (
+compliance/test_claude_compliance_checker_simple.py:from .compliance_checks import ComplianceIssue
+compliance/test_compliance_checks.py:from pathlib import Path
+compliance/test_compliance_checks.py:from unittest.mock import MagicMock, mock_open, patch
+compliance/test_compliance_checks.py:from .compliance_checks import (
+compliance/test_compliance_checks.py:from pathlib import Path
 document_analysis/__init__.py:from document_analysis.analyzers import find_active_documents, find_not_in_use_documents, load_markdown_files
 document_analysis/__init__.py:from document_analysis.core import get_best_match_seq, is_similar, split_sections
 document_analysis/__init__.py:from document_analysis.embeddings import analyze_active_document_similarities, analyze_semantic_similarity
@@ -5,19 +26,21 @@ document_analysis/__init__.py:from document_analysis.merging import merge_docume
 document_analysis/__init__.py:from document_analysis.reports import (
 document_analysis/analyzers.py:from pathlib import Path
 document_analysis/analyzers.py:from src.document_analysis.config import (
-document_analysis/analyzers.py:from src.validation.validation import ValidationError, validate_directory_path, validate_file_path, validate_string_input
+document_analysis/analyzers.py:from .validation import ValidationError, validate_directory_path, validate_file_path, validate_string_input
 document_analysis/config.py:from pathlib import Path
 document_analysis/config.py:from typing import Any, Final
 document_analysis/core.py:from difflib import SequenceMatcher
 document_analysis/core.py:from rapidfuzz import fuzz
-document_analysis/core.py:from src.document_analysis.config import (
-document_analysis/core.py:from src.validation.validation import ValidationError, validate_string_input, validate_threshold
+document_analysis/core.py:from .config import (
+document_analysis/core.py:from .similarity.string_similarity import (
+document_analysis/core.py:from .validation import ValidationError, validate_string_input, validate_threshold
 document_analysis/embeddings.py:from pathlib import Path
 document_analysis/embeddings.py:from typing import Any, cast
 document_analysis/embeddings.py:from sentence_transformers import SentenceTransformer, util
-document_analysis/embeddings.py:from document_analysis.analyzers import load_markdown_files
-document_analysis/embeddings.py:from document_analysis.config import (
-document_analysis/embeddings.py:from src.validation.validation import ValidationError, validate_file_path, validate_list_input, validate_threshold
+document_analysis/embeddings.py:from .analyzers import load_markdown_files
+document_analysis/embeddings.py:from .config import (
+document_analysis/embeddings.py:from .similarity.semantic_similarity import (
+document_analysis/embeddings.py:from .validation import ValidationError, validate_file_path, validate_list_input, validate_threshold
 document_analysis/markdown_analyzer.py:from dataclasses import dataclass
 document_analysis/markdown_analyzer.py:from enum import Enum
 document_analysis/markdown_analyzer.py:from typing import Any
@@ -26,6 +49,11 @@ document_analysis/merging.py:from datetime import datetime
 document_analysis/merging.py:from pathlib import Path
 document_analysis/merging.py:from typing import Any
 document_analysis/merging.py:from .core import get_best_match_seq, is_similar, split_sections
+document_analysis/reference_validator.py:from collections import defaultdict
+document_analysis/reference_validator.py:from pathlib import Path
+document_analysis/reference_validator.py:from typing import Any
+document_analysis/reference_validator.py:from .analyzers import find_active_documents
+document_analysis/reference_validator.py:    import argparse
 document_analysis/reports.py:from pathlib import Path
 document_analysis/reports.py:from typing import TYPE_CHECKING, Any, Optional
 document_analysis/reports.py:from rapidfuzz import fuzz
@@ -35,6 +63,59 @@ document_analysis/reports.py:    from sentence_transformers import SentenceTrans
 document_analysis/reports.py:    from sentence_transformers import SentenceTransformer
 document_analysis/reports.py:        import matplotlib.pyplot as plt
 document_analysis/reports.py:        import seaborn as sns
+document_analysis/similarity/__init__.py:from .base import SimilarityCalculator, SimilarityMatrix, SimilarityResult
+document_analysis/similarity/__init__.py:from .matrix_utils import create_empty_matrix, find_clusters_in_matrix, normalize_matrix
+document_analysis/similarity/__init__.py:from .semantic_similarity import SemanticSimilarityCalculator
+document_analysis/similarity/__init__.py:from .string_similarity import StringSimilarityCalculator
+document_analysis/similarity/base.py:from abc import ABC, abstractmethod
+document_analysis/similarity/base.py:from dataclasses import dataclass
+document_analysis/similarity/base.py:from pathlib import Path
+document_analysis/similarity/base.py:from typing import Any, Dict, List, Protocol, Union
+document_analysis/similarity/base.py:from ..validation import ValidationError
+document_analysis/similarity/matrix_utils.py:from typing import List, Union
+document_analysis/similarity/matrix_utils.py:from ..validation import ValidationError
+document_analysis/similarity/semantic_similarity.py:from pathlib import Path
+document_analysis/similarity/semantic_similarity.py:from typing import Any, Dict, List, Optional, Tuple
+document_analysis/similarity/semantic_similarity.py:from sentence_transformers import SentenceTransformer, util
+document_analysis/similarity/semantic_similarity.py:from ..analyzers import load_markdown_files
+document_analysis/similarity/semantic_similarity.py:from ..config import DEFAULT_MODEL_NAME, SIMILARITY_THRESHOLD_HIGH, SIMILARITY_THRESHOLD_LOW, SIMILARITY_THRESHOLD_MEDIUM
+document_analysis/similarity/semantic_similarity.py:from ..validation import ValidationError, validate_file_path, validate_list_input, validate_threshold
+document_analysis/similarity/semantic_similarity.py:from .base import BaseSimilarityCalculator, ClusteringMixin, SimilarityResult
+document_analysis/similarity/string_similarity.py:from pathlib import Path
+document_analysis/similarity/string_similarity.py:from typing import List
+document_analysis/similarity/string_similarity.py:from rapidfuzz import fuzz
+document_analysis/similarity/string_similarity.py:from ..analyzers import load_markdown_files
+document_analysis/similarity/string_similarity.py:from ..config import SIMILARITY_THRESHOLD_HIGH, SIMILARITY_THRESHOLD_LOW
+document_analysis/similarity/string_similarity.py:from ..validation import ValidationError, validate_file_path, validate_string_input, validate_threshold
+document_analysis/similarity/string_similarity.py:from .base import BaseSimilarityCalculator, ClusteringMixin, SimilarityResult
+document_analysis/structural_soundness_checker.py:from dataclasses import dataclass
+document_analysis/structural_soundness_checker.py:from pathlib import Path
+document_analysis/structural_soundness_checker.py:from .analyzers import find_active_documents
+document_analysis/test_analyzers.py:from pathlib import Path
+document_analysis/test_analyzers.py:from typing import Dict, List
+document_analysis/test_analyzers.py:from unittest.mock import MagicMock, patch, mock_open
+document_analysis/test_analyzers.py:from .analyzers import (
+document_analysis/test_config.py:from pathlib import Path
+document_analysis/test_config.py:from unittest.mock import patch
+document_analysis/test_config.py:from .config import (
+document_analysis/test_config.py:        import json
+document_analysis/test_config.py:        import json
+document_analysis/test_core.py:from pathlib import Path
+document_analysis/test_core.py:from typing import Dict, List
+document_analysis/test_core.py:from unittest.mock import MagicMock, patch
+document_analysis/test_core.py:from .core import (
+document_analysis/test_remaining_modules.py:from pathlib import Path
+document_analysis/test_remaining_modules.py:from typing import Dict, List
+document_analysis/test_remaining_modules.py:from unittest.mock import MagicMock, patch
+document_analysis/test_remaining_modules.py:from .embeddings import (
+document_analysis/test_remaining_modules.py:from .markdown_analyzer import (
+document_analysis/test_remaining_modules.py:from .merging import (
+document_analysis/test_remaining_modules.py:from .reports import (
+document_analysis/validation.py:from collections.abc import Callable
+document_analysis/validation.py:from pathlib import Path
+document_analysis/validation.py:from typing import Any
+document_analysis/validation.py:from .config import (
+document_analysis/validation.py:    import codecs
 project_analysis/__init__.py:from .coverage_analyzer import CoverageAnalyzer
 project_analysis/__init__.py:from .document_parser import DocumentParser
 project_analysis/__init__.py:from .instruction_node import InstructionNode
@@ -72,16 +153,16 @@ project_analysis/test_instruction_path_tracer.py:from .instruction_node import I
 project_analysis/test_instruction_path_tracer.py:from .instruction_path_tracer import InstructionPathTracer
 project_analysis/test_instruction_path_tracer.py:from .path_resolver import PathResolver
 project_analysis/test_instruction_path_tracer.py:from .report_generator import ReportGenerator
-validation/reference_validator_merged.py:from collections import defaultdict
-validation/reference_validator_merged.py:from pathlib import Path
-validation/reference_validator_merged.py:from typing import Any
-validation/reference_validator_merged.py:from src.document_analysis.analyzers import find_active_documents
-validation/reference_validator_merged.py:    import argparse
-validation/structural_soundness_checker.py:from dataclasses import dataclass
-validation/structural_soundness_checker.py:from pathlib import Path
-validation/structural_soundness_checker.py:from src.document_analysis.analyzers import find_active_documents
-validation/validation.py:from collections.abc import Callable
-validation/validation.py:from pathlib import Path
-validation/validation.py:from typing import Any
-validation/validation.py:from src.document_analysis.config import (
-validation/validation.py:    import codecs
+validation/test_reference_validator_merged.py:from pathlib import Path
+validation/test_reference_validator_merged.py:from typing import Dict, List, Set
+validation/test_reference_validator_merged.py:from unittest.mock import MagicMock, patch, mock_open
+validation/test_reference_validator_merged.py:from .reference_validator_merged import (
+validation/test_structural_soundness_checker.py:from pathlib import Path
+validation/test_structural_soundness_checker.py:from typing import Dict, List, Set
+validation/test_structural_soundness_checker.py:from unittest.mock import MagicMock, patch, mock_open
+validation/test_structural_soundness_checker.py:from .structural_soundness_checker import (
+validation/test_structural_soundness_checker.py:            from validation.structural_soundness_checker import main
+validation/test_validation.py:from pathlib import Path
+validation/test_validation.py:from typing import Dict, List
+validation/test_validation.py:from unittest.mock import MagicMock, patch, mock_open
+validation/test_validation.py:from .validation import (

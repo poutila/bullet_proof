@@ -16,7 +16,7 @@ class CoverageAnalyzer:
 
     def __init__(self, root_dir: Path):
         """Initialize coverage analyzer.
-        
+
         Args:
             root_dir: Root directory of the project
         """
@@ -25,10 +25,10 @@ class CoverageAnalyzer:
 
     def check_coverage(self, root_node: InstructionNode) -> dict[str, list[str]]:
         """Check coverage of various aspects.
-        
+
         Args:
             root_node: Root node of the instruction tree
-            
+
         Returns:
             Dictionary mapping coverage aspects to found items
         """
@@ -45,7 +45,7 @@ class CoverageAnalyzer:
 
     def _traverse_for_coverage(self, node: InstructionNode, coverage: dict[str, list[str]]) -> None:
         """Traverse tree and collect coverage information.
-        
+
         Args:
             node: Current node to analyze
             coverage: Coverage dictionary to update
@@ -57,7 +57,7 @@ class CoverageAnalyzer:
         # Check document content for various aspects
         try:
             content = node.path.read_text().lower()
-            
+
             # Check for CI/CD mentions
             if any(term in content for term in CI_CD_TERMS):
                 coverage["ci_cd"].append(node.path.name)
@@ -75,9 +75,7 @@ class CoverageAnalyzer:
 
         # Check for implementation instructions
         if node.instructions:
-            coverage["implementation"].append(
-                f"{node.path.name}: {len(node.instructions)} instructions"
-            )
+            coverage["implementation"].append(f"{node.path.name}: {len(node.instructions)} instructions")
 
         # Traverse children
         for child in node.children:
@@ -85,7 +83,7 @@ class CoverageAnalyzer:
 
     def check_files_required_alignment(self) -> dict[str, bool]:
         """Check alignment with FILES_REQUIRED.md.
-        
+
         Returns:
             Dictionary mapping required files to existence status
         """
@@ -106,10 +104,10 @@ class CoverageAnalyzer:
 
     def _extract_required_files(self, content: str) -> set[str]:
         """Extract required files from FILES_REQUIRED.md content.
-        
+
         Args:
             content: Content of FILES_REQUIRED.md
-            
+
         Returns:
             Set of required file names
         """
@@ -137,10 +135,10 @@ class CoverageAnalyzer:
 
     def _check_file_exists(self, filename: str) -> bool:
         """Check if a required file exists in the project.
-        
+
         Args:
             filename: Name of the file to check
-            
+
         Returns:
             True if file exists, False otherwise
         """

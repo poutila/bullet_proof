@@ -8,7 +8,7 @@ from typing import Optional
 @dataclass
 class InstructionNode:
     """Represents a node in the instruction path tree.
-    
+
     Attributes:
         path: Path to the document
         title: Document title

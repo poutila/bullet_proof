@@ -8,10 +8,10 @@ from .path_resolver import PathResolver
 from .report_generator import ReportGenerator
 
 __all__ = [
-    "InstructionPathTracer",
-    "InstructionNode",
-    "DocumentParser",
-    "PathResolver",
     "CoverageAnalyzer",
+    "DocumentParser",
+    "InstructionNode",
+    "InstructionPathTracer",
+    "PathResolver",
     "ReportGenerator",
 ]

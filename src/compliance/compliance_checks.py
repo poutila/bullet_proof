@@ -96,7 +96,7 @@ def check_type_hints(file_path: Path) -> tuple[bool, list[ComplianceIssue]]:
 
 def check_error_handling(file_path: Path) -> tuple[bool, list[ComplianceIssue]]:
     """Check for proper error handling."""
-    issues = []
+    issues: list[ComplianceIssue] = []
     has_error_handling = False
 
     try:
@@ -109,14 +109,18 @@ def check_error_handling(file_path: Path) -> tuple[bool, list[ComplianceIssue]]:
         # Check for bare except clauses
         for try_block in try_blocks:
             # bare except:
-            issues.extend(ComplianceIssue(
-                            file_path=file_path,
-                            issue_type="error_handling",
-                            severity="high",
-                            description="Bare except clause found",
-                            line_number=handler.lineno,
-                            suggestion="Use specific exception types instead of bare except:",
-                        ) for handler in try_block.handlers if handler.type is None)
+            issues.extend(
+                ComplianceIssue(
+                    file_path=file_path,
+                    issue_type="error_handling",
+                    severity="high",
+                    description="Bare except clause found",
+                    line_number=handler.lineno,
+                    suggestion="Use specific exception types instead of bare except:",
+                )
+                for handler in try_block.handlers
+                if handler.type is None
+            )
 
         # Simple heuristic: if we have try blocks or path operations, assume error handling
         if try_blocks or any("Path" in str(type(node)) for node in ast.walk(tree)):

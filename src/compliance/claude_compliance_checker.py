@@ -161,7 +161,7 @@ class ClaudeComplianceChecker:
 
     def check_error_handling(self, file_path: Path) -> tuple[bool, list[ComplianceIssue]]:
         """Check for proper error handling."""
-        issues = []
+        issues: list[ComplianceIssue] = []
         has_error_handling = False
 
         try:
@@ -177,20 +177,29 @@ class ClaudeComplianceChecker:
             # Check for bare except clauses
             for try_block in try_blocks:
                 # bare except:
-                issues.extend(ComplianceIssue(
-                                file_path=file_path,
-                                issue_type="error_handling",
-                                severity="high",
-                                description="Bare except clause found",
-                                line_number=handler.lineno,
-                                suggestion="Use specific exception types instead of bare except:",
-                            ) for handler in try_block.handlers if handler.type is None)
+                issues.extend(
+                    ComplianceIssue(
+                        file_path=file_path,
+                        issue_type="error_handling",
+                        severity="high",
+                        description="Bare except clause found",
+                        line_number=handler.lineno,
+                        suggestion="Use specific exception types instead of bare except:",
+                    )
+                    for handler in try_block.handlers
+                    if handler.type is None
+                )
 
             # Check for file operations without context managers
-            [node for node in ast.walk(tree) if isinstance(node, ast.Call) and (
-                    (isinstance(node.func, ast.Name) and node.func.id == "open") or
-                    (isinstance(node.func, ast.Attribute) and node.func.attr in ["read_text", "write_text"])
-                )]
+            [
+                node
+                for node in ast.walk(tree)
+                if isinstance(node, ast.Call)
+                and (
+                    (isinstance(node.func, ast.Name) and node.func.id == "open")
+                    or (isinstance(node.func, ast.Attribute) and node.func.attr in ["read_text", "write_text"])
+                )
+            ]
 
             # Simple heuristic: if we have try blocks or path operations, assume error handling
             if try_blocks or any("Path" in str(type(node)) for node in ast.walk(tree)):
@@ -525,7 +534,9 @@ class ClaudeComplianceChecker:
         logger.info(
             f"✅ Type Hints: {files_with_type_hints}/{total_files} files ({files_with_type_hints / total_files * 100:.1f}%)"
         )
-        logger.info(f"🧪 Test Coverage: {files_with_tests}/{total_files} files ({files_with_tests / total_files * 100:.1f}%)")
+        logger.info(
+            f"🧪 Test Coverage: {files_with_tests}/{total_files} files ({files_with_tests / total_files * 100:.1f}%)"
+        )
         logger.info(
             f"📚 Documentation: {files_with_docstrings}/{total_files} files ({files_with_docstrings / total_files * 100:.1f}%)"
         )
