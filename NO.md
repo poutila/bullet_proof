@@ -70,6 +70,8 @@ These are rules that must **NEVER** be violated under any circumstances during d
 
 ## Always run ruff format . and fix remaining errors.
 ## Always run ruff check --fix and fix remaining errors.
+## Never use ruff check --unsafe-fixes.
+## Never use ruff check --ignore.
 ## Always run mypy . and fix remaining errors.
 ## Always run pytest and fix remaining errors.
 ## Always run bandit -r . and fix remaining errors. 

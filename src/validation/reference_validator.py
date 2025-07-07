@@ -7,6 +7,7 @@ Validates document references in DOCUMENT_REFERENCE_MAP.md to ensure:
 3. Documents are internally coherent (Internally coherent 🔍)
 """
 
+import logging
 import re
 from collections import defaultdict
 from pathlib import Path
@@ -14,11 +15,18 @@ from typing import Any
 
 from src.document_analysis.analyzers import find_active_documents
 
+logger = logging.getLogger(__name__)
+
 
 class ReferenceValidator:
     """Validates document references and links."""
 
     def __init__(self, root_dir: Path | None = None):
+        """Initialize reference validator.
+
+        Args:
+            root_dir: Root directory of the project. If None, uses current working directory.
+        """
         self.root_dir = root_dir or Path.cwd()
         self.reference_map_path = self.root_dir / "DOCUMENT_REFERENCE_MAP.md"
 
@@ -27,7 +35,7 @@ class ReferenceValidator:
         references: dict[str, list[str]] = defaultdict(list)
 
         if not self.reference_map_path.exists():
-            print(f"❌ DOCUMENT_REFERENCE_MAP.md not found at {self.reference_map_path}")
+            logger.info(f"❌ DOCUMENT_REFERENCE_MAP.md not found at {self.reference_map_path}")
             return references
 
         content = self.reference_map_path.read_text()
@@ -166,55 +174,55 @@ class ReferenceValidator:
 
     def generate_validation_report(self) -> None:
         """Generate a comprehensive validation report."""
-        print("=" * 80)
-        print("📊 DOCUMENT REFERENCE VALIDATION REPORT")
-        print("=" * 80)
-        print()
+        logger.info("=" * 80)
+        logger.info("📊 DOCUMENT REFERENCE VALIDATION REPORT")
+        logger.info("=" * 80)
+        logger.info("")
 
         # 1. Extract references from map
-        print("1️⃣ EXTRACTING REFERENCES FROM DOCUMENT_REFERENCE_MAP.md")
-        print("-" * 50)
+        logger.info("1️⃣ EXTRACTING REFERENCES FROM DOCUMENT_REFERENCE_MAP.md")
+        logger.info("-" * 50)
         references = self.extract_references_from_map()
 
         if not references:
-            print("❌ No references found or file missing")
+            logger.info("❌ No references found or file missing")
             return
 
         total_refs = sum(len(refs) for refs in references.values())
-        print(f"✅ Found {len(references)} documents with {total_refs} total references")
-        print()
+        logger.info(f"✅ Found {len(references)} documents with {total_refs} total references")
+        logger.info("")
 
         # 2. Validate document presence
-        print("2️⃣ VALIDATING DOCUMENT PRESENCE")
-        print("-" * 50)
+        logger.info("2️⃣ VALIDATING DOCUMENT PRESENCE")
+        logger.info("-" * 50)
         presence_status = self.validate_document_presence(references)
 
         missing_count = sum(1 for exists in presence_status.values() if not exists)
         present_count = len(presence_status) - missing_count
 
-        print(f"✅ Present: {present_count} documents")
-        print(f"❌ Missing: {missing_count} documents")
+        logger.info(f"✅ Present: {present_count} documents")
+        logger.info(f"❌ Missing: {missing_count} documents")
 
         if missing_count > 0:
-            print("\nMissing documents:")
+            logger.info("\nMissing documents:")
             for doc, exists in sorted(presence_status.items()):
                 if not exists:
-                    print(f"  ❌ {doc}")
-        print()
+                    logger.info(f"  ❌ {doc}")
+        logger.info("")
 
         # 3. Validate link correctness
-        print("3️⃣ VALIDATING LINK CORRECTNESS")
-        print("-" * 50)
+        logger.info("3️⃣ VALIDATING LINK CORRECTNESS")
+        logger.info("-" * 50)
         link_status = self.validate_link_correctness()
 
         docs_with_refs = sum(1 for info in link_status.values() if int(info["reference_count"]) > 0)
         total_links = sum(int(info["reference_count"]) for info in link_status.values())
 
-        print(f"📄 Analyzed {len(link_status)} documents")
-        print(f"🔗 Found {total_links} total links in {docs_with_refs} documents")
+        logger.info(f"📄 Analyzed {len(link_status)} documents")
+        logger.info(f"🔗 Found {total_links} total links in {docs_with_refs} documents")
 
         # Compare with reference map
-        print("\nCross-validation with reference map:")
+        logger.info("\nCross-validation with reference map:")
         for doc, refs in references.items():
             if doc in link_status:
                 actual_refs = set(link_status[doc]["references"])
@@ -224,49 +232,49 @@ class ReferenceValidator:
                 extra_in_doc = actual_refs - expected_refs
 
                 if missing_in_doc or extra_in_doc:
-                    print(f"\n📄 {doc}:")
+                    logger.info(f"\n📄 {doc}:")
                     if missing_in_doc:
-                        print(f"  ⚠️  Missing links: {', '.join(missing_in_doc)}")
+                        logger.info(f"  ⚠️  Missing links: {', '.join(missing_in_doc)}")
                     if extra_in_doc:
-                        print(f"  ➕ Extra links: {', '.join(extra_in_doc)}")
-        print()
+                        logger.info(f"  + Extra links: {', '.join(extra_in_doc)}")
+        logger.info("")
 
         # 4. Check internal coherence
-        print("4️⃣ CHECKING INTERNAL COHERENCE")
-        print("-" * 50)
+        logger.info("4️⃣ CHECKING INTERNAL COHERENCE")
+        logger.info("-" * 50)
         coherence_issues = self.check_internal_coherence()
 
         if not coherence_issues:
-            print("✅ No internal coherence issues found!")
+            logger.info("✅ No internal coherence issues found!")
         else:
-            print(f"⚠️  Found issues in {len(coherence_issues)} documents:")
+            logger.info(f"⚠️  Found issues in {len(coherence_issues)} documents:")
             for doc, issues in sorted(coherence_issues.items()):
-                print(f"\n📄 {doc}:")
+                logger.info(f"\n📄 {doc}:")
                 for issue in issues[:5]:  # Limit to first 5 issues
-                    print(f"  - {issue}")
+                    logger.info(f"  - {issue}")
                 if len(issues) > 5:
-                    print(f"  ... and {len(issues) - 5} more issues")
-        print()
+                    logger.info(f"  ... and {len(issues) - 5} more issues")
+        logger.info("")
 
         # 5. Summary
-        print("=" * 80)
-        print("📊 SUMMARY")
-        print("=" * 80)
+        logger.info("=" * 80)
+        logger.info("📊 SUMMARY")
+        logger.info("=" * 80)
 
         # Calculate scores
         presence_score = (present_count / len(presence_status) * 100) if presence_status else 0
 
-        print(f"✅ Document Presence: {presence_score:.1f}% ({present_count}/{len(presence_status)})")
-        print(f"🔗 Total Document Links: {total_links}")
-        print(f"⚠️  Documents with Issues: {len(coherence_issues)}")
+        logger.info(f"✅ Document Presence: {presence_score:.1f}% ({present_count}/{len(presence_status)})")
+        logger.info(f"🔗 Total Document Links: {total_links}")
+        logger.info(f"⚠️  Documents with Issues: {len(coherence_issues)}")
 
         # Overall health
         if presence_score >= 90 and len(coherence_issues) <= 2:
-            print("\n✅ Overall: EXCELLENT - Documentation is well-maintained")
+            logger.info("\n✅ Overall: EXCELLENT - Documentation is well-maintained")
         elif presence_score >= 70 and len(coherence_issues) <= 5:
-            print("\n⚠️  Overall: GOOD - Minor improvements needed")
+            logger.info("\n⚠️  Overall: GOOD - Minor improvements needed")
         else:
-            print("\n❌ Overall: NEEDS ATTENTION - Significant issues found")
+            logger.info("\n❌ Overall: NEEDS ATTENTION - Significant issues found")
 
 
 def main() -> None:

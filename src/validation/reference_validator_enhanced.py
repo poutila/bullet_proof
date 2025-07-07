@@ -5,17 +5,25 @@ Improved version that properly resolves relative paths and provides
 more accurate validation results.
 """
 
+import logging
 import re
 from collections import defaultdict
 from pathlib import Path
 
 from src.document_analysis.analyzers import find_active_documents
 
+logger = logging.getLogger(__name__)
+
 
 class EnhancedReferenceValidator:
     """Enhanced validator with better path resolution."""
 
     def __init__(self, root_dir: Path | None = None):
+        """Initialize enhanced reference validator.
+
+        Args:
+            root_dir: Root directory of the project. If None, uses current working directory.
+        """
         self.root_dir = root_dir or Path.cwd()
         self.reference_map_path = self.root_dir / "DOCUMENT_REFERENCE_MAP.md"
 
@@ -36,10 +44,8 @@ class EnhancedReferenceValidator:
             path = path[2:]
 
         # If path doesn't start with planning/ or docs/, check if it should
-        if not path.startswith(("planning/", "docs/", "../")):
-            # Check if file exists in planning directory
-            if (self.root_dir / "planning" / path).exists():
-                return f"planning/{path}"
+        if not path.startswith(("planning/", "docs/", "../")) and (self.root_dir / "planning" / path).exists():
+            return f"planning/{path}"
 
         return path
 
@@ -48,7 +54,7 @@ class EnhancedReferenceValidator:
         references: dict[str, list[str]] = defaultdict(list)
 
         if not self.reference_map_path.exists():
-            print(f"❌ DOCUMENT_REFERENCE_MAP.md not found at {self.reference_map_path}")
+            logger.info(f"❌ DOCUMENT_REFERENCE_MAP.md not found at {self.reference_map_path}")
             return references
 
         content = self.reference_map_path.read_text()
@@ -125,48 +131,48 @@ class EnhancedReferenceValidator:
 
     def generate_validation_report(self) -> None:
         """Generate an enhanced validation report."""
-        print("=" * 80)
-        print("📊 ENHANCED DOCUMENT REFERENCE VALIDATION REPORT")
-        print("=" * 80)
-        print()
+        logger.info("=" * 80)
+        logger.info("📊 ENHANCED DOCUMENT REFERENCE VALIDATION REPORT")
+        logger.info("=" * 80)
+        logger.info("")
 
         # 1. Extract references from map
-        print("1️⃣ EXTRACTING REFERENCES FROM DOCUMENT_REFERENCE_MAP.md")
-        print("-" * 50)
+        logger.info("1️⃣ EXTRACTING REFERENCES FROM DOCUMENT_REFERENCE_MAP.md")
+        logger.info("-" * 50)
         references = self.extract_references_from_map()
 
         if not references:
-            print("❌ No references found or file missing")
+            logger.info("❌ No references found or file missing")
             return
 
         total_refs = sum(len(refs) for refs in references.values())
-        print(f"✅ Found {len(references)} documents with {total_refs} total references")
-        print()
+        logger.info(f"✅ Found {len(references)} documents with {total_refs} total references")
+        logger.info("")
 
         # 2. Validate document presence
-        print("2️⃣ VALIDATING DOCUMENT PRESENCE")
-        print("-" * 50)
+        logger.info("2️⃣ VALIDATING DOCUMENT PRESENCE")
+        logger.info("-" * 50)
         presence_status = self.validate_document_presence(references)
 
         missing_count = sum(1 for exists in presence_status.values() if not exists)
         present_count = len(presence_status) - missing_count
 
-        print(f"✅ Present: {present_count} documents")
-        print(f"❌ Missing: {missing_count} documents")
+        logger.info(f"✅ Present: {present_count} documents")
+        logger.info(f"❌ Missing: {missing_count} documents")
 
         if missing_count > 0:
-            print("\nMissing documents:")
+            logger.info("\nMissing documents:")
             for doc, exists in sorted(presence_status.items()):
                 if not exists:
-                    print(f"  ❌ {doc}")
-        print()
+                    logger.info(f"  ❌ {doc}")
+        logger.info("")
 
         # 3. Path resolution analysis
-        print("3️⃣ PATH RESOLUTION ANALYSIS")
-        print("-" * 50)
+        logger.info("3️⃣ PATH RESOLUTION ANALYSIS")
+        logger.info("-" * 50)
 
         # Show how paths are resolved
-        print("Path mappings:")
+        logger.info("Path mappings:")
         path_examples = [
             ("CLAUDE.md", "From root", "CLAUDE.md"),
             ("../CLAUDE.md", "From planning/", "CLAUDE.md"),
@@ -175,12 +181,12 @@ class EnhancedReferenceValidator:
         ]
 
         for original, context, resolved in path_examples:
-            print(f"  {original:20} ({context:15}) → {resolved}")
-        print()
+            logger.info(f"  {original:20} ({context:15}) → {resolved}")
+        logger.info("")
 
         # 4. Cross-reference validation
-        print("4️⃣ CROSS-REFERENCE VALIDATION")
-        print("-" * 50)
+        logger.info("4️⃣ CROSS-REFERENCE VALIDATION")
+        logger.info("-" * 50)
 
         all_docs = find_active_documents()
         issues_found = False
@@ -201,37 +207,37 @@ class EnhancedReferenceValidator:
 
             if invalid_refs:
                 if not issues_found:
-                    print("Documents with invalid references:")
+                    logger.info("Documents with invalid references:")
                     issues_found = True
-                print(f"\n📄 {doc_name}:")
+                logger.info(f"\n📄 {doc_name}:")
                 for ref in invalid_refs:
-                    print(f"  ❌ {ref}")
+                    logger.info(f"  ❌ {ref}")
 
         if not issues_found:
-            print("✅ All document references are valid!")
-        print()
+            logger.info("✅ All document references are valid!")
+        logger.info("")
 
         # 5. Summary
-        print("=" * 80)
-        print("📊 SUMMARY")
-        print("=" * 80)
+        logger.info("=" * 80)
+        logger.info("📊 SUMMARY")
+        logger.info("=" * 80)
 
         # Calculate scores
         presence_score = (present_count / len(presence_status) * 100) if presence_status else 0
 
-        print(f"✅ Document Presence: {presence_score:.1f}% ({present_count}/{len(presence_status)})")
-        print(f"📄 Total Documents Analyzed: {len(all_docs)}")
-        print(f"🔗 Reference Map Entries: {len(references)}")
+        logger.info(f"✅ Document Presence: {presence_score:.1f}% ({present_count}/{len(presence_status)})")
+        logger.info(f"📄 Total Documents Analyzed: {len(all_docs)}")
+        logger.info(f"🔗 Reference Map Entries: {len(references)}")
 
         # Overall health
         if presence_score >= 90 and not issues_found:
-            print("\n✅ Overall: EXCELLENT - Documentation references are well-maintained")
+            logger.info("\n✅ Overall: EXCELLENT - Documentation references are well-maintained")
         elif presence_score >= 70:
-            print("\n⚠️  Overall: GOOD - Minor improvements needed")
+            logger.info("\n⚠️  Overall: GOOD - Minor improvements needed")
         else:
-            print("\n📍 Overall: ATTENTION - Some references need updating")
+            logger.info("\n📍 Overall: ATTENTION - Some references need updating")
 
-        print("\n💡 Note: This enhanced validator properly resolves relative paths")
+        logger.info("\n💡 Note: This enhanced validator properly resolves relative paths")
 
 
 def main() -> None:

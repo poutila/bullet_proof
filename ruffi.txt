@@ -1,0 +1,3708 @@
+dependency_update_script.py:20:8: S404 `subprocess` module is possibly insecure
+   |
+18 | import os
+19 | import shutil
+20 | import subprocess
+   |        ^^^^^^^^^^ S404
+21 | import sys
+22 | import tempfile
+   |
+
+dependency_update_script.py:476:33: S603 `subprocess` call: check for execution of untrusted input
+    |
+474 |                 manager_name = "pip"
+475 |
+476 |             subprocess_result = subprocess.run(
+    |                                 ^^^^^^^^^^^^^^ S603
+477 |                 cmd, check=False, capture_output=True, text=True, timeout=self.config.max_timeout_seconds
+478 |             )
+    |
+
+dependency_update_script.py:566:17: S607 Starting a process with a partial executable path
+    |
+564 |             # Use safety to check for vulnerabilities
+565 |             result = subprocess.run(
+566 |                 ["safety", "check", "--json"], check=False, capture_output=True, text=True, timeout=SAFETY_CHECK_TIMEOUT
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ S607
+567 |             )
+    |
+
+dependency_update_script.py:605:37: S607 Starting a process with a partial executable path
+    |
+603 |         # Test ruff
+604 |         try:
+605 |             result = subprocess.run(["ruff", "--version"], check=False, capture_output=True, timeout=TOOL_CHECK_TIMEOUT)
+    |                                     ^^^^^^^^^^^^^^^^^^^^^ S607
+606 |             tools_status["ruff"] = result.returncode == 0
+607 |         except subprocess.TimeoutExpired as e:
+    |
+
+dependency_update_script.py:619:37: S607 Starting a process with a partial executable path
+    |
+617 |         # Test mypy
+618 |         try:
+619 |             result = subprocess.run(["mypy", "--version"], check=False, capture_output=True, timeout=TOOL_CHECK_TIMEOUT)
+    |                                     ^^^^^^^^^^^^^^^^^^^^^ S607
+620 |             tools_status["mypy"] = result.returncode == 0
+621 |         except subprocess.TimeoutExpired as e:
+    |
+
+dependency_update_script.py:633:37: S607 Starting a process with a partial executable path
+    |
+631 |         # Test pytest
+632 |         try:
+633 |             result = subprocess.run(["pytest", "--version"], check=False, capture_output=True, timeout=TOOL_CHECK_TIMEOUT)
+    |                                     ^^^^^^^^^^^^^^^^^^^^^^^ S607
+634 |             tools_status["pytest"] = result.returncode == 0
+635 |         except subprocess.TimeoutExpired as e:
+    |
+
+dependency_update_script.py:647:37: S607 Starting a process with a partial executable path
+    |
+645 |         # Test nox
+646 |         try:
+647 |             result = subprocess.run(["nox", "--version"], check=False, capture_output=True, timeout=TOOL_CHECK_TIMEOUT)
+    |                                     ^^^^^^^^^^^^^^^^^^^^ S607
+648 |             tools_status["nox"] = result.returncode == 0
+649 |         except subprocess.TimeoutExpired as e:
+    |
+
+src/compliance/claude_compliance_checker.py:490:9: PLR0914 Too many local variables (20/15)
+    |
+488 |         return compliance
+489 |
+490 |     def generate_compliance_report(self) -> None:
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^ PLR0914
+491 |         """Generate comprehensive CLAUDE.md compliance report."""
+492 |         logger.info("=" * 80)
+    |
+
+src/compliance/claude_compliance_checker_simple.py:105:9: PLR0914 Too many local variables (20/15)
+    |
+103 |         return compliance
+104 |
+105 |     def generate_compliance_report(self) -> None:
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^ PLR0914
+106 |         """Generate comprehensive CLAUDE.md compliance report."""
+107 |         logger.info("=" * 80)
+    |
+
+src/validation/structural_soundness_checker.py:255:9: PLR0914 Too many local variables (16/15)
+    |
+253 |         return template_files
+254 |
+255 |     def generate_soundness_report(self) -> None:
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^ PLR0914
+256 |         """Generate comprehensive structural soundness report."""
+257 |         logger.info("=" * 80)
+    |
+
+test_generate_files_required.py:30:9: S101 Use of `assert` detected
+   |
+28 |         test_content = 'Check out "config.py" and `README.md`'
+29 |         matches = FILE_PATTERN.findall(test_content)
+30 |         assert "config.py" in matches
+   |         ^^^^^^ S101
+31 |         assert "README.md" in matches
+   |
+
+test_generate_files_required.py:31:9: S101 Use of `assert` detected
+   |
+29 |         matches = FILE_PATTERN.findall(test_content)
+30 |         assert "config.py" in matches
+31 |         assert "README.md" in matches
+   |         ^^^^^^ S101
+32 |
+33 |     def test_pattern_matches_paths(self) -> None:
+   |
+
+test_generate_files_required.py:37:9: S101 Use of `assert` detected
+   |
+35 |         test_content = "See scripts/deploy.py and docs/api.md"
+36 |         matches = FILE_PATTERN.findall(test_content)
+37 |         assert "scripts/deploy.py" in matches
+   |         ^^^^^^ S101
+38 |         assert "docs/api.md" in matches
+   |
+
+test_generate_files_required.py:38:9: S101 Use of `assert` detected
+   |
+36 |         matches = FILE_PATTERN.findall(test_content)
+37 |         assert "scripts/deploy.py" in matches
+38 |         assert "docs/api.md" in matches
+   |         ^^^^^^ S101
+39 |
+40 |     def test_pattern_matches_quoted_paths(self) -> None:
+   |
+
+test_generate_files_required.py:49:9: S101 Use of `assert` detected
+   |
+47 |         """
+48 |         matches = FILE_PATTERN.findall(test_content)
+49 |         assert "src/main.py" in matches
+   |         ^^^^^^ S101
+50 |         assert "tests/test_main.py" in matches
+51 |         assert "config.json" in matches
+   |
+
+test_generate_files_required.py:50:9: S101 Use of `assert` detected
+   |
+48 |         matches = FILE_PATTERN.findall(test_content)
+49 |         assert "src/main.py" in matches
+50 |         assert "tests/test_main.py" in matches
+   |         ^^^^^^ S101
+51 |         assert "config.json" in matches
+   |
+
+test_generate_files_required.py:51:9: S101 Use of `assert` detected
+   |
+49 |         assert "src/main.py" in matches
+50 |         assert "tests/test_main.py" in matches
+51 |         assert "config.json" in matches
+   |         ^^^^^^ S101
+52 |
+53 |     def test_pattern_excludes_invalid_extensions(self) -> None:
+   |
+
+test_generate_files_required.py:57:9: S101 Use of `assert` detected
+   |
+55 |         test_content = "Files: image.png, document.pdf, script.sh"
+56 |         matches = FILE_PATTERN.findall(test_content)
+57 |         assert len(matches) == 0
+   |         ^^^^^^ S101
+   |
+
+test_generate_files_required.py:66:9: S101 Use of `assert` detected
+   |
+64 |         """Test initialization with valid directory."""
+65 |         scanner = FileScanner(tmp_path)
+66 |         assert scanner.docs_root == tmp_path
+   |         ^^^^^^ S101
+67 |
+68 |     def test_init_with_invalid_directory(self) -> None:
+   |
+
+test_generate_files_required.py:88:13: S101 Use of `assert` detected
+   |
+87 |         for path in valid_paths:
+88 |             assert scanner.validate_file_path(path), f"Path {path} should be valid"
+   |             ^^^^^^ S101
+89 |
+90 |     def test_validate_file_path_invalid(self) -> None:
+   |
+
+test_generate_files_required.py:104:13: S101 Use of `assert` detected
+    |
+103 |         for path in invalid_paths:
+104 |             assert not scanner.validate_file_path(path), f"Path {path} should be invalid"
+    |             ^^^^^^ S101
+105 |
+106 |     def test_scan_empty_directory(self, tmp_path: Path) -> None:
+    |
+
+test_generate_files_required.py:111:9: S101 Use of `assert` detected
+    |
+109 |         result = scanner.scan_markdown_files()
+110 |
+111 |         assert result.scanned_count == 0
+    |         ^^^^^^ S101
+112 |         assert len(result.found_files) == 0
+113 |         assert len(result.warnings) == 1
+    |
+
+test_generate_files_required.py:112:9: S101 Use of `assert` detected
+    |
+111 |         assert result.scanned_count == 0
+112 |         assert len(result.found_files) == 0
+    |         ^^^^^^ S101
+113 |         assert len(result.warnings) == 1
+114 |         assert "No markdown files found" in result.warnings[0]
+    |
+
+test_generate_files_required.py:113:9: S101 Use of `assert` detected
+    |
+111 |         assert result.scanned_count == 0
+112 |         assert len(result.found_files) == 0
+113 |         assert len(result.warnings) == 1
+    |         ^^^^^^ S101
+114 |         assert "No markdown files found" in result.warnings[0]
+    |
+
+test_generate_files_required.py:114:9: S101 Use of `assert` detected
+    |
+112 |         assert len(result.found_files) == 0
+113 |         assert len(result.warnings) == 1
+114 |         assert "No markdown files found" in result.warnings[0]
+    |         ^^^^^^ S101
+115 |
+116 |     def test_scan_markdown_files_success(self, tmp_path: Path) -> None:
+    |
+
+test_generate_files_required.py:134:9: S101 Use of `assert` detected
+    |
+132 |         result = scanner.scan_markdown_files()
+133 |
+134 |         assert result.scanned_count == 2
+    |         ^^^^^^ S101
+135 |         assert len(result.errors) == 0
+136 |         assert len(result.warnings) == 0
+    |
+
+test_generate_files_required.py:135:9: S101 Use of `assert` detected
+    |
+134 |         assert result.scanned_count == 2
+135 |         assert len(result.errors) == 0
+    |         ^^^^^^ S101
+136 |         assert len(result.warnings) == 0
+    |
+
+test_generate_files_required.py:136:9: S101 Use of `assert` detected
+    |
+134 |         assert result.scanned_count == 2
+135 |         assert len(result.errors) == 0
+136 |         assert len(result.warnings) == 0
+    |         ^^^^^^ S101
+137 |
+138 |         assert "main.py" in result.found_files[".py"]
+    |
+
+test_generate_files_required.py:138:9: S101 Use of `assert` detected
+    |
+136 |         assert len(result.warnings) == 0
+137 |
+138 |         assert "main.py" in result.found_files[".py"]
+    |         ^^^^^^ S101
+139 |         assert "scripts/deploy.py" in result.found_files[".py"]
+140 |         assert "tests/test_main.py" in result.found_files[".py"]
+    |
+
+test_generate_files_required.py:139:9: S101 Use of `assert` detected
+    |
+138 |         assert "main.py" in result.found_files[".py"]
+139 |         assert "scripts/deploy.py" in result.found_files[".py"]
+    |         ^^^^^^ S101
+140 |         assert "tests/test_main.py" in result.found_files[".py"]
+141 |         assert "config.json" in result.found_files[".json"]
+    |
+
+test_generate_files_required.py:140:9: S101 Use of `assert` detected
+    |
+138 |         assert "main.py" in result.found_files[".py"]
+139 |         assert "scripts/deploy.py" in result.found_files[".py"]
+140 |         assert "tests/test_main.py" in result.found_files[".py"]
+    |         ^^^^^^ S101
+141 |         assert "config.json" in result.found_files[".json"]
+142 |         assert "settings.yaml" in result.found_files[".yaml"]
+    |
+
+test_generate_files_required.py:141:9: S101 Use of `assert` detected
+    |
+139 |         assert "scripts/deploy.py" in result.found_files[".py"]
+140 |         assert "tests/test_main.py" in result.found_files[".py"]
+141 |         assert "config.json" in result.found_files[".json"]
+    |         ^^^^^^ S101
+142 |         assert "settings.yaml" in result.found_files[".yaml"]
+    |
+
+test_generate_files_required.py:142:9: S101 Use of `assert` detected
+    |
+140 |         assert "tests/test_main.py" in result.found_files[".py"]
+141 |         assert "config.json" in result.found_files[".json"]
+142 |         assert "settings.yaml" in result.found_files[".yaml"]
+    |         ^^^^^^ S101
+143 |
+144 |     def test_scan_handles_read_errors(self, tmp_path: Path) -> None:
+    |
+
+test_generate_files_required.py:155:13: S101 Use of `assert` detected
+    |
+153 |             result = scanner.scan_markdown_files()
+154 |
+155 |             assert result.scanned_count == 0
+    |             ^^^^^^ S101
+156 |             assert len(result.errors) == 1
+157 |             assert "Failed to read" in result.errors[0]
+    |
+
+test_generate_files_required.py:156:13: S101 Use of `assert` detected
+    |
+155 |             assert result.scanned_count == 0
+156 |             assert len(result.errors) == 1
+    |             ^^^^^^ S101
+157 |             assert "Failed to read" in result.errors[0]
+    |
+
+test_generate_files_required.py:157:13: S101 Use of `assert` detected
+    |
+155 |             assert result.scanned_count == 0
+156 |             assert len(result.errors) == 1
+157 |             assert "Failed to read" in result.errors[0]
+    |             ^^^^^^ S101
+158 |
+159 |     def test_scan_validates_file_paths(self, tmp_path: Path) -> None:
+    |
+
+test_generate_files_required.py:171:9: S101 Use of `assert` detected
+    |
+169 |         result = scanner.scan_markdown_files()
+170 |
+171 |         assert "main.py" in result.found_files[".py"]
+    |         ^^^^^^ S101
+172 |         assert "../parent.py" not in result.found_files.get(".py", set())
+173 |         assert "/absolute/path.py" not in result.found_files.get(".py", set())
+    |
+
+test_generate_files_required.py:172:9: S101 Use of `assert` detected
+    |
+171 |         assert "main.py" in result.found_files[".py"]
+172 |         assert "../parent.py" not in result.found_files.get(".py", set())
+    |         ^^^^^^ S101
+173 |         assert "/absolute/path.py" not in result.found_files.get(".py", set())
+    |
+
+test_generate_files_required.py:173:9: S101 Use of `assert` detected
+    |
+171 |         assert "main.py" in result.found_files[".py"]
+172 |         assert "../parent.py" not in result.found_files.get(".py", set())
+173 |         assert "/absolute/path.py" not in result.found_files.get(".py", set())
+    |         ^^^^^^ S101
+    |
+
+test_generate_files_required.py:188:9: S101 Use of `assert` detected
+    |
+186 |         generator.generate_report(scan_result)
+187 |
+188 |         assert output_path.exists()
+    |         ^^^^^^ S101
+189 |         content = output_path.read_text()
+190 |         assert "FILES_REQUIRED.md" in content
+    |
+
+test_generate_files_required.py:190:9: S101 Use of `assert` detected
+    |
+188 |         assert output_path.exists()
+189 |         content = output_path.read_text()
+190 |         assert "FILES_REQUIRED.md" in content
+    |         ^^^^^^ S101
+191 |         assert "Files Scanned: 5" in content
+192 |         assert "Total References Found: 0" in content
+    |
+
+test_generate_files_required.py:191:9: S101 Use of `assert` detected
+    |
+189 |         content = output_path.read_text()
+190 |         assert "FILES_REQUIRED.md" in content
+191 |         assert "Files Scanned: 5" in content
+    |         ^^^^^^ S101
+192 |         assert "Total References Found: 0" in content
+    |
+
+test_generate_files_required.py:192:9: S101 Use of `assert` detected
+    |
+190 |         assert "FILES_REQUIRED.md" in content
+191 |         assert "Files Scanned: 5" in content
+192 |         assert "Total References Found: 0" in content
+    |         ^^^^^^ S101
+193 |
+194 |     def test_generate_report_with_files(self, tmp_path: Path) -> None:
+    |
+
+test_generate_files_required.py:209:9: S101 Use of `assert` detected
+    |
+208 |         content = output_path.read_text()
+209 |         assert "🐍 Python Scripts" in content
+    |         ^^^^^^ S101
+210 |         assert "📄 Markdown Documentation" in content
+211 |         assert "🧩 JSON Configurations" in content
+    |
+
+test_generate_files_required.py:210:9: S101 Use of `assert` detected
+    |
+208 |         content = output_path.read_text()
+209 |         assert "🐍 Python Scripts" in content
+210 |         assert "📄 Markdown Documentation" in content
+    |         ^^^^^^ S101
+211 |         assert "🧩 JSON Configurations" in content
+212 |         assert "- `main.py`" in content
+    |
+
+test_generate_files_required.py:211:9: S101 Use of `assert` detected
+    |
+209 |         assert "🐍 Python Scripts" in content
+210 |         assert "📄 Markdown Documentation" in content
+211 |         assert "🧩 JSON Configurations" in content
+    |         ^^^^^^ S101
+212 |         assert "- `main.py`" in content
+213 |         assert "- `README.md`" in content
+    |
+
+test_generate_files_required.py:212:9: S101 Use of `assert` detected
+    |
+210 |         assert "📄 Markdown Documentation" in content
+211 |         assert "🧩 JSON Configurations" in content
+212 |         assert "- `main.py`" in content
+    |         ^^^^^^ S101
+213 |         assert "- `README.md`" in content
+214 |         assert "- `config.json`" in content
+    |
+
+test_generate_files_required.py:213:9: S101 Use of `assert` detected
+    |
+211 |         assert "🧩 JSON Configurations" in content
+212 |         assert "- `main.py`" in content
+213 |         assert "- `README.md`" in content
+    |         ^^^^^^ S101
+214 |         assert "- `config.json`" in content
+215 |         assert "Count: 2" in content  # Python files count
+    |
+
+test_generate_files_required.py:214:9: S101 Use of `assert` detected
+    |
+212 |         assert "- `main.py`" in content
+213 |         assert "- `README.md`" in content
+214 |         assert "- `config.json`" in content
+    |         ^^^^^^ S101
+215 |         assert "Count: 2" in content  # Python files count
+    |
+
+test_generate_files_required.py:215:9: S101 Use of `assert` detected
+    |
+213 |         assert "- `README.md`" in content
+214 |         assert "- `config.json`" in content
+215 |         assert "Count: 2" in content  # Python files count
+    |         ^^^^^^ S101
+216 |
+217 |     def test_generate_report_with_errors_and_warnings(self, tmp_path: Path) -> None:
+    |
+
+test_generate_files_required.py:232:9: S101 Use of `assert` detected
+    |
+231 |         content = output_path.read_text()
+232 |         assert "## ⚠️ Warnings" in content
+    |         ^^^^^^ S101
+233 |         assert "## ❌ Errors" in content
+234 |         assert "Failed to read file1.md" in content
+    |
+
+test_generate_files_required.py:233:9: S101 Use of `assert` detected
+    |
+231 |         content = output_path.read_text()
+232 |         assert "## ⚠️ Warnings" in content
+233 |         assert "## ❌ Errors" in content
+    |         ^^^^^^ S101
+234 |         assert "Failed to read file1.md" in content
+235 |         assert "Permission denied: file2.md" in content
+    |
+
+test_generate_files_required.py:234:9: S101 Use of `assert` detected
+    |
+232 |         assert "## ⚠️ Warnings" in content
+233 |         assert "## ❌ Errors" in content
+234 |         assert "Failed to read file1.md" in content
+    |         ^^^^^^ S101
+235 |         assert "Permission denied: file2.md" in content
+236 |         assert "No markdown files in subdirectory" in content
+    |
+
+test_generate_files_required.py:235:9: S101 Use of `assert` detected
+    |
+233 |         assert "## ❌ Errors" in content
+234 |         assert "Failed to read file1.md" in content
+235 |         assert "Permission denied: file2.md" in content
+    |         ^^^^^^ S101
+236 |         assert "No markdown files in subdirectory" in content
+    |
+
+test_generate_files_required.py:236:9: S101 Use of `assert` detected
+    |
+234 |         assert "Failed to read file1.md" in content
+235 |         assert "Permission denied: file2.md" in content
+236 |         assert "No markdown files in subdirectory" in content
+    |         ^^^^^^ S101
+237 |
+238 |     def test_generate_report_write_error(self, tmp_path: Path) -> None:
+    |
+
+test_generate_files_required.py:281:9: S101 Use of `assert` detected
+    |
+280 |         # Verify results
+281 |         assert output_path.exists()
+    |         ^^^^^^ S101
+282 |         content = output_path.read_text()
+    |
+
+test_generate_files_required.py:285:9: S101 Use of `assert` detected
+    |
+284 |         # Check all files were found and categorized
+285 |         assert "src/main.py" in content
+    |         ^^^^^^ S101
+286 |         assert "tests/test_main.py" in content
+287 |         assert "utils/helper.py" in content
+    |
+
+test_generate_files_required.py:286:9: S101 Use of `assert` detected
+    |
+284 |         # Check all files were found and categorized
+285 |         assert "src/main.py" in content
+286 |         assert "tests/test_main.py" in content
+    |         ^^^^^^ S101
+287 |         assert "utils/helper.py" in content
+288 |         assert "config.json" in content
+    |
+
+test_generate_files_required.py:287:9: S101 Use of `assert` detected
+    |
+285 |         assert "src/main.py" in content
+286 |         assert "tests/test_main.py" in content
+287 |         assert "utils/helper.py" in content
+    |         ^^^^^^ S101
+288 |         assert "config.json" in content
+289 |         assert "data.yaml" in content
+    |
+
+test_generate_files_required.py:288:9: S101 Use of `assert` detected
+    |
+286 |         assert "tests/test_main.py" in content
+287 |         assert "utils/helper.py" in content
+288 |         assert "config.json" in content
+    |         ^^^^^^ S101
+289 |         assert "data.yaml" in content
+    |
+
+test_generate_files_required.py:289:9: S101 Use of `assert` detected
+    |
+287 |         assert "utils/helper.py" in content
+288 |         assert "config.json" in content
+289 |         assert "data.yaml" in content
+    |         ^^^^^^ S101
+290 |
+291 |         # Check proper organization
+    |
+
+test_generate_files_required.py:292:9: S101 Use of `assert` detected
+    |
+291 |         # Check proper organization
+292 |         assert content.index("🐍 Python Scripts") < content.index("src/main.py")
+    |         ^^^^^^ S101
+293 |         assert content.index("🧩 JSON Configurations") < content.index("config.json")
+    |
+
+test_generate_files_required.py:293:9: S101 Use of `assert` detected
+    |
+291 |         # Check proper organization
+292 |         assert content.index("🐍 Python Scripts") < content.index("src/main.py")
+293 |         assert content.index("🧩 JSON Configurations") < content.index("config.json")
+    |         ^^^^^^ S101
+294 |
+295 |     def test_main_function_success(self, tmp_path: Path, monkeypatch: Any) -> None:
+    |
+
+test_generate_files_required.py:310:9: S101 Use of `assert` detected
+    |
+309 |         # Verify output file created
+310 |         assert (tmp_path / "FILES_REQUIRED.md").exists()
+    |         ^^^^^^ S101
+    |
+
+test_generate_files_required.py:325:9: S101 Use of `assert` detected
+    |
+323 |         result = scanner.scan_markdown_files()
+324 |
+325 |         assert len(result.warnings) > 0
+    |         ^^^^^^ S101
+326 |         assert any("Found over" in w for w in result.warnings)
+    |
+
+test_generate_files_required.py:326:9: S101 Use of `assert` detected
+    |
+325 |         assert len(result.warnings) > 0
+326 |         assert any("Found over" in w for w in result.warnings)
+    |         ^^^^^^ S101
+327 |
+328 |     def test_malformed_markdown_handling(self, tmp_path: Path) -> None:
+    |
+
+test_generate_files_required.py:341:9: S101 Use of `assert` detected
+    |
+339 |         # Should not raise exceptions
+340 |         result = scanner.scan_markdown_files()
+341 |         assert result.scanned_count == 1
+    |         ^^^^^^ S101
+    |
+
+test_generate_files_required.py:347:5: S101 Use of `assert` detected
+    |
+345 | def test_constants_are_reasonable() -> None:
+346 |     """Test that constants have reasonable values."""
+347 |     assert MAX_FILE_PATH_LENGTH > 50
+    |     ^^^^^^ S101
+348 |     assert MAX_FILE_PATH_LENGTH <= 260  # Windows path limit
+349 |     assert len(SUPPORTED_FILE_EXTENSIONS) > 0
+    |
+
+test_generate_files_required.py:348:5: S101 Use of `assert` detected
+    |
+346 |     """Test that constants have reasonable values."""
+347 |     assert MAX_FILE_PATH_LENGTH > 50
+348 |     assert MAX_FILE_PATH_LENGTH <= 260  # Windows path limit
+    |     ^^^^^^ S101
+349 |     assert len(SUPPORTED_FILE_EXTENSIONS) > 0
+350 |     assert all(ext.startswith(".") for ext in SUPPORTED_FILE_EXTENSIONS)
+    |
+
+test_generate_files_required.py:349:5: S101 Use of `assert` detected
+    |
+347 |     assert MAX_FILE_PATH_LENGTH > 50
+348 |     assert MAX_FILE_PATH_LENGTH <= 260  # Windows path limit
+349 |     assert len(SUPPORTED_FILE_EXTENSIONS) > 0
+    |     ^^^^^^ S101
+350 |     assert all(ext.startswith(".") for ext in SUPPORTED_FILE_EXTENSIONS)
+    |
+
+test_generate_files_required.py:350:5: S101 Use of `assert` detected
+    |
+348 |     assert MAX_FILE_PATH_LENGTH <= 260  # Windows path limit
+349 |     assert len(SUPPORTED_FILE_EXTENSIONS) > 0
+350 |     assert all(ext.startswith(".") for ext in SUPPORTED_FILE_EXTENSIONS)
+    |     ^^^^^^ S101
+    |
+
+tests/test___init__.py:26:13: S101 Use of `assert` detected
+   |
+24 |             import Document_analyzer
+25 |
+26 |             assert Document_analyzer is not None
+   |             ^^^^^^ S101
+27 |         except ImportError as e:
+28 |             pytest.fail(f"Failed to import Document_analyzer: {e}")
+   |
+
+tests/test___init__.py:34:9: S101 Use of `assert` detected
+   |
+32 |         from src.document_analysis import __version__
+33 |
+34 |         assert __version__ is not None
+   |         ^^^^^^ S101
+35 |         assert isinstance(__version__, str)
+36 |         assert len(__version__.split(".")) == 3  # Major.Minor.Patch
+   |
+
+tests/test___init__.py:35:9: S101 Use of `assert` detected
+   |
+34 |         assert __version__ is not None
+35 |         assert isinstance(__version__, str)
+   |         ^^^^^^ S101
+36 |         assert len(__version__.split(".")) == 3  # Major.Minor.Patch
+   |
+
+tests/test___init__.py:36:9: S101 Use of `assert` detected
+   |
+34 |         assert __version__ is not None
+35 |         assert isinstance(__version__, str)
+36 |         assert len(__version__.split(".")) == 3  # Major.Minor.Patch
+   |         ^^^^^^ S101
+37 |
+38 |         # Verify each part is a number
+   |
+
+tests/test___init__.py:41:13: S101 Use of `assert` detected
+   |
+39 |         parts = __version__.split(".")
+40 |         for part in parts:
+41 |             assert part.isdigit()
+   |             ^^^^^^ S101
+42 |
+43 |     def test_all_exports_defined(self) -> None:
+   |
+
+tests/test___init__.py:47:9: S101 Use of `assert` detected
+   |
+45 |         from src.document_analysis import __all__
+46 |
+47 |         assert __all__ is not None
+   |         ^^^^^^ S101
+48 |         assert isinstance(__all__, list)
+49 |         assert len(__all__) > 0
+   |
+
+tests/test___init__.py:48:9: S101 Use of `assert` detected
+   |
+47 |         assert __all__ is not None
+48 |         assert isinstance(__all__, list)
+   |         ^^^^^^ S101
+49 |         assert len(__all__) > 0
+   |
+
+tests/test___init__.py:49:9: S101 Use of `assert` detected
+   |
+47 |         assert __all__ is not None
+48 |         assert isinstance(__all__, list)
+49 |         assert len(__all__) > 0
+   |         ^^^^^^ S101
+50 |
+51 |         # Expected exports
+   |
+
+tests/test___init__.py:76:13: S101 Use of `assert` detected
+   |
+75 |         for export in expected_exports:
+76 |             assert export in __all__, f"Missing export: {export}"
+   |             ^^^^^^ S101
+77 |
+78 |     def test_all_exports_are_importable(self) -> None:
+   |
+
+tests/test___init__.py:85:17: S101 Use of `assert` detected
+   |
+83 |             try:
+84 |                 item = getattr(Document_analyzer, item_name)
+85 |                 assert item is not None
+   |                 ^^^^^^ S101
+86 |             except AttributeError:
+87 |                 pytest.fail(f"Cannot import {item_name} from __all__")
+   |
+
+tests/test___init__.py:99:17: S101 Use of `assert` detected
+    |
+ 97 |         for attr in public_attrs:
+ 98 |             if attr not in ["__all__", "__version__"]:  # These are meta-exports
+ 99 |                 assert attr in Document_analyzer.__all__, f"Public attribute {attr} not in __all__"
+    |                 ^^^^^^ S101
+100 |
+101 |     def test_module_docstring(self) -> None:
+    |
+
+tests/test___init__.py:105:9: S101 Use of `assert` detected
+    |
+103 |         import Document_analyzer
+104 |
+105 |         assert Document_analyzer.__doc__ is not None
+    |         ^^^^^^ S101
+106 |         assert len(Document_analyzer.__doc__) > 50  # Reasonable docstring length
+107 |         assert "Document matching and analysis utilities" in Document_analyzer.__doc__
+    |
+
+tests/test___init__.py:106:9: S101 Use of `assert` detected
+    |
+105 |         assert Document_analyzer.__doc__ is not None
+106 |         assert len(Document_analyzer.__doc__) > 50  # Reasonable docstring length
+    |         ^^^^^^ S101
+107 |         assert "Document matching and analysis utilities" in Document_analyzer.__doc__
+    |
+
+tests/test___init__.py:107:9: S101 Use of `assert` detected
+    |
+105 |         assert Document_analyzer.__doc__ is not None
+106 |         assert len(Document_analyzer.__doc__) > 50  # Reasonable docstring length
+107 |         assert "Document matching and analysis utilities" in Document_analyzer.__doc__
+    |         ^^^^^^ S101
+108 |
+109 |     def test_submodule_imports(self) -> None:
+    |
+
+tests/test___init__.py:116:17: S101 Use of `assert` detected
+    |
+114 |             try:
+115 |                 module = importlib.import_module(f"Document_analyzer.{submodule}")
+116 |                 assert module is not None
+    |                 ^^^^^^ S101
+117 |             except ImportError as e:
+118 |                 pytest.fail(f"Cannot import submodule {submodule}: {e}")
+    |
+
+tests/test___init__.py:126:9: S101 Use of `assert` detected
+    |
+125 |         # If we get here without ImportError, there are no circular imports
+126 |         assert True
+    |         ^^^^^^ S101
+127 |
+128 |     def test_type_hints_present(self) -> None:
+    |
+
+tests/test___init__.py:134:9: S101 Use of `assert` detected
+    |
+132 |         # Check __all__ has type annotation
+133 |         annotations = Document_analyzer.__annotations__
+134 |         assert "__all__" in annotations
+    |         ^^^^^^ S101
+135 |         assert annotations["__all__"] == list[str]
+    |
+
+tests/test___init__.py:135:9: S101 Use of `assert` detected
+    |
+133 |         annotations = Document_analyzer.__annotations__
+134 |         assert "__all__" in annotations
+135 |         assert annotations["__all__"] == list[str]
+    |         ^^^^^^ S101
+    |
+
+tests/test_compliance/test_compliance_checks.py:32:9: S101 Use of `assert` detected
+   |
+30 |         issue = ComplianceIssue(file_path=Path("test.py"), issue_type="test", severity="high", description="Test issue")
+31 |
+32 |         assert issue.file_path == Path("test.py")
+   |         ^^^^^^ S101
+33 |         assert issue.issue_type == "test"
+34 |         assert issue.severity == "high"
+   |
+
+tests/test_compliance/test_compliance_checks.py:33:9: S101 Use of `assert` detected
+   |
+32 |         assert issue.file_path == Path("test.py")
+33 |         assert issue.issue_type == "test"
+   |         ^^^^^^ S101
+34 |         assert issue.severity == "high"
+35 |         assert issue.description == "Test issue"
+   |
+
+tests/test_compliance/test_compliance_checks.py:34:9: S101 Use of `assert` detected
+   |
+32 |         assert issue.file_path == Path("test.py")
+33 |         assert issue.issue_type == "test"
+34 |         assert issue.severity == "high"
+   |         ^^^^^^ S101
+35 |         assert issue.description == "Test issue"
+   |
+
+tests/test_compliance/test_compliance_checks.py:35:9: S101 Use of `assert` detected
+   |
+33 |         assert issue.issue_type == "test"
+34 |         assert issue.severity == "high"
+35 |         assert issue.description == "Test issue"
+   |         ^^^^^^ S101
+   |
+
+tests/test_compliance/test_compliance_checks.py:52:13: S101 Use of `assert` detected
+   |
+50 |             has_hints, issues = check_type_hints(test_file)
+51 |
+52 |             assert has_hints is True
+   |             ^^^^^^ S101
+53 |             assert len(issues) == 0
+   |
+
+tests/test_compliance/test_compliance_checks.py:53:13: S101 Use of `assert` detected
+   |
+52 |             assert has_hints is True
+53 |             assert len(issues) == 0
+   |             ^^^^^^ S101
+54 |
+55 |     def test_check_type_hints_untyped_function(self) -> None:
+   |
+
+tests/test_compliance/test_compliance_checks.py:66:13: S101 Use of `assert` detected
+   |
+64 |             has_hints, issues = check_type_hints(test_file)
+65 |
+66 |             assert has_hints is False
+   |             ^^^^^^ S101
+67 |             assert len(issues) > 0
+68 |             assert any("missing type hints" in issue.description.lower() for issue in issues)
+   |
+
+tests/test_compliance/test_compliance_checks.py:67:13: S101 Use of `assert` detected
+   |
+66 |             assert has_hints is False
+67 |             assert len(issues) > 0
+   |             ^^^^^^ S101
+68 |             assert any("missing type hints" in issue.description.lower() for issue in issues)
+   |
+
+tests/test_compliance/test_compliance_checks.py:68:13: S101 Use of `assert` detected
+   |
+66 |             assert has_hints is False
+67 |             assert len(issues) > 0
+68 |             assert any("missing type hints" in issue.description.lower() for issue in issues)
+   |             ^^^^^^ S101
+69 |
+70 |     def test_check_type_hints_syntax_error(self) -> None:
+   |
+
+tests/test_compliance/test_compliance_checks.py:78:13: S101 Use of `assert` detected
+   |
+76 |             has_hints, issues = check_type_hints(test_file)
+77 |
+78 |             assert has_hints is False
+   |             ^^^^^^ S101
+79 |             assert len(issues) > 0
+80 |             assert any("Failed to parse" in issue.description for issue in issues)
+   |
+
+tests/test_compliance/test_compliance_checks.py:79:13: S101 Use of `assert` detected
+   |
+78 |             assert has_hints is False
+79 |             assert len(issues) > 0
+   |             ^^^^^^ S101
+80 |             assert any("Failed to parse" in issue.description for issue in issues)
+   |
+
+tests/test_compliance/test_compliance_checks.py:80:13: S101 Use of `assert` detected
+   |
+78 |             assert has_hints is False
+79 |             assert len(issues) > 0
+80 |             assert any("Failed to parse" in issue.description for issue in issues)
+   |             ^^^^^^ S101
+   |
+
+tests/test_compliance/test_compliance_checks.py:100:13: S101 Use of `assert` detected
+    |
+ 98 |             has_handling, _issues = check_error_handling(test_file)
+ 99 |
+100 |             assert has_handling is True
+    |             ^^^^^^ S101
+101 |
+102 |     def test_check_error_handling_bare_except(self) -> None:
+    |
+
+tests/test_compliance/test_compliance_checks.py:116:13: S101 Use of `assert` detected
+    |
+114 |             _has_handling, issues = check_error_handling(test_file)
+115 |
+116 |             assert len(issues) > 0
+    |             ^^^^^^ S101
+117 |             assert any("bare except" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:117:13: S101 Use of `assert` detected
+    |
+116 |             assert len(issues) > 0
+117 |             assert any("bare except" in issue.description.lower() for issue in issues)
+    |             ^^^^^^ S101
+    |
+
+tests/test_compliance/test_compliance_checks.py:134:13: S101 Use of `assert` detected
+    |
+132 |             issues = check_forbidden_patterns(test_file)
+133 |
+134 |             assert len(issues) > 0
+    |             ^^^^^^ S101
+135 |             assert any("print" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:135:13: S101 Use of `assert` detected
+    |
+134 |             assert len(issues) > 0
+135 |             assert any("print" in issue.description.lower() for issue in issues)
+    |             ^^^^^^ S101
+136 |
+137 |     def test_check_forbidden_patterns_eval(self) -> None:
+    |
+
+tests/test_compliance/test_compliance_checks.py:148:13: S101 Use of `assert` detected
+    |
+146 |             issues = check_forbidden_patterns(test_file)
+147 |
+148 |             assert len(issues) > 0
+    |             ^^^^^^ S101
+149 |             assert any("eval" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:149:13: S101 Use of `assert` detected
+    |
+148 |             assert len(issues) > 0
+149 |             assert any("eval" in issue.description.lower() for issue in issues)
+    |             ^^^^^^ S101
+150 |
+151 |     def test_check_forbidden_patterns_clean_code(self) -> None:
+    |
+
+tests/test_compliance/test_compliance_checks.py:166:13: S101 Use of `assert` detected
+    |
+164 |             issues = check_forbidden_patterns(test_file)
+165 |
+166 |             assert len(issues) == 0
+    |             ^^^^^^ S101
+    |
+
+tests/test_compliance/test_compliance_checks.py:183:13: S101 Use of `assert` detected
+    |
+181 |             has_issues, issues = check_security_issues(test_file)
+182 |
+183 |             assert has_issues is True
+    |             ^^^^^^ S101
+184 |             assert len(issues) > 0
+185 |             assert any("shell=true" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:184:13: S101 Use of `assert` detected
+    |
+183 |             assert has_issues is True
+184 |             assert len(issues) > 0
+    |             ^^^^^^ S101
+185 |             assert any("shell=true" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:185:13: S101 Use of `assert` detected
+    |
+183 |             assert has_issues is True
+184 |             assert len(issues) > 0
+185 |             assert any("shell=true" in issue.description.lower() for issue in issues)
+    |             ^^^^^^ S101
+186 |
+187 |     def test_check_security_issues_hardcoded_password(self) -> None:
+    |
+
+tests/test_compliance/test_compliance_checks.py:197:13: S101 Use of `assert` detected
+    |
+195 |             has_issues, issues = check_security_issues(test_file)
+196 |
+197 |             assert has_issues is True
+    |             ^^^^^^ S101
+198 |             assert len(issues) > 0
+199 |             assert any("password" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:198:13: S101 Use of `assert` detected
+    |
+197 |             assert has_issues is True
+198 |             assert len(issues) > 0
+    |             ^^^^^^ S101
+199 |             assert any("password" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:199:13: S101 Use of `assert` detected
+    |
+197 |             assert has_issues is True
+198 |             assert len(issues) > 0
+199 |             assert any("password" in issue.description.lower() for issue in issues)
+    |             ^^^^^^ S101
+200 |
+201 |     def test_check_security_issues_clean_code(self) -> None:
+    |
+
+tests/test_compliance/test_compliance_checks.py:212:13: S101 Use of `assert` detected
+    |
+210 |             has_issues, issues = check_security_issues(test_file)
+211 |
+212 |             assert has_issues is False
+    |             ^^^^^^ S101
+213 |             assert len(issues) == 0
+    |
+
+tests/test_compliance/test_compliance_checks.py:213:13: S101 Use of `assert` detected
+    |
+212 |             assert has_issues is False
+213 |             assert len(issues) == 0
+    |             ^^^^^^ S101
+    |
+
+tests/test_compliance/test_compliance_checks.py:233:13: S101 Use of `assert` detected
+    |
+231 |             has_docs, issues = check_docstrings(test_file)
+232 |
+233 |             assert has_docs is True
+    |             ^^^^^^ S101
+234 |             assert len(issues) == 0
+    |
+
+tests/test_compliance/test_compliance_checks.py:234:13: S101 Use of `assert` detected
+    |
+233 |             assert has_docs is True
+234 |             assert len(issues) == 0
+    |             ^^^^^^ S101
+235 |
+236 |     def test_check_docstrings_undocumented_function(self) -> None:
+    |
+
+tests/test_compliance/test_compliance_checks.py:247:13: S101 Use of `assert` detected
+    |
+245 |             has_docs, issues = check_docstrings(test_file)
+246 |
+247 |             assert has_docs is False
+    |             ^^^^^^ S101
+248 |             assert len(issues) > 0
+249 |             assert any("missing docstring" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:248:13: S101 Use of `assert` detected
+    |
+247 |             assert has_docs is False
+248 |             assert len(issues) > 0
+    |             ^^^^^^ S101
+249 |             assert any("missing docstring" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:249:13: S101 Use of `assert` detected
+    |
+247 |             assert has_docs is False
+248 |             assert len(issues) > 0
+249 |             assert any("missing docstring" in issue.description.lower() for issue in issues)
+    |             ^^^^^^ S101
+    |
+
+tests/test_compliance/test_compliance_checks.py:268:13: S101 Use of `assert` detected
+    |
+266 |             has_tests, issues = check_test_coverage(source_file)
+267 |
+268 |             assert has_tests is True
+    |             ^^^^^^ S101
+269 |             assert len(issues) == 0
+    |
+
+tests/test_compliance/test_compliance_checks.py:269:13: S101 Use of `assert` detected
+    |
+268 |             assert has_tests is True
+269 |             assert len(issues) == 0
+    |             ^^^^^^ S101
+270 |
+271 |     def test_check_test_coverage_missing_test(self) -> None:
+    |
+
+tests/test_compliance/test_compliance_checks.py:280:13: S101 Use of `assert` detected
+    |
+278 |             has_tests, issues = check_test_coverage(source_file)
+279 |
+280 |             assert has_tests is False
+    |             ^^^^^^ S101
+281 |             assert len(issues) > 0
+282 |             assert any("no corresponding test file" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:281:13: S101 Use of `assert` detected
+    |
+280 |             assert has_tests is False
+281 |             assert len(issues) > 0
+    |             ^^^^^^ S101
+282 |             assert any("no corresponding test file" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:282:13: S101 Use of `assert` detected
+    |
+280 |             assert has_tests is False
+281 |             assert len(issues) > 0
+282 |             assert any("no corresponding test file" in issue.description.lower() for issue in issues)
+    |             ^^^^^^ S101
+283 |
+284 |     def test_check_test_coverage_test_file_itself(self) -> None:
+    |
+
+tests/test_compliance/test_compliance_checks.py:292:13: S101 Use of `assert` detected
+    |
+290 |             has_tests, issues = check_test_coverage(test_file)
+291 |
+292 |             assert has_tests is True
+    |             ^^^^^^ S101
+293 |             assert len(issues) == 0
+    |
+
+tests/test_compliance/test_compliance_checks.py:293:13: S101 Use of `assert` detected
+    |
+292 |             assert has_tests is True
+293 |             assert len(issues) == 0
+    |             ^^^^^^ S101
+    |
+
+tests/test_compliance/test_compliance_checks.py:310:13: S101 Use of `assert` detected
+    |
+308 |             complexity, issues = calculate_complexity(test_file)
+309 |
+310 |             assert complexity == 1  # Base complexity
+    |             ^^^^^^ S101
+311 |             assert len(issues) == 0
+    |
+
+tests/test_compliance/test_compliance_checks.py:311:13: S101 Use of `assert` detected
+    |
+310 |             assert complexity == 1  # Base complexity
+311 |             assert len(issues) == 0
+    |             ^^^^^^ S101
+312 |
+313 |     def test_calculate_complexity_complex_function(self) -> None:
+    |
+
+tests/test_compliance/test_compliance_checks.py:336:13: S101 Use of `assert` detected
+    |
+334 |             complexity, issues = calculate_complexity(test_file)
+335 |
+336 |             assert complexity > 10  # Should exceed threshold
+    |             ^^^^^^ S101
+337 |             assert len(issues) > 0
+338 |             assert any("complexity" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:337:13: S101 Use of `assert` detected
+    |
+336 |             assert complexity > 10  # Should exceed threshold
+337 |             assert len(issues) > 0
+    |             ^^^^^^ S101
+338 |             assert any("complexity" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:338:13: S101 Use of `assert` detected
+    |
+336 |             assert complexity > 10  # Should exceed threshold
+337 |             assert len(issues) > 0
+338 |             assert any("complexity" in issue.description.lower() for issue in issues)
+    |             ^^^^^^ S101
+    |
+
+tests/test_compliance/test_compliance_checks.py:352:13: S101 Use of `assert` detected
+    |
+350 |             issues = check_file_length(test_file)
+351 |
+352 |             assert len(issues) == 0
+    |             ^^^^^^ S101
+353 |
+354 |     def test_check_file_length_long_file(self) -> None:
+    |
+
+tests/test_compliance/test_compliance_checks.py:364:13: S101 Use of `assert` detected
+    |
+362 |             issues = check_file_length(test_file)
+363 |
+364 |             assert len(issues) > 0
+    |             ^^^^^^ S101
+365 |             assert any("file has" in issue.description.lower() and "lines" in issue.description.lower() for issue in issues)
+    |
+
+tests/test_compliance/test_compliance_checks.py:365:13: S101 Use of `assert` detected
+    |
+364 |             assert len(issues) > 0
+365 |             assert any("file has" in issue.description.lower() and "lines" in issue.description.lower() for issue in issues)
+    |             ^^^^^^ S101
+    |
+
+tests/test_compliance/test_compliance_checks.py:371:9: PLR0914 Too many local variables (16/15)
+    |
+369 |     """Integration tests for compliance checks."""
+370 |
+371 |     def test_multiple_checks_on_good_file(self) -> None:
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ PLR0914
+372 |         """Test multiple compliance checks on a well-written file."""
+373 |         with tempfile.TemporaryDirectory() as temp_dir:
+    |
+
+tests/test_compliance/test_compliance_checks.py:419:13: S101 Use of `assert` detected
+    |
+418 |             # All checks should pass
+419 |             assert has_hints is True
+    |             ^^^^^^ S101
+420 |             assert has_handling is True
+421 |             assert len(forbidden_issues) == 0
+    |
+
+tests/test_compliance/test_compliance_checks.py:420:13: S101 Use of `assert` detected
+    |
+418 |             # All checks should pass
+419 |             assert has_hints is True
+420 |             assert has_handling is True
+    |             ^^^^^^ S101
+421 |             assert len(forbidden_issues) == 0
+422 |             assert has_security is False  # No security issues
+    |
+
+tests/test_compliance/test_compliance_checks.py:421:13: S101 Use of `assert` detected
+    |
+419 |             assert has_hints is True
+420 |             assert has_handling is True
+421 |             assert len(forbidden_issues) == 0
+    |             ^^^^^^ S101
+422 |             assert has_security is False  # No security issues
+423 |             assert has_docs is True
+    |
+
+tests/test_compliance/test_compliance_checks.py:422:13: S101 Use of `assert` detected
+    |
+420 |             assert has_handling is True
+421 |             assert len(forbidden_issues) == 0
+422 |             assert has_security is False  # No security issues
+    |             ^^^^^^ S101
+423 |             assert has_docs is True
+424 |             assert has_tests is True
+    |
+
+tests/test_compliance/test_compliance_checks.py:423:13: S101 Use of `assert` detected
+    |
+421 |             assert len(forbidden_issues) == 0
+422 |             assert has_security is False  # No security issues
+423 |             assert has_docs is True
+    |             ^^^^^^ S101
+424 |             assert has_tests is True
+425 |             assert len(complexity_issues) == 0
+    |
+
+tests/test_compliance/test_compliance_checks.py:424:13: S101 Use of `assert` detected
+    |
+422 |             assert has_security is False  # No security issues
+423 |             assert has_docs is True
+424 |             assert has_tests is True
+    |             ^^^^^^ S101
+425 |             assert len(complexity_issues) == 0
+426 |             assert len(length_issues) == 0
+    |
+
+tests/test_compliance/test_compliance_checks.py:425:13: S101 Use of `assert` detected
+    |
+423 |             assert has_docs is True
+424 |             assert has_tests is True
+425 |             assert len(complexity_issues) == 0
+    |             ^^^^^^ S101
+426 |             assert len(length_issues) == 0
+    |
+
+tests/test_compliance/test_compliance_checks.py:426:13: S101 Use of `assert` detected
+    |
+424 |             assert has_tests is True
+425 |             assert len(complexity_issues) == 0
+426 |             assert len(length_issues) == 0
+    |             ^^^^^^ S101
+    |
+
+tests/test_compliance/test_reports.py:92:9: S101 Use of `assert` detected
+   |
+90 |         result = generate_summary_report(test_data)
+91 |
+92 |         assert isinstance(result, str)
+   |         ^^^^^^ S101
+93 |         assert "total_documents" in result.lower() or "10" in result
+94 |         assert len(result) > 50  # Should be a substantial report
+   |
+
+tests/test_compliance/test_reports.py:93:9: S101 Use of `assert` detected
+   |
+92 |         assert isinstance(result, str)
+93 |         assert "total_documents" in result.lower() or "10" in result
+   |         ^^^^^^ S101
+94 |         assert len(result) > 50  # Should be a substantial report
+   |
+
+tests/test_compliance/test_reports.py:94:9: S101 Use of `assert` detected
+   |
+92 |         assert isinstance(result, str)
+93 |         assert "total_documents" in result.lower() or "10" in result
+94 |         assert len(result) > 50  # Should be a substantial report
+   |         ^^^^^^ S101
+95 |
+96 |     def test_generate_summary_report_empty_data(self) -> None:
+   |
+
+tests/test_compliance/test_reports.py:102:9: S101 Use of `assert` detected
+    |
+100 |         result = generate_summary_report(test_data)
+101 |
+102 |         assert isinstance(result, str)
+    |         ^^^^^^ S101
+103 |         assert len(result) > 0  # Should handle empty data gracefully
+    |
+
+tests/test_compliance/test_reports.py:103:9: S101 Use of `assert` detected
+    |
+102 |         assert isinstance(result, str)
+103 |         assert len(result) > 0  # Should handle empty data gracefully
+    |         ^^^^^^ S101
+104 |
+105 |     def test_generate_summary_report_missing_keys(self) -> None:
+    |
+
+tests/test_compliance/test_reports.py:111:9: S101 Use of `assert` detected
+    |
+109 |         result = generate_summary_report(test_data)
+110 |
+111 |         assert isinstance(result, str)
+    |         ^^^^^^ S101
+112 |         assert "total_documents" in result.lower() or "5" in result
+    |
+
+tests/test_compliance/test_reports.py:112:9: S101 Use of `assert` detected
+    |
+111 |         assert isinstance(result, str)
+112 |         assert "total_documents" in result.lower() or "5" in result
+    |         ^^^^^^ S101
+    |
+
+tests/test_compliance/test_reports.py:136:13: S101 Use of `assert` detected
+    |
+134 |             result = generate_detailed_report(test_matches)
+135 |
+136 |             assert isinstance(result, str)
+    |             ^^^^^^ S101
+137 |             assert "doc1.md" in result
+138 |             assert "doc2.md" in result
+    |
+
+tests/test_compliance/test_reports.py:137:13: S101 Use of `assert` detected
+    |
+136 |             assert isinstance(result, str)
+137 |             assert "doc1.md" in result
+    |             ^^^^^^ S101
+138 |             assert "doc2.md" in result
+139 |             assert "0.8" in result or "80" in result  # Similarity score
+    |
+
+tests/test_compliance/test_reports.py:138:13: S101 Use of `assert` detected
+    |
+136 |             assert isinstance(result, str)
+137 |             assert "doc1.md" in result
+138 |             assert "doc2.md" in result
+    |             ^^^^^^ S101
+139 |             assert "0.8" in result or "80" in result  # Similarity score
+    |
+
+tests/test_compliance/test_reports.py:139:13: S101 Use of `assert` detected
+    |
+137 |             assert "doc1.md" in result
+138 |             assert "doc2.md" in result
+139 |             assert "0.8" in result or "80" in result  # Similarity score
+    |             ^^^^^^ S101
+140 |
+141 |     def test_generate_detailed_report_empty_matches(self) -> None:
+    |
+
+tests/test_compliance/test_reports.py:147:9: S101 Use of `assert` detected
+    |
+145 |         result = generate_detailed_report(test_matches)
+146 |
+147 |         assert isinstance(result, str)
+    |         ^^^^^^ S101
+148 |         assert len(result) > 0  # Should handle empty matches gracefully
+    |
+
+tests/test_compliance/test_reports.py:148:9: S101 Use of `assert` detected
+    |
+147 |         assert isinstance(result, str)
+148 |         assert len(result) > 0  # Should handle empty matches gracefully
+    |         ^^^^^^ S101
+149 |
+150 |     def test_generate_detailed_report_multiple_matches(self) -> None:
+    |
+
+tests/test_compliance/test_reports.py:176:13: S101 Use of `assert` detected
+    |
+174 |             result = generate_detailed_report(test_matches)
+175 |
+176 |             assert isinstance(result, str)
+    |             ^^^^^^ S101
+177 |             assert "doc0.md" in result
+178 |             assert "doc1.md" in result
+    |
+
+tests/test_compliance/test_reports.py:177:13: S101 Use of `assert` detected
+    |
+176 |             assert isinstance(result, str)
+177 |             assert "doc0.md" in result
+    |             ^^^^^^ S101
+178 |             assert "doc1.md" in result
+179 |             assert "doc2.md" in result
+    |
+
+tests/test_compliance/test_reports.py:178:13: S101 Use of `assert` detected
+    |
+176 |             assert isinstance(result, str)
+177 |             assert "doc0.md" in result
+178 |             assert "doc1.md" in result
+    |             ^^^^^^ S101
+179 |             assert "doc2.md" in result
+180 |             assert result.count("similarity") >= 2  # Should mention similarity multiple times
+    |
+
+tests/test_compliance/test_reports.py:179:13: S101 Use of `assert` detected
+    |
+177 |             assert "doc0.md" in result
+178 |             assert "doc1.md" in result
+179 |             assert "doc2.md" in result
+    |             ^^^^^^ S101
+180 |             assert result.count("similarity") >= 2  # Should mention similarity multiple times
+    |
+
+tests/test_compliance/test_reports.py:180:13: S101 Use of `assert` detected
+    |
+178 |             assert "doc1.md" in result
+179 |             assert "doc2.md" in result
+180 |             assert result.count("similarity") >= 2  # Should mention similarity multiple times
+    |             ^^^^^^ S101
+    |
+
+tests/test_compliance/test_reports.py:192:9: S101 Use of `assert` detected
+    |
+190 |         result = format_report_data(test_data)
+191 |
+192 |         assert isinstance(result, str)
+    |         ^^^^^^ S101
+193 |         assert "42" in result
+194 |         assert "0.75" in result or "75" in result
+    |
+
+tests/test_compliance/test_reports.py:193:9: S101 Use of `assert` detected
+    |
+192 |         assert isinstance(result, str)
+193 |         assert "42" in result
+    |         ^^^^^^ S101
+194 |         assert "0.75" in result or "75" in result
+195 |         assert "item1" in result
+    |
+
+tests/test_compliance/test_reports.py:194:9: S101 Use of `assert` detected
+    |
+192 |         assert isinstance(result, str)
+193 |         assert "42" in result
+194 |         assert "0.75" in result or "75" in result
+    |         ^^^^^^ S101
+195 |         assert "item1" in result
+    |
+
+tests/test_compliance/test_reports.py:195:9: S101 Use of `assert` detected
+    |
+193 |         assert "42" in result
+194 |         assert "0.75" in result or "75" in result
+195 |         assert "item1" in result
+    |         ^^^^^^ S101
+196 |
+197 |     def test_format_report_data_list(self) -> None:
+    |
+
+tests/test_compliance/test_reports.py:203:9: S101 Use of `assert` detected
+    |
+201 |         result = format_report_data(test_data)
+202 |
+203 |         assert isinstance(result, str)
+    |         ^^^^^^ S101
+204 |         assert "apple" in result
+205 |         assert "banana" in result
+    |
+
+tests/test_compliance/test_reports.py:204:9: S101 Use of `assert` detected
+    |
+203 |         assert isinstance(result, str)
+204 |         assert "apple" in result
+    |         ^^^^^^ S101
+205 |         assert "banana" in result
+206 |         assert "cherry" in result
+    |
+
+tests/test_compliance/test_reports.py:205:9: S101 Use of `assert` detected
+    |
+203 |         assert isinstance(result, str)
+204 |         assert "apple" in result
+205 |         assert "banana" in result
+    |         ^^^^^^ S101
+206 |         assert "cherry" in result
+    |
+
+tests/test_compliance/test_reports.py:206:9: S101 Use of `assert` detected
+    |
+204 |         assert "apple" in result
+205 |         assert "banana" in result
+206 |         assert "cherry" in result
+    |         ^^^^^^ S101
+207 |
+208 |     def test_format_report_data_string(self) -> None:
+    |
+
+tests/test_compliance/test_reports.py:214:9: S101 Use of `assert` detected
+    |
+212 |         result = format_report_data(test_data)
+213 |
+214 |         assert result == test_data
+    |         ^^^^^^ S101
+215 |
+216 |     def test_format_report_data_nested_structure(self) -> None:
+    |
+
+tests/test_compliance/test_reports.py:225:9: S101 Use of `assert` detected
+    |
+223 |         result = format_report_data(test_data)
+224 |
+225 |         assert isinstance(result, str)
+    |         ^^^^^^ S101
+226 |         assert "0.95" in result
+227 |         assert "file1.md" in result
+    |
+
+tests/test_compliance/test_reports.py:226:9: S101 Use of `assert` detected
+    |
+225 |         assert isinstance(result, str)
+226 |         assert "0.95" in result
+    |         ^^^^^^ S101
+227 |         assert "file1.md" in result
+228 |         assert "1024" in result
+    |
+
+tests/test_compliance/test_reports.py:227:9: S101 Use of `assert` detected
+    |
+225 |         assert isinstance(result, str)
+226 |         assert "0.95" in result
+227 |         assert "file1.md" in result
+    |         ^^^^^^ S101
+228 |         assert "1024" in result
+    |
+
+tests/test_compliance/test_reports.py:228:9: S101 Use of `assert` detected
+    |
+226 |         assert "0.95" in result
+227 |         assert "file1.md" in result
+228 |         assert "1024" in result
+    |         ^^^^^^ S101
+    |
+
+tests/test_compliance/test_reports.py:238:9: S101 Use of `assert` detected
+    |
+236 |         generator = ReportGenerator()
+237 |
+238 |         assert generator is not None
+    |         ^^^^^^ S101
+239 |         assert hasattr(generator, "generate_summary")
+240 |         assert hasattr(generator, "generate_detailed")
+    |
+
+tests/test_compliance/test_reports.py:239:9: S101 Use of `assert` detected
+    |
+238 |         assert generator is not None
+239 |         assert hasattr(generator, "generate_summary")
+    |         ^^^^^^ S101
+240 |         assert hasattr(generator, "generate_detailed")
+    |
+
+tests/test_compliance/test_reports.py:240:9: S101 Use of `assert` detected
+    |
+238 |         assert generator is not None
+239 |         assert hasattr(generator, "generate_summary")
+240 |         assert hasattr(generator, "generate_detailed")
+    |         ^^^^^^ S101
+241 |
+242 |     def test_report_generator_summary(self) -> None:
+    |
+
+tests/test_compliance/test_reports.py:249:9: S101 Use of `assert` detected
+    |
+247 |         result = generator.generate_summary(test_data)
+248 |
+249 |         assert isinstance(result, str)
+    |         ^^^^^^ S101
+250 |         assert len(result) > 0
+    |
+
+tests/test_compliance/test_reports.py:250:9: S101 Use of `assert` detected
+    |
+249 |         assert isinstance(result, str)
+250 |         assert len(result) > 0
+    |         ^^^^^^ S101
+251 |
+252 |     def test_report_generator_detailed(self) -> None:
+    |
+
+tests/test_compliance/test_reports.py:267:13: S101 Use of `assert` detected
+    |
+265 |             result = generator.generate_detailed(test_matches)
+266 |
+267 |             assert isinstance(result, str)
+    |             ^^^^^^ S101
+268 |             assert "test1.md" in result
+269 |             assert "test2.md" in result
+    |
+
+tests/test_compliance/test_reports.py:268:13: S101 Use of `assert` detected
+    |
+267 |             assert isinstance(result, str)
+268 |             assert "test1.md" in result
+    |             ^^^^^^ S101
+269 |             assert "test2.md" in result
+    |
+
+tests/test_compliance/test_reports.py:269:13: S101 Use of `assert` detected
+    |
+267 |             assert isinstance(result, str)
+268 |             assert "test1.md" in result
+269 |             assert "test2.md" in result
+    |             ^^^^^^ S101
+    |
+
+tests/test_compliance/test_reports.py:282:9: S101 Use of `assert` detected
+    |
+281 |         # Should contain some form of headers or structure
+282 |         assert any(char in result for char in ["#", "=", "-", "*"])
+    |         ^^^^^^ S101
+283 |
+284 |     def test_report_readable_format(self) -> None:
+    |
+
+tests/test_compliance/test_reports.py:291:9: S101 Use of `assert` detected
+    |
+290 |         # Should contain readable text, not just raw data
+291 |         assert len(result.split("\n")) > 1  # Multiple lines
+    |         ^^^^^^ S101
+292 |         assert len(result.split()) > len(test_data)  # More words than just values
+    |
+
+tests/test_compliance/test_reports.py:292:9: S101 Use of `assert` detected
+    |
+290 |         # Should contain readable text, not just raw data
+291 |         assert len(result.split("\n")) > 1  # Multiple lines
+292 |         assert len(result.split()) > len(test_data)  # More words than just values
+    |         ^^^^^^ S101
+293 |
+294 |     def test_report_handles_unicode(self) -> None:
+    |
+
+tests/test_compliance/test_reports.py:300:9: S101 Use of `assert` detected
+    |
+298 |         result = format_report_data(test_data)
+299 |
+300 |         assert "测试文件.md" in result
+    |         ^^^^^^ S101
+301 |         assert "файл.md" in result
+302 |         assert "🎉" in result
+    |
+
+tests/test_compliance/test_reports.py:301:9: S101 Use of `assert` detected
+    |
+300 |         assert "测试文件.md" in result
+301 |         assert "файл.md" in result
+    |         ^^^^^^ S101
+302 |         assert "🎉" in result
+    |
+
+tests/test_compliance/test_reports.py:302:9: S101 Use of `assert` detected
+    |
+300 |         assert "测试文件.md" in result
+301 |         assert "файл.md" in result
+302 |         assert "🎉" in result
+    |         ^^^^^^ S101
+    |
+
+tests/test_compliance/test_reports.py:318:9: S101 Use of `assert` detected
+    |
+316 |         result = format_report_data(large_data)
+317 |
+318 |         assert isinstance(result, str)
+    |         ^^^^^^ S101
+319 |         assert len(result) > 0
+320 |         # Should handle large data without crashing
+    |
+
+tests/test_compliance/test_reports.py:319:9: S101 Use of `assert` detected
+    |
+318 |         assert isinstance(result, str)
+319 |         assert len(result) > 0
+    |         ^^^^^^ S101
+320 |         # Should handle large data without crashing
+    |
+
+tests/test_compliance/test_reports.py:328:9: S101 Use of `assert` detected
+    |
+326 |         result = format_report_data(test_data)
+327 |
+328 |         assert isinstance(result, str)
+    |         ^^^^^^ S101
+329 |         assert len(result) > 0
+330 |         # Should handle special characters without breaking
+    |
+
+tests/test_compliance/test_reports.py:329:9: S101 Use of `assert` detected
+    |
+328 |         assert isinstance(result, str)
+329 |         assert len(result) > 0
+    |         ^^^^^^ S101
+330 |         # Should handle special characters without breaking
+    |
+
+tests/test_compliance/test_reports.py:338:9: S101 Use of `assert` detected
+    |
+336 |         result = format_report_data(test_data)
+337 |
+338 |         assert isinstance(result, str)
+    |         ^^^^^^ S101
+339 |         assert "test" in result
+340 |         # Should handle None and empty values gracefully
+    |
+
+tests/test_compliance/test_reports.py:339:9: S101 Use of `assert` detected
+    |
+338 |         assert isinstance(result, str)
+339 |         assert "test" in result
+    |         ^^^^^^ S101
+340 |         # Should handle None and empty values gracefully
+    |
+
+tests/test_compliance/test_reports.py:357:9: S101 Use of `assert` detected
+    |
+355 |         end_time = time.time()
+356 |
+357 |         assert isinstance(result, str)
+    |         ^^^^^^ S101
+358 |         assert len(result) > 0
+359 |         assert end_time - start_time < 5.0  # Should complete within 5 seconds
+    |
+
+tests/test_compliance/test_reports.py:358:9: S101 Use of `assert` detected
+    |
+357 |         assert isinstance(result, str)
+358 |         assert len(result) > 0
+    |         ^^^^^^ S101
+359 |         assert end_time - start_time < 5.0  # Should complete within 5 seconds
+    |
+
+tests/test_compliance/test_reports.py:359:9: S101 Use of `assert` detected
+    |
+357 |         assert isinstance(result, str)
+358 |         assert len(result) > 0
+359 |         assert end_time - start_time < 5.0  # Should complete within 5 seconds
+    |         ^^^^^^ S101
+360 |
+361 |     def test_detailed_report_performance(self) -> None:
+    |
+
+tests/test_compliance/test_reports.py:386:13: S101 Use of `assert` detected
+    |
+384 |             end_time = time.time()
+385 |
+386 |             assert isinstance(result, str)
+    |             ^^^^^^ S101
+387 |             assert len(result) > 0
+388 |             assert end_time - start_time < 10.0  # Should complete within 10 seconds
+    |
+
+tests/test_compliance/test_reports.py:387:13: S101 Use of `assert` detected
+    |
+386 |             assert isinstance(result, str)
+387 |             assert len(result) > 0
+    |             ^^^^^^ S101
+388 |             assert end_time - start_time < 10.0  # Should complete within 10 seconds
+    |
+
+tests/test_compliance/test_reports.py:388:13: S101 Use of `assert` detected
+    |
+386 |             assert isinstance(result, str)
+387 |             assert len(result) > 0
+388 |             assert end_time - start_time < 10.0  # Should complete within 10 seconds
+    |             ^^^^^^ S101
+    |
+
+tests/test_document_analysis/test_analyzers.py:31:9: B904 Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+   |
+29 |         return path.read_text(encoding="utf-8")
+30 |     except UnicodeDecodeError:
+31 |         raise ValidationError(f"Unable to decode file: {path}")
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ B904
+   |
+
+tests/test_document_analysis/test_analyzers.py:54:9: S101 Use of `assert` detected
+   |
+52 |         result = should_exclude(path, exclude_patterns)
+53 |
+54 |         assert result is True
+   |         ^^^^^^ S101
+55 |
+56 |     def test_should_exclude_happy_path_included(self) -> None:
+   |
+
+tests/test_document_analysis/test_analyzers.py:63:9: S101 Use of `assert` detected
+   |
+61 |         result = should_exclude(path, exclude_patterns)
+62 |
+63 |         assert result is False
+   |         ^^^^^^ S101
+64 |
+65 |     def test_should_exclude_empty_patterns(self) -> None:
+   |
+
+tests/test_document_analysis/test_analyzers.py:72:9: S101 Use of `assert` detected
+   |
+70 |         result = should_exclude(path, exclude_patterns)
+71 |
+72 |         assert result is False
+   |         ^^^^^^ S101
+73 |
+74 |     def test_should_exclude_multiple_matches(self) -> None:
+   |
+
+tests/test_document_analysis/test_analyzers.py:81:9: S101 Use of `assert` detected
+   |
+79 |         result = should_exclude(path, exclude_patterns)
+80 |
+81 |         assert result is True
+   |         ^^^^^^ S101
+82 |
+83 |     def test_should_exclude_partial_match(self) -> None:
+   |
+
+tests/test_document_analysis/test_analyzers.py:90:9: S101 Use of `assert` detected
+   |
+88 |         result = should_exclude(path, exclude_patterns)
+89 |
+90 |         assert result is True
+   |         ^^^^^^ S101
+   |
+
+tests/test_document_analysis/test_analyzers.py:109:13: S101 Use of `assert` detected
+    |
+107 |             result = find_active_documents(root_dir=temp_path, exclude_patterns=["excluded"])
+108 |
+109 |             assert len(result) == 2
+    |             ^^^^^^ S101
+110 |             assert all(f.suffix == ".md" for f in result)
+111 |             assert all("excluded" not in str(f) for f in result)
+    |
+
+tests/test_document_analysis/test_analyzers.py:110:13: S101 Use of `assert` detected
+    |
+109 |             assert len(result) == 2
+110 |             assert all(f.suffix == ".md" for f in result)
+    |             ^^^^^^ S101
+111 |             assert all("excluded" not in str(f) for f in result)
+    |
+
+tests/test_document_analysis/test_analyzers.py:111:13: S101 Use of `assert` detected
+    |
+109 |             assert len(result) == 2
+110 |             assert all(f.suffix == ".md" for f in result)
+111 |             assert all("excluded" not in str(f) for f in result)
+    |             ^^^^^^ S101
+112 |
+113 |     def test_find_active_documents_nonexistent_directory(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:120:9: S101 Use of `assert` detected
+    |
+118 |             find_active_documents(root_dir=nonexistent_path)
+119 |
+120 |         assert "Directory does not exist" in str(exc_info.value)
+    |         ^^^^^^ S101
+121 |
+122 |     def test_find_active_documents_empty_directory(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:127:13: S101 Use of `assert` detected
+    |
+125 |             result = find_active_documents(root_dir=temp_dir)
+126 |
+127 |             assert result == []
+    |             ^^^^^^ S101
+128 |
+129 |     def test_find_active_documents_custom_pattern(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:141:13: S101 Use of `assert` detected
+    |
+139 |             result = find_active_documents(root_dir=temp_path, file_pattern="*.txt")
+140 |
+141 |             assert len(result) == 1
+    |             ^^^^^^ S101
+142 |             assert result[0].suffix == ".txt"
+    |
+
+tests/test_document_analysis/test_analyzers.py:142:13: S101 Use of `assert` detected
+    |
+141 |             assert len(result) == 1
+142 |             assert result[0].suffix == ".txt"
+    |             ^^^^^^ S101
+143 |
+144 |     def test_find_active_documents_verbose_mode(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:173:13: S101 Use of `assert` detected
+    |
+171 |             result = find_not_in_use_documents(root_dir=temp_path)
+172 |
+173 |             assert len(result) == 1
+    |             ^^^^^^ S101
+174 |             assert "not_in_use" in str(result[0])
+    |
+
+tests/test_document_analysis/test_analyzers.py:174:13: S101 Use of `assert` detected
+    |
+173 |             assert len(result) == 1
+174 |             assert "not_in_use" in str(result[0])
+    |             ^^^^^^ S101
+175 |
+176 |     def test_find_not_in_use_documents_no_archive(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:181:13: S101 Use of `assert` detected
+    |
+179 |             result = find_not_in_use_documents(root_dir=temp_dir)
+180 |
+181 |             assert result == []
+    |             ^^^^^^ S101
+    |
+
+tests/test_document_analysis/test_analyzers.py:196:13: S101 Use of `assert` detected
+    |
+194 |             result = load_document_content(test_file)
+195 |
+196 |             assert result == test_content
+    |             ^^^^^^ S101
+197 |
+198 |     def test_load_document_content_nonexistent_file(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:205:9: S101 Use of `assert` detected
+    |
+203 |             load_document_content(nonexistent_file)
+204 |
+205 |         assert "File does not exist" in str(exc_info.value)
+    |         ^^^^^^ S101
+206 |
+207 |     def test_load_document_content_encoding_error(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:217:13: S101 Use of `assert` detected
+    |
+215 |                 load_document_content(test_file)
+216 |
+217 |             assert "Failed to load document" in str(exc_info.value)
+    |             ^^^^^^ S101
+218 |
+219 |     def test_load_document_content_empty_file(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:227:13: S101 Use of `assert` detected
+    |
+225 |             result = load_document_content(test_file)
+226 |
+227 |             assert result == ""
+    |             ^^^^^^ S101
+228 |
+229 |     def test_load_document_content_large_file(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:227:30: PLC1901 `result == ""` can be simplified to `not result` as an empty string is falsey
+    |
+225 |             result = load_document_content(test_file)
+226 |
+227 |             assert result == ""
+    |                              ^^ PLC1901
+228 |
+229 |     def test_load_document_content_large_file(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:238:13: S101 Use of `assert` detected
+    |
+236 |             result = load_document_content(test_file)
+237 |
+238 |             assert result == large_content
+    |             ^^^^^^ S101
+239 |             assert len(result.split("\n")) > 1000
+    |
+
+tests/test_document_analysis/test_analyzers.py:239:13: S101 Use of `assert` detected
+    |
+238 |             assert result == large_content
+239 |             assert len(result.split("\n")) > 1000
+    |             ^^^^^^ S101
+    |
+
+tests/test_document_analysis/test_analyzers.py:261:9: S101 Use of `assert` detected
+    |
+259 |         result = analyze_document_structure(content)
+260 |
+261 |         assert "headings" in result
+    |         ^^^^^^ S101
+262 |         assert "word_count" in result
+263 |         assert "line_count" in result
+    |
+
+tests/test_document_analysis/test_analyzers.py:262:9: S101 Use of `assert` detected
+    |
+261 |         assert "headings" in result
+262 |         assert "word_count" in result
+    |         ^^^^^^ S101
+263 |         assert "line_count" in result
+264 |         assert len(result["headings"]) == 4  # 1 h1, 2 h2, 1 h3
+    |
+
+tests/test_document_analysis/test_analyzers.py:263:9: S101 Use of `assert` detected
+    |
+261 |         assert "headings" in result
+262 |         assert "word_count" in result
+263 |         assert "line_count" in result
+    |         ^^^^^^ S101
+264 |         assert len(result["headings"]) == 4  # 1 h1, 2 h2, 1 h3
+265 |         assert result["word_count"] > 0
+    |
+
+tests/test_document_analysis/test_analyzers.py:264:9: S101 Use of `assert` detected
+    |
+262 |         assert "word_count" in result
+263 |         assert "line_count" in result
+264 |         assert len(result["headings"]) == 4  # 1 h1, 2 h2, 1 h3
+    |         ^^^^^^ S101
+265 |         assert result["word_count"] > 0
+266 |         assert result["line_count"] > 0
+    |
+
+tests/test_document_analysis/test_analyzers.py:265:9: S101 Use of `assert` detected
+    |
+263 |         assert "line_count" in result
+264 |         assert len(result["headings"]) == 4  # 1 h1, 2 h2, 1 h3
+265 |         assert result["word_count"] > 0
+    |         ^^^^^^ S101
+266 |         assert result["line_count"] > 0
+    |
+
+tests/test_document_analysis/test_analyzers.py:266:9: S101 Use of `assert` detected
+    |
+264 |         assert len(result["headings"]) == 4  # 1 h1, 2 h2, 1 h3
+265 |         assert result["word_count"] > 0
+266 |         assert result["line_count"] > 0
+    |         ^^^^^^ S101
+267 |
+268 |     def test_analyze_document_structure_empty_content(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:272:9: S101 Use of `assert` detected
+    |
+270 |         result = analyze_document_structure("")
+271 |
+272 |         assert result["headings"] == []
+    |         ^^^^^^ S101
+273 |         assert result["word_count"] == 0
+274 |         assert result["line_count"] == 0
+    |
+
+tests/test_document_analysis/test_analyzers.py:273:9: S101 Use of `assert` detected
+    |
+272 |         assert result["headings"] == []
+273 |         assert result["word_count"] == 0
+    |         ^^^^^^ S101
+274 |         assert result["line_count"] == 0
+    |
+
+tests/test_document_analysis/test_analyzers.py:274:9: S101 Use of `assert` detected
+    |
+272 |         assert result["headings"] == []
+273 |         assert result["word_count"] == 0
+274 |         assert result["line_count"] == 0
+    |         ^^^^^^ S101
+275 |
+276 |     def test_analyze_document_structure_no_headings(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:282:9: S101 Use of `assert` detected
+    |
+280 |         result = analyze_document_structure(content)
+281 |
+282 |         assert result["headings"] == []
+    |         ^^^^^^ S101
+283 |         assert result["word_count"] > 0
+284 |         assert result["line_count"] == 1
+    |
+
+tests/test_document_analysis/test_analyzers.py:283:9: S101 Use of `assert` detected
+    |
+282 |         assert result["headings"] == []
+283 |         assert result["word_count"] > 0
+    |         ^^^^^^ S101
+284 |         assert result["line_count"] == 1
+    |
+
+tests/test_document_analysis/test_analyzers.py:284:9: S101 Use of `assert` detected
+    |
+282 |         assert result["headings"] == []
+283 |         assert result["word_count"] > 0
+284 |         assert result["line_count"] == 1
+    |         ^^^^^^ S101
+285 |
+286 |     def test_analyze_document_structure_invalid_input(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:291:9: S101 Use of `assert` detected
+    |
+289 |             analyze_document_structure(cast("str", None))
+290 |
+291 |         assert "Invalid content type" in str(exc_info.value)
+    |         ^^^^^^ S101
+    |
+
+tests/test_document_analysis/test_analyzers.py:319:13: S101 Use of `assert` detected
+    |
+317 |                 analyses.append(analysis)
+318 |
+319 |             assert len(documents) == 2
+    |             ^^^^^^ S101
+320 |             assert len(analyses) == 2
+321 |             assert all(analysis["headings"] for analysis in analyses)
+    |
+
+tests/test_document_analysis/test_analyzers.py:320:13: S101 Use of `assert` detected
+    |
+319 |             assert len(documents) == 2
+320 |             assert len(analyses) == 2
+    |             ^^^^^^ S101
+321 |             assert all(analysis["headings"] for analysis in analyses)
+    |
+
+tests/test_document_analysis/test_analyzers.py:321:13: S101 Use of `assert` detected
+    |
+319 |             assert len(documents) == 2
+320 |             assert len(analyses) == 2
+321 |             assert all(analysis["headings"] for analysis in analyses)
+    |             ^^^^^^ S101
+322 |
+323 |     def test_error_handling_integration(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:354:13: S101 Use of `assert` detected
+    |
+352 |             end_time = time.time()
+353 |
+354 |             assert len(documents) == 100
+    |             ^^^^^^ S101
+355 |             assert end_time - start_time < 5.0  # Should complete in under 5 seconds
+    |
+
+tests/test_document_analysis/test_analyzers.py:355:13: S101 Use of `assert` detected
+    |
+354 |             assert len(documents) == 100
+355 |             assert end_time - start_time < 5.0  # Should complete in under 5 seconds
+    |             ^^^^^^ S101
+356 |
+357 |     def test_unicode_content_handling(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:367:13: S101 Use of `assert` detected
+    |
+365 |             analysis = analyze_document_structure(result)
+366 |
+367 |             assert result == unicode_content
+    |             ^^^^^^ S101
+368 |             assert len(analysis["headings"]) == 1
+    |
+
+tests/test_document_analysis/test_analyzers.py:368:13: S101 Use of `assert` detected
+    |
+367 |             assert result == unicode_content
+368 |             assert len(analysis["headings"]) == 1
+    |             ^^^^^^ S101
+369 |
+370 |     def test_very_long_lines(self) -> None:
+    |
+
+tests/test_document_analysis/test_analyzers.py:380:13: S101 Use of `assert` detected
+    |
+378 |             analysis = analyze_document_structure(result)
+379 |
+380 |             assert len(result) > 10000
+    |             ^^^^^^ S101
+381 |             assert len(analysis["headings"]) == 1
+    |
+
+tests/test_document_analysis/test_analyzers.py:381:13: S101 Use of `assert` detected
+    |
+380 |             assert len(result) > 10000
+381 |             assert len(analysis["headings"]) == 1
+    |             ^^^^^^ S101
+    |
+
+tests/test_document_analysis/test_core.py:34:9: S101 Use of `assert` detected
+   |
+32 |         sections = split_sections(text)
+33 |
+34 |         assert len(sections) == 3
+   |         ^^^^^^ S101
+35 |         assert sections[0] == "First section"
+36 |         assert sections[1] == "Second section"
+   |
+
+tests/test_document_analysis/test_core.py:35:9: S101 Use of `assert` detected
+   |
+34 |         assert len(sections) == 3
+35 |         assert sections[0] == "First section"
+   |         ^^^^^^ S101
+36 |         assert sections[1] == "Second section"
+37 |         assert sections[2] == "Third section"
+   |
+
+tests/test_document_analysis/test_core.py:36:9: S101 Use of `assert` detected
+   |
+34 |         assert len(sections) == 3
+35 |         assert sections[0] == "First section"
+36 |         assert sections[1] == "Second section"
+   |         ^^^^^^ S101
+37 |         assert sections[2] == "Third section"
+   |
+
+tests/test_document_analysis/test_core.py:37:9: S101 Use of `assert` detected
+   |
+35 |         assert sections[0] == "First section"
+36 |         assert sections[1] == "Second section"
+37 |         assert sections[2] == "Third section"
+   |         ^^^^^^ S101
+38 |
+39 |     def test_split_sections_with_min_length(self) -> None:
+   |
+
+tests/test_document_analysis/test_core.py:44:9: S101 Use of `assert` detected
+   |
+42 |         sections = split_sections(text, min_len=10)
+43 |
+44 |         assert len(sections) == 2
+   |         ^^^^^^ S101
+45 |         assert "Short" not in sections
+46 |         assert "Long section here" in sections
+   |
+
+tests/test_document_analysis/test_core.py:45:9: S101 Use of `assert` detected
+   |
+44 |         assert len(sections) == 2
+45 |         assert "Short" not in sections
+   |         ^^^^^^ S101
+46 |         assert "Long section here" in sections
+47 |         assert "Another long section" in sections
+   |
+
+tests/test_document_analysis/test_core.py:46:9: S101 Use of `assert` detected
+   |
+44 |         assert len(sections) == 2
+45 |         assert "Short" not in sections
+46 |         assert "Long section here" in sections
+   |         ^^^^^^ S101
+47 |         assert "Another long section" in sections
+   |
+
+tests/test_document_analysis/test_core.py:47:9: S101 Use of `assert` detected
+   |
+45 |         assert "Short" not in sections
+46 |         assert "Long section here" in sections
+47 |         assert "Another long section" in sections
+   |         ^^^^^^ S101
+48 |
+49 |     def test_split_sections_empty_text(self) -> None:
+   |
+
+tests/test_document_analysis/test_core.py:64:9: S101 Use of `assert` detected
+   |
+62 |         sections = split_sections(text)
+63 |
+64 |         assert len(sections) == 1
+   |         ^^^^^^ S101
+65 |         assert sections[0] == text
+   |
+
+tests/test_document_analysis/test_core.py:65:9: S101 Use of `assert` detected
+   |
+64 |         assert len(sections) == 1
+65 |         assert sections[0] == text
+   |         ^^^^^^ S101
+66 |
+67 |     def test_split_sections_multiple_newlines(self) -> None:
+   |
+
+tests/test_document_analysis/test_core.py:72:9: S101 Use of `assert` detected
+   |
+70 |         sections = split_sections(text)
+71 |
+72 |         assert len(sections) == 3
+   |         ^^^^^^ S101
+73 |         assert sections[0] == "First"
+74 |         assert sections[1] == "Second"
+   |
+
+tests/test_document_analysis/test_core.py:73:9: S101 Use of `assert` detected
+   |
+72 |         assert len(sections) == 3
+73 |         assert sections[0] == "First"
+   |         ^^^^^^ S101
+74 |         assert sections[1] == "Second"
+75 |         assert sections[2] == "Third"
+   |
+
+tests/test_document_analysis/test_core.py:74:9: S101 Use of `assert` detected
+   |
+72 |         assert len(sections) == 3
+73 |         assert sections[0] == "First"
+74 |         assert sections[1] == "Second"
+   |         ^^^^^^ S101
+75 |         assert sections[2] == "Third"
+   |
+
+tests/test_document_analysis/test_core.py:75:9: S101 Use of `assert` detected
+   |
+73 |         assert sections[0] == "First"
+74 |         assert sections[1] == "Second"
+75 |         assert sections[2] == "Third"
+   |         ^^^^^^ S101
+76 |
+77 |     def test_split_sections_negative_min_length(self) -> None:
+   |
+
+tests/test_document_analysis/test_core.py:87:9: S101 Use of `assert` detected
+   |
+85 |         long_text = "Section " + "x" * 100_000
+86 |         sections = split_sections(long_text)
+87 |         assert len(sections) == 1
+   |         ^^^^^^ S101
+88 |
+89 |         # Test exceeding limit
+   |
+
+tests/test_document_analysis/test_core.py:101:9: S101 Use of `assert` detected
+    |
+ 99 |         """Test that identical texts are similar."""
+100 |         text = "This is a test sentence"
+101 |         assert is_similar(text, text) is True
+    |         ^^^^^^ S101
+102 |
+103 |     def test_is_similar_different_order(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:107:9: S101 Use of `assert` detected
+    |
+105 |         text1 = "hello world python"
+106 |         text2 = "python world hello"
+107 |         assert is_similar(text1, text2, threshold=80) is True
+    |         ^^^^^^ S101
+108 |
+109 |     def test_is_similar_partial_overlap(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:113:9: S101 Use of `assert` detected
+    |
+111 |         text1 = "The quick brown fox jumps"
+112 |         text2 = "The quick brown fox runs"
+113 |         assert is_similar(text1, text2, threshold=75) is True
+    |         ^^^^^^ S101
+114 |
+115 |     def test_is_similar_completely_different(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:119:9: S101 Use of `assert` detected
+    |
+117 |         text1 = "Apple orange banana"
+118 |         text2 = "Car truck motorcycle"
+119 |         assert is_similar(text1, text2, threshold=85) is False
+    |         ^^^^^^ S101
+120 |
+121 |     def test_is_similar_empty_text_validation(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:132:9: S101 Use of `assert` detected
+    |
+130 |         """Test threshold value validation."""
+131 |         # Valid thresholds
+132 |         assert is_similar("test", "test", threshold=0) is True
+    |         ^^^^^^ S101
+133 |         assert is_similar("test", "test", threshold=100) is True
+    |
+
+tests/test_document_analysis/test_core.py:133:9: S101 Use of `assert` detected
+    |
+131 |         # Valid thresholds
+132 |         assert is_similar("test", "test", threshold=0) is True
+133 |         assert is_similar("test", "test", threshold=100) is True
+    |         ^^^^^^ S101
+134 |
+135 |         # Invalid thresholds
+    |
+
+tests/test_document_analysis/test_core.py:147:9: S101 Use of `assert` detected
+    |
+145 |         text2 = "hello world"
+146 |         # Token-based matching should handle case differences
+147 |         assert is_similar(text1, text2, threshold=90) is True
+    |         ^^^^^^ S101
+148 |
+149 |     def test_is_similar_punctuation_handling(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:153:9: S101 Use of `assert` detected
+    |
+151 |         text1 = "Hello, world!"
+152 |         text2 = "Hello world"
+153 |         assert is_similar(text1, text2, threshold=85) is True
+    |         ^^^^^^ S101
+    |
+
+tests/test_document_analysis/test_core.py:165:9: S101 Use of `assert` detected
+    |
+164 |         match, score = get_best_match_seq(section, targets)
+165 |         assert match == "test section"
+    |         ^^^^^^ S101
+166 |         assert score == 1.0
+    |
+
+tests/test_document_analysis/test_core.py:166:9: S101 Use of `assert` detected
+    |
+164 |         match, score = get_best_match_seq(section, targets)
+165 |         assert match == "test section"
+166 |         assert score == 1.0
+    |         ^^^^^^ S101
+167 |
+168 |     def test_get_best_match_seq_partial_match(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:174:9: S101 Use of `assert` detected
+    |
+173 |         match, score = get_best_match_seq(section, targets)
+174 |         assert "hello" in match or "world" in match
+    |         ^^^^^^ S101
+175 |         assert 0 < score < 1
+    |
+
+tests/test_document_analysis/test_core.py:175:9: S101 Use of `assert` detected
+    |
+173 |         match, score = get_best_match_seq(section, targets)
+174 |         assert "hello" in match or "world" in match
+175 |         assert 0 < score < 1
+    |         ^^^^^^ S101
+176 |
+177 |     def test_get_best_match_seq_empty_targets(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:194:9: S101 Use of `assert` detected
+    |
+192 |         # Should skip invalid target and still work
+193 |         match, _score = get_best_match_seq(section, targets)
+194 |         assert match in ["valid", "another valid"]
+    |         ^^^^^^ S101
+195 |
+196 |     def test_get_best_match_seq_case_sensitivity(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:202:9: S101 Use of `assert` detected
+    |
+201 |         match, score = get_best_match_seq(section, targets)
+202 |         assert match == "Hello World"
+    |         ^^^^^^ S101
+203 |         assert score == 1.0
+    |
+
+tests/test_document_analysis/test_core.py:203:9: S101 Use of `assert` detected
+    |
+201 |         match, score = get_best_match_seq(section, targets)
+202 |         assert match == "Hello World"
+203 |         assert score == 1.0
+    |         ^^^^^^ S101
+204 |
+205 |     def test_get_best_match_seq_long_texts(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:211:9: S101 Use of `assert` detected
+    |
+210 |         match, score = get_best_match_seq(section, targets)
+211 |         assert match == section
+    |         ^^^^^^ S101
+212 |         assert score == 1.0
+    |
+
+tests/test_document_analysis/test_core.py:212:9: S101 Use of `assert` detected
+    |
+210 |         match, score = get_best_match_seq(section, targets)
+211 |         assert match == section
+212 |         assert score == 1.0
+    |         ^^^^^^ S101
+    |
+
+tests/test_document_analysis/test_core.py:223:9: S101 Use of `assert` detected
+    |
+221 |         matrix = get_similarity_matrix(texts, threshold=0.0)
+222 |
+223 |         assert len(matrix) == 3
+    |         ^^^^^^ S101
+224 |         assert len(matrix[0]) == 3
+    |
+
+tests/test_document_analysis/test_core.py:224:9: S101 Use of `assert` detected
+    |
+223 |         assert len(matrix) == 3
+224 |         assert len(matrix[0]) == 3
+    |         ^^^^^^ S101
+225 |
+226 |         # Check diagonal is 1.0
+    |
+
+tests/test_document_analysis/test_core.py:228:13: S101 Use of `assert` detected
+    |
+226 |         # Check diagonal is 1.0
+227 |         for i in range(3):
+228 |             assert matrix[i][i] == 1.0
+    |             ^^^^^^ S101
+229 |
+230 |         # Check symmetry
+    |
+
+tests/test_document_analysis/test_core.py:233:17: S101 Use of `assert` detected
+    |
+231 |         for i in range(3):
+232 |             for j in range(3):
+233 |                 assert matrix[i][j] == matrix[j][i]
+    |                 ^^^^^^ S101
+234 |
+235 |     def test_get_similarity_matrix_threshold_filtering(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:241:9: S101 Use of `assert` detected
+    |
+240 |         # Only identical texts should have high similarity
+241 |         assert matrix[0][2] > 0.9  # "cat" vs "cat"
+    |         ^^^^^^ S101
+242 |         assert matrix[0][1] == 0.0  # "cat" vs "dog" below threshold
+    |
+
+tests/test_document_analysis/test_core.py:242:9: S101 Use of `assert` detected
+    |
+240 |         # Only identical texts should have high similarity
+241 |         assert matrix[0][2] > 0.9  # "cat" vs "cat"
+242 |         assert matrix[0][1] == 0.0  # "cat" vs "dog" below threshold
+    |         ^^^^^^ S101
+243 |
+244 |     def test_get_similarity_matrix_empty_list(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:254:9: S101 Use of `assert` detected
+    |
+252 |         matrix = get_similarity_matrix(texts)
+253 |
+254 |         assert len(matrix) == 1
+    |         ^^^^^^ S101
+255 |         assert matrix[0][0] == 1.0
+    |
+
+tests/test_document_analysis/test_core.py:255:9: S101 Use of `assert` detected
+    |
+254 |         assert len(matrix) == 1
+255 |         assert matrix[0][0] == 1.0
+    |         ^^^^^^ S101
+256 |
+257 |     def test_get_similarity_matrix_invalid_texts(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:268:9: S101 Use of `assert` detected
+    |
+266 |         # Valid thresholds
+267 |         matrix = get_similarity_matrix(texts, threshold=0.0)
+268 |         assert matrix is not None
+    |         ^^^^^^ S101
+269 |
+270 |         matrix = get_similarity_matrix(texts, threshold=1.0)
+    |
+
+tests/test_document_analysis/test_core.py:271:9: S101 Use of `assert` detected
+    |
+270 |         matrix = get_similarity_matrix(texts, threshold=1.0)
+271 |         assert matrix is not None
+    |         ^^^^^^ S101
+272 |
+273 |         # Invalid thresholds
+    |
+
+tests/test_document_analysis/test_core.py:290:9: S101 Use of `assert` detected
+    |
+289 |         groups = find_duplicate_groups(matrix, threshold=0.9)
+290 |         assert len(groups) == 1
+    |         ^^^^^^ S101
+291 |         assert set(groups[0]) == {0, 1}
+    |
+
+tests/test_document_analysis/test_core.py:291:9: S101 Use of `assert` detected
+    |
+289 |         groups = find_duplicate_groups(matrix, threshold=0.9)
+290 |         assert len(groups) == 1
+291 |         assert set(groups[0]) == {0, 1}
+    |         ^^^^^^ S101
+292 |
+293 |     def test_find_duplicate_groups_no_duplicates(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:299:9: S101 Use of `assert` detected
+    |
+298 |         groups = find_duplicate_groups(matrix, threshold=0.9)
+299 |         assert len(groups) == 0
+    |         ^^^^^^ S101
+300 |
+301 |     def test_find_duplicate_groups_multiple_groups(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:307:9: S101 Use of `assert` detected
+    |
+306 |         groups = find_duplicate_groups(matrix, threshold=0.9)
+307 |         assert len(groups) == 2
+    |         ^^^^^^ S101
+308 |         assert {0, 1} in [set(g) for g in groups]
+309 |         assert {2, 3} in [set(g) for g in groups]
+    |
+
+tests/test_document_analysis/test_core.py:308:9: S101 Use of `assert` detected
+    |
+306 |         groups = find_duplicate_groups(matrix, threshold=0.9)
+307 |         assert len(groups) == 2
+308 |         assert {0, 1} in [set(g) for g in groups]
+    |         ^^^^^^ S101
+309 |         assert {2, 3} in [set(g) for g in groups]
+    |
+
+tests/test_document_analysis/test_core.py:309:9: S101 Use of `assert` detected
+    |
+307 |         assert len(groups) == 2
+308 |         assert {0, 1} in [set(g) for g in groups]
+309 |         assert {2, 3} in [set(g) for g in groups]
+    |         ^^^^^^ S101
+310 |
+311 |     def test_find_duplicate_groups_empty_matrix(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:332:9: S101 Use of `assert` detected
+    |
+330 |         # Valid thresholds
+331 |         groups = find_duplicate_groups(matrix, threshold=0.0)
+332 |         assert groups is not None
+    |         ^^^^^^ S101
+333 |
+334 |         groups = find_duplicate_groups(matrix, threshold=1.0)
+    |
+
+tests/test_document_analysis/test_core.py:335:9: S101 Use of `assert` detected
+    |
+334 |         groups = find_duplicate_groups(matrix, threshold=1.0)
+335 |         assert groups is not None
+    |         ^^^^^^ S101
+336 |
+337 |         # Invalid thresholds
+    |
+
+tests/test_document_analysis/test_core.py:350:9: S101 Use of `assert` detected
+    |
+348 |         # Should use high threshold by default (likely 0.95)
+349 |         groups = find_duplicate_groups(matrix)
+350 |         assert len(groups) == 1
+    |         ^^^^^^ S101
+    |
+
+tests/test_document_analysis/test_core.py:361:9: S101 Use of `assert` detected
+    |
+359 |         text2 = "Hello 世界 🌍"
+360 |
+361 |         assert is_similar(text1, text2) is True
+    |         ^^^^^^ S101
+362 |
+363 |         sections = split_sections(f"{text1}\n\n{text2}")
+    |
+
+tests/test_document_analysis/test_core.py:364:9: S101 Use of `assert` detected
+    |
+363 |         sections = split_sections(f"{text1}\n\n{text2}")
+364 |         assert len(sections) == 2
+    |         ^^^^^^ S101
+365 |
+366 |     def test_special_characters(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:370:9: S101 Use of `assert` detected
+    |
+368 |         text = "Test with @#$%^&*() special chars!"
+369 |         sections = split_sections(text)
+370 |         assert sections[0] == text
+    |         ^^^^^^ S101
+371 |
+372 |         assert is_similar(text, text) is True
+    |
+
+tests/test_document_analysis/test_core.py:372:9: S101 Use of `assert` detected
+    |
+370 |         assert sections[0] == text
+371 |
+372 |         assert is_similar(text, text) is True
+    |         ^^^^^^ S101
+373 |
+374 |     def test_performance_large_matrix(self) -> None:
+    |
+
+tests/test_document_analysis/test_core.py:382:9: S101 Use of `assert` detected
+    |
+380 |         # Should complete without timeout
+381 |         groups = find_duplicate_groups(matrix, threshold=0.9)
+382 |         assert len(groups) == 0  # No duplicates with threshold 0.9
+    |         ^^^^^^ S101
+    |
+
+tests/test_document_analysis/test_embeddings.py:53:9: S101 Use of `assert` detected
+   |
+52 |         # Verify results
+53 |         assert isinstance(df, pd.DataFrame)
+   |         ^^^^^^ S101
+54 |         assert len(df) == 1
+55 |         assert df.iloc[0]["not_in_use"] == "not_in_use/doc1.md"
+   |
+
+tests/test_document_analysis/test_embeddings.py:54:9: S101 Use of `assert` detected
+   |
+52 |         # Verify results
+53 |         assert isinstance(df, pd.DataFrame)
+54 |         assert len(df) == 1
+   |         ^^^^^^ S101
+55 |         assert df.iloc[0]["not_in_use"] == "not_in_use/doc1.md"
+56 |         assert df.iloc[0]["matched_file"] == "active/doc2.md"
+   |
+
+tests/test_document_analysis/test_embeddings.py:55:9: S101 Use of `assert` detected
+   |
+53 |         assert isinstance(df, pd.DataFrame)
+54 |         assert len(df) == 1
+55 |         assert df.iloc[0]["not_in_use"] == "not_in_use/doc1.md"
+   |         ^^^^^^ S101
+56 |         assert df.iloc[0]["matched_file"] == "active/doc2.md"
+57 |         assert df.iloc[0]["similarity"] == 0.85
+   |
+
+tests/test_document_analysis/test_embeddings.py:56:9: S101 Use of `assert` detected
+   |
+54 |         assert len(df) == 1
+55 |         assert df.iloc[0]["not_in_use"] == "not_in_use/doc1.md"
+56 |         assert df.iloc[0]["matched_file"] == "active/doc2.md"
+   |         ^^^^^^ S101
+57 |         assert df.iloc[0]["similarity"] == 0.85
+   |
+
+tests/test_document_analysis/test_embeddings.py:57:9: S101 Use of `assert` detected
+   |
+55 |         assert df.iloc[0]["not_in_use"] == "not_in_use/doc1.md"
+56 |         assert df.iloc[0]["matched_file"] == "active/doc2.md"
+57 |         assert df.iloc[0]["similarity"] == 0.85
+   |         ^^^^^^ S101
+58 |
+59 |     @patch("src.document_analysis.embeddings.load_markdown_files")
+   |
+
+tests/test_document_analysis/test_embeddings.py:77:9: S101 Use of `assert` detected
+   |
+75 |                 )
+76 |
+77 |         assert len(df) == 0
+   |         ^^^^^^ S101
+78 |
+79 |     def test_analyze_semantic_similarity_empty_lists(self) -> None:
+   |
+
+tests/test_document_analysis/test_embeddings.py:141:9: S101 Use of `assert` detected
+    |
+140 |         # Should find one pair with high similarity
+141 |         assert len(df) == 1
+    |         ^^^^^^ S101
+142 |         assert df.iloc[0]["similarity"] == 0.9
+143 |         assert df.iloc[0]["relationship_type"] == "HIGH_OVERLAP"
+    |
+
+tests/test_document_analysis/test_embeddings.py:142:9: S101 Use of `assert` detected
+    |
+140 |         # Should find one pair with high similarity
+141 |         assert len(df) == 1
+142 |         assert df.iloc[0]["similarity"] == 0.9
+    |         ^^^^^^ S101
+143 |         assert df.iloc[0]["relationship_type"] == "HIGH_OVERLAP"
+    |
+
+tests/test_document_analysis/test_embeddings.py:143:9: S101 Use of `assert` detected
+    |
+141 |         assert len(df) == 1
+142 |         assert df.iloc[0]["similarity"] == 0.9
+143 |         assert df.iloc[0]["relationship_type"] == "HIGH_OVERLAP"
+    |         ^^^^^^ S101
+144 |
+145 |     def test_analyze_active_similarities_insufficient_docs(self) -> None:
+    |
+
+tests/test_document_analysis/test_embeddings.py:149:9: S101 Use of `assert` detected
+    |
+147 |         df = analyze_active_document_similarities([Path("only_one.md")], Path())
+148 |
+149 |         assert len(df) == 0
+    |         ^^^^^^ S101
+150 |         assert list(df.columns) == ["doc1", "doc2", "similarity", "relationship_type"]
+    |
+
+tests/test_document_analysis/test_embeddings.py:150:9: S101 Use of `assert` detected
+    |
+149 |         assert len(df) == 0
+150 |         assert list(df.columns) == ["doc1", "doc2", "similarity", "relationship_type"]
+    |         ^^^^^^ S101
+151 |
+152 |     @patch("src.document_analysis.embeddings.load_markdown_files")
+    |
+
+tests/test_document_analysis/test_embeddings.py:180:9: S101 Use of `assert` detected
+    |
+178 |         # Check relationship types
+179 |         relationships = df["relationship_type"].tolist()
+180 |         assert "NEAR_DUPLICATE" in relationships
+    |         ^^^^^^ S101
+181 |         assert "HIGH_OVERLAP" in relationships
+182 |         assert "MODERATE_OVERLAP" in relationships
+    |
+
+tests/test_document_analysis/test_embeddings.py:181:9: S101 Use of `assert` detected
+    |
+179 |         relationships = df["relationship_type"].tolist()
+180 |         assert "NEAR_DUPLICATE" in relationships
+181 |         assert "HIGH_OVERLAP" in relationships
+    |         ^^^^^^ S101
+182 |         assert "MODERATE_OVERLAP" in relationships
+    |
+
+tests/test_document_analysis/test_embeddings.py:182:9: S101 Use of `assert` detected
+    |
+180 |         assert "NEAR_DUPLICATE" in relationships
+181 |         assert "HIGH_OVERLAP" in relationships
+182 |         assert "MODERATE_OVERLAP" in relationships
+    |         ^^^^^^ S101
+183 |
+184 |     def test_analyze_active_similarities_exclude_self(self) -> None:
+    |
+
+tests/test_document_analysis/test_embeddings.py:213:9: S101 Use of `assert` detected
+    |
+212 |         # Verify matrix properties
+213 |         assert isinstance(matrix, pd.DataFrame)
+    |         ^^^^^^ S101
+214 |         assert matrix.shape == (2, 2)
+215 |         assert names == ["doc1.md", "doc2.md"]
+    |
+
+tests/test_document_analysis/test_embeddings.py:214:9: S101 Use of `assert` detected
+    |
+212 |         # Verify matrix properties
+213 |         assert isinstance(matrix, pd.DataFrame)
+214 |         assert matrix.shape == (2, 2)
+    |         ^^^^^^ S101
+215 |         assert names == ["doc1.md", "doc2.md"]
+216 |         assert matrix.iloc[0, 0] == 1.0  # Self-similarity
+    |
+
+tests/test_document_analysis/test_embeddings.py:215:9: S101 Use of `assert` detected
+    |
+213 |         assert isinstance(matrix, pd.DataFrame)
+214 |         assert matrix.shape == (2, 2)
+215 |         assert names == ["doc1.md", "doc2.md"]
+    |         ^^^^^^ S101
+216 |         assert matrix.iloc[0, 0] == 1.0  # Self-similarity
+217 |         assert matrix.iloc[0, 1] == 0.8
+    |
+
+tests/test_document_analysis/test_embeddings.py:216:9: S101 Use of `assert` detected
+    |
+214 |         assert matrix.shape == (2, 2)
+215 |         assert names == ["doc1.md", "doc2.md"]
+216 |         assert matrix.iloc[0, 0] == 1.0  # Self-similarity
+    |         ^^^^^^ S101
+217 |         assert matrix.iloc[0, 1] == 0.8
+218 |         assert matrix.iloc[1, 0] == 0.8  # Symmetric
+    |
+
+tests/test_document_analysis/test_embeddings.py:217:9: S101 Use of `assert` detected
+    |
+215 |         assert names == ["doc1.md", "doc2.md"]
+216 |         assert matrix.iloc[0, 0] == 1.0  # Self-similarity
+217 |         assert matrix.iloc[0, 1] == 0.8
+    |         ^^^^^^ S101
+218 |         assert matrix.iloc[1, 0] == 0.8  # Symmetric
+    |
+
+tests/test_document_analysis/test_embeddings.py:218:9: S101 Use of `assert` detected
+    |
+216 |         assert matrix.iloc[0, 0] == 1.0  # Self-similarity
+217 |         assert matrix.iloc[0, 1] == 0.8
+218 |         assert matrix.iloc[1, 0] == 0.8  # Symmetric
+    |         ^^^^^^ S101
+219 |
+220 |     def test_create_similarity_matrix_single_doc(self) -> None:
+    |
+
+tests/test_document_analysis/test_embeddings.py:227:13: S101 Use of `assert` detected
+    |
+225 |             matrix, names = create_similarity_matrix([Path("doc1.md")], Path())
+226 |
+227 |             assert matrix.empty
+    |             ^^^^^^ S101
+228 |             assert names == []
+    |
+
+tests/test_document_analysis/test_embeddings.py:228:13: S101 Use of `assert` detected
+    |
+227 |             assert matrix.empty
+228 |             assert names == []
+    |             ^^^^^^ S101
+229 |
+230 |     def test_create_similarity_matrix_empty_list(self) -> None:
+    |
+
+tests/test_document_analysis/test_embeddings.py:261:9: S101 Use of `assert` detected
+    |
+259 |         clusters = find_embeddings_clusters(matrix, threshold=0.85)
+260 |
+261 |         assert len(clusters) == 2
+    |         ^^^^^^ S101
+262 |         assert set(clusters[0]) == {"doc1", "doc2"}
+263 |         assert set(clusters[1]) == {"doc3", "doc4"}
+    |
+
+tests/test_document_analysis/test_embeddings.py:262:9: S101 Use of `assert` detected
+    |
+261 |         assert len(clusters) == 2
+262 |         assert set(clusters[0]) == {"doc1", "doc2"}
+    |         ^^^^^^ S101
+263 |         assert set(clusters[1]) == {"doc3", "doc4"}
+    |
+
+tests/test_document_analysis/test_embeddings.py:263:9: S101 Use of `assert` detected
+    |
+261 |         assert len(clusters) == 2
+262 |         assert set(clusters[0]) == {"doc1", "doc2"}
+263 |         assert set(clusters[1]) == {"doc3", "doc4"}
+    |         ^^^^^^ S101
+264 |
+265 |     def test_find_clusters_no_clusters(self) -> None:
+    |
+
+tests/test_document_analysis/test_embeddings.py:274:9: S101 Use of `assert` detected
+    |
+272 |         clusters = find_embeddings_clusters(matrix, threshold=0.85)
+273 |
+274 |         assert len(clusters) == 0
+    |         ^^^^^^ S101
+275 |
+276 |     def test_find_clusters_empty_matrix(self) -> None:
+    |
+
+tests/test_document_analysis/test_embeddings.py:307:9: S101 Use of `assert` detected
+    |
+305 |         clusters = find_embeddings_clusters(matrix)  # No threshold specified
+306 |
+307 |         assert len(clusters) == 1
+    |         ^^^^^^ S101
+308 |         assert set(clusters[0]) == {"doc1", "doc2"}
+    |
+
+tests/test_document_analysis/test_embeddings.py:308:9: S101 Use of `assert` detected
+    |
+307 |         assert len(clusters) == 1
+308 |         assert set(clusters[0]) == {"doc1", "doc2"}
+    |         ^^^^^^ S101
+309 |
+310 |     def test_find_clusters_missing_document(self) -> None:
+    |
+
+tests/test_document_analysis/test_embeddings.py:364:9: S101 Use of `assert` detected
+    |
+363 |         # Verify results
+364 |         assert len(clusters) == 2
+    |         ^^^^^^ S101
+365 |         assert len(names) == 4
+    |
+
+tests/test_document_analysis/test_embeddings.py:365:9: S101 Use of `assert` detected
+    |
+363 |         # Verify results
+364 |         assert len(clusters) == 2
+365 |         assert len(names) == 4
+    |         ^^^^^^ S101
+366 |
+367 |         # Check that similar documents are clustered together
+    |
+
+tests/test_document_analysis/test_embeddings.py:369:9: S101 Use of `assert` detected
+    |
+367 |         # Check that similar documents are clustered together
+368 |         cluster_sets = [set(c) for c in clusters]
+369 |         assert {"doc1.md", "doc2.md"} in cluster_sets
+    |         ^^^^^^ S101
+370 |         assert {"doc3.md", "doc4.md"} in cluster_sets
+    |
+
+tests/test_document_analysis/test_embeddings.py:370:9: S101 Use of `assert` detected
+    |
+368 |         cluster_sets = [set(c) for c in clusters]
+369 |         assert {"doc1.md", "doc2.md"} in cluster_sets
+370 |         assert {"doc3.md", "doc4.md"} in cluster_sets
+    |         ^^^^^^ S101
+    |
+
+tests/test_validation/test_validation.py:35:9: S101 Use of `assert` detected
+   |
+33 |         error = ValidationError(message)
+34 |
+35 |         assert str(error) == message
+   |         ^^^^^^ S101
+36 |         assert isinstance(error, Exception)
+   |
+
+tests/test_validation/test_validation.py:36:9: S101 Use of `assert` detected
+   |
+35 |         assert str(error) == message
+36 |         assert isinstance(error, Exception)
+   |         ^^^^^^ S101
+37 |
+38 |     def test_validation_error_inheritance(self) -> None:
+   |
+
+tests/test_validation/test_validation.py:42:9: S101 Use of `assert` detected
+   |
+40 |         error = ValidationError("Test")
+41 |
+42 |         assert isinstance(error, Exception)
+   |         ^^^^^^ S101
+43 |         assert isinstance(error, ValidationError)
+   |
+
+tests/test_validation/test_validation.py:43:9: S101 Use of `assert` detected
+   |
+42 |         assert isinstance(error, Exception)
+43 |         assert isinstance(error, ValidationError)
+   |         ^^^^^^ S101
+   |
+
+tests/test_validation/test_validation.py:55:9: S101 Use of `assert` detected
+   |
+53 |         result = validate_string_input(valid_input, "test_field")
+54 |
+55 |         assert result == valid_input
+   |         ^^^^^^ S101
+56 |
+57 |     def test_validate_string_input_empty_string(self) -> None:
+   |
+
+tests/test_validation/test_validation.py:62:9: S101 Use of `assert` detected
+   |
+60 |             validate_string_input("", "test_field")
+61 |
+62 |         assert "test_field cannot be empty" in str(exc_info.value)
+   |         ^^^^^^ S101
+63 |
+64 |     def test_validate_string_input_allow_empty(self) -> None:
+   |
+
+tests/test_validation/test_validation.py:68:9: S101 Use of `assert` detected
+   |
+66 |         result = validate_string_input("", "test_field", allow_empty=True)
+67 |
+68 |         assert result == ""
+   |         ^^^^^^ S101
+69 |
+70 |     def test_validate_string_input_none_value(self) -> None:
+   |
+
+tests/test_validation/test_validation.py:68:26: PLC1901 `result == ""` can be simplified to `not result` as an empty string is falsey
+   |
+66 |         result = validate_string_input("", "test_field", allow_empty=True)
+67 |
+68 |         assert result == ""
+   |                          ^^ PLC1901
+69 |
+70 |     def test_validate_string_input_none_value(self) -> None:
+   |
+
+tests/test_validation/test_validation.py:75:9: S101 Use of `assert` detected
+   |
+73 |             validate_string_input(None, "test_field")
+74 |
+75 |         assert "test_field must be a string" in str(exc_info.value)
+   |         ^^^^^^ S101
+76 |
+77 |     def test_validate_string_input_non_string(self) -> None:
+   |
+
+tests/test_validation/test_validation.py:82:9: S101 Use of `assert` detected
+   |
+80 |             validate_string_input(123, "test_field")
+81 |
+82 |         assert "test_field must be a string" in str(exc_info.value)
+   |         ^^^^^^ S101
+83 |
+84 |     def test_validate_string_input_max_length(self) -> None:
+   |
+
+tests/test_validation/test_validation.py:91:9: S101 Use of `assert` detected
+   |
+89 |             validate_string_input(long_string, "test_field")
+90 |
+91 |         assert "exceeds maximum length" in str(exc_info.value)
+   |         ^^^^^^ S101
+92 |
+93 |     def test_validate_string_input_custom_max_length(self) -> None:
+   |
+
+tests/test_validation/test_validation.py:99:9: S101 Use of `assert` detected
+    |
+ 97 |         result = validate_string_input(test_string, "test_field", max_length=10)
+ 98 |
+ 99 |         assert result == test_string
+    |         ^^^^^^ S101
+100 |
+101 |     def test_validate_string_input_exactly_max_length(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:107:9: S101 Use of `assert` detected
+    |
+105 |         result = validate_string_input(test_string, "test_field", max_length=100)
+106 |
+107 |         assert result == test_string
+    |         ^^^^^^ S101
+    |
+
+tests/test_validation/test_validation.py:121:13: S101 Use of `assert` detected
+    |
+119 |             result = validate_file_path(test_file)
+120 |
+121 |             assert result == test_file
+    |             ^^^^^^ S101
+122 |             assert isinstance(result, Path)
+    |
+
+tests/test_validation/test_validation.py:122:13: S101 Use of `assert` detected
+    |
+121 |             assert result == test_file
+122 |             assert isinstance(result, Path)
+    |             ^^^^^^ S101
+123 |
+124 |     def test_validate_file_path_string_input(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:132:13: S101 Use of `assert` detected
+    |
+130 |             result = validate_file_path(str(test_file))
+131 |
+132 |             assert result == test_file
+    |             ^^^^^^ S101
+133 |             assert isinstance(result, Path)
+    |
+
+tests/test_validation/test_validation.py:133:13: S101 Use of `assert` detected
+    |
+132 |             assert result == test_file
+133 |             assert isinstance(result, Path)
+    |             ^^^^^^ S101
+134 |
+135 |     def test_validate_file_path_nonexistent_file(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:142:9: S101 Use of `assert` detected
+    |
+140 |             validate_file_path(nonexistent_file)
+141 |
+142 |         assert "File does not exist" in str(exc_info.value)
+    |         ^^^^^^ S101
+143 |
+144 |     def test_validate_file_path_directory_not_file(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:150:13: S101 Use of `assert` detected
+    |
+148 |                 validate_file_path(temp_dir)
+149 |
+150 |             assert "Path is not a file" in str(exc_info.value)
+    |             ^^^^^^ S101
+151 |
+152 |     def test_validate_file_path_allow_nonexistent(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:158:9: S101 Use of `assert` detected
+    |
+156 |         result = validate_file_path(nonexistent_file, must_exist=False, check_readable=False)
+157 |
+158 |         assert result == nonexistent_file
+    |         ^^^^^^ S101
+159 |
+160 |     def test_validate_file_path_unreadable_file(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:172:17: S101 Use of `assert` detected
+    |
+170 |                     validate_file_path(test_file, check_readable=True)
+171 |
+172 |                 assert "File is not readable" in str(exc_info.value)
+    |                 ^^^^^^ S101
+173 |             finally:
+174 |                 # Restore permissions for cleanup
+    |
+
+tests/test_validation/test_validation.py:182:9: S101 Use of `assert` detected
+    |
+180 |             validate_file_path(cast("Path", None))
+181 |
+182 |         assert "File path cannot be None" in str(exc_info.value)
+    |         ^^^^^^ S101
+    |
+
+tests/test_validation/test_validation.py:193:13: S101 Use of `assert` detected
+    |
+191 |             result = validate_directory_path(temp_dir)
+192 |
+193 |             assert result == Path(temp_dir)
+    |             ^^^^^^ S101
+194 |             assert isinstance(result, Path)
+    |
+
+tests/test_validation/test_validation.py:194:13: S101 Use of `assert` detected
+    |
+193 |             assert result == Path(temp_dir)
+194 |             assert isinstance(result, Path)
+    |             ^^^^^^ S101
+195 |
+196 |     def test_validate_directory_path_nonexistent(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:203:9: S101 Use of `assert` detected
+    |
+201 |             validate_directory_path(nonexistent_dir)
+202 |
+203 |         assert "Directory does not exist" in str(exc_info.value)
+    |         ^^^^^^ S101
+204 |
+205 |     def test_validate_directory_path_file_not_directory(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:214:13: S101 Use of `assert` detected
+    |
+212 |                 validate_directory_path(test_file)
+213 |
+214 |             assert "Path is not a directory" in str(exc_info.value)
+    |             ^^^^^^ S101
+215 |
+216 |     def test_validate_directory_path_allow_nonexistent(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:222:9: S101 Use of `assert` detected
+    |
+220 |         result = validate_directory_path(nonexistent_dir, must_exist=False)
+221 |
+222 |         assert result == nonexistent_dir
+    |         ^^^^^^ S101
+    |
+
+tests/test_validation/test_validation.py:234:13: S101 Use of `assert` detected
+    |
+232 |         for encoding in valid_encodings:
+233 |             result = validate_encoding(encoding)
+234 |             assert result == encoding
+    |             ^^^^^^ S101
+235 |
+236 |     def test_validate_encoding_invalid_encoding(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:241:9: S101 Use of `assert` detected
+    |
+239 |             validate_encoding("invalid-encoding-name")
+240 |
+241 |         assert "Invalid encoding" in str(exc_info.value)
+    |         ^^^^^^ S101
+242 |
+243 |     def test_validate_encoding_none_input(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:248:9: S101 Use of `assert` detected
+    |
+246 |             validate_encoding(None)
+247 |
+248 |         assert "Encoding cannot be None" in str(exc_info.value)
+    |         ^^^^^^ S101
+    |
+
+tests/test_validation/test_validation.py:262:13: S101 Use of `assert` detected
+    |
+260 |             result = validate_file_size(test_file)
+261 |
+262 |             assert result > 0
+    |             ^^^^^^ S101
+263 |
+264 |     def test_validate_file_size_large_file(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:275:13: S101 Use of `assert` detected
+    |
+273 |                 validate_file_size(test_file)
+274 |
+275 |             assert "File size exceeds maximum" in str(exc_info.value)
+    |             ^^^^^^ S101
+276 |
+277 |     def test_validate_file_size_custom_limit(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:285:13: S101 Use of `assert` detected
+    |
+283 |             result = validate_file_size(test_file, max_size_bytes=1000)
+284 |
+285 |             assert result > 0
+    |             ^^^^^^ S101
+286 |
+287 |     def test_validate_file_size_empty_file(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:295:13: S101 Use of `assert` detected
+    |
+293 |             result = validate_file_size(test_file)
+294 |
+295 |             assert result == 0
+    |             ^^^^^^ S101
+    |
+
+tests/test_validation/test_validation.py:307:9: S101 Use of `assert` detected
+    |
+305 |         result = sanitize_filename(clean_filename)
+306 |
+307 |         assert result == clean_filename
+    |         ^^^^^^ S101
+308 |
+309 |     def test_sanitize_filename_dangerous_characters(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:316:9: S101 Use of `assert` detected
+    |
+315 |         # Should remove or replace dangerous characters
+316 |         assert ".." not in result
+    |         ^^^^^^ S101
+317 |         assert "\\" not in result
+318 |         assert ":" not in result
+    |
+
+tests/test_validation/test_validation.py:317:9: S101 Use of `assert` detected
+    |
+315 |         # Should remove or replace dangerous characters
+316 |         assert ".." not in result
+317 |         assert "\\" not in result
+    |         ^^^^^^ S101
+318 |         assert ":" not in result
+319 |         assert "?" not in result
+    |
+
+tests/test_validation/test_validation.py:318:9: S101 Use of `assert` detected
+    |
+316 |         assert ".." not in result
+317 |         assert "\\" not in result
+318 |         assert ":" not in result
+    |         ^^^^^^ S101
+319 |         assert "?" not in result
+    |
+
+tests/test_validation/test_validation.py:319:9: S101 Use of `assert` detected
+    |
+317 |         assert "\\" not in result
+318 |         assert ":" not in result
+319 |         assert "?" not in result
+    |         ^^^^^^ S101
+320 |
+321 |     def test_sanitize_filename_empty_input(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:326:9: S101 Use of `assert` detected
+    |
+324 |             sanitize_filename("")
+325 |
+326 |         assert "Filename cannot be empty" in str(exc_info.value)
+    |         ^^^^^^ S101
+327 |
+328 |     def test_sanitize_filename_only_dots(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:333:9: S101 Use of `assert` detected
+    |
+331 |             sanitize_filename("...")
+332 |
+333 |         assert "Invalid filename" in str(exc_info.value)
+    |         ^^^^^^ S101
+334 |
+335 |     def test_sanitize_filename_reserved_names(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:343:13: S101 Use of `assert` detected
+    |
+341 |                 sanitize_filename(name)
+342 |
+343 |             assert "Reserved filename" in str(exc_info.value)
+    |             ^^^^^^ S101
+    |
+
+tests/test_validation/test_validation.py:355:9: S101 Use of `assert` detected
+    |
+353 |         result = check_security_patterns(safe_content)
+354 |
+355 |         assert result == []  # No issues found
+    |         ^^^^^^ S101
+356 |
+357 |     def test_check_security_patterns_script_injection(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:363:9: S101 Use of `assert` detected
+    |
+361 |         result = check_security_patterns(malicious_content)
+362 |
+363 |         assert len(result) > 0
+    |         ^^^^^^ S101
+364 |         assert any("script" in issue.lower() for issue in result)
+    |
+
+tests/test_validation/test_validation.py:364:9: S101 Use of `assert` detected
+    |
+363 |         assert len(result) > 0
+364 |         assert any("script" in issue.lower() for issue in result)
+    |         ^^^^^^ S101
+365 |
+366 |     def test_check_security_patterns_path_traversal(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:372:9: S101 Use of `assert` detected
+    |
+370 |         result = check_security_patterns(malicious_content)
+371 |
+372 |         assert len(result) > 0
+    |         ^^^^^^ S101
+373 |         assert any("path" in issue.lower() or "traversal" in issue.lower() for issue in result)
+    |
+
+tests/test_validation/test_validation.py:373:9: S101 Use of `assert` detected
+    |
+372 |         assert len(result) > 0
+373 |         assert any("path" in issue.lower() or "traversal" in issue.lower() for issue in result)
+    |         ^^^^^^ S101
+374 |
+375 |     def test_check_security_patterns_sql_injection(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:381:9: S101 Use of `assert` detected
+    |
+379 |         result = check_security_patterns(malicious_content)
+380 |
+381 |         assert len(result) > 0
+    |         ^^^^^^ S101
+382 |         assert any("sql" in issue.lower() or "injection" in issue.lower() for issue in result)
+    |
+
+tests/test_validation/test_validation.py:382:9: S101 Use of `assert` detected
+    |
+381 |         assert len(result) > 0
+382 |         assert any("sql" in issue.lower() or "injection" in issue.lower() for issue in result)
+    |         ^^^^^^ S101
+383 |
+384 |     def test_check_security_patterns_multiple_issues(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:390:9: S101 Use of `assert` detected
+    |
+388 |         result = check_security_patterns(malicious_content)
+389 |
+390 |         assert len(result) > 1  # Multiple issues detected
+    |         ^^^^^^ S101
+    |
+
+tests/test_validation/test_validation.py:403:9: S101 Use of `assert` detected
+    |
+401 |         result = validate_json_structure(valid_data, required_keys)
+402 |
+403 |         assert result == valid_data
+    |         ^^^^^^ S101
+404 |
+405 |     def test_validate_json_structure_missing_keys(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:413:9: S101 Use of `assert` detected
+    |
+411 |             validate_json_structure(incomplete_data, required_keys)
+412 |
+413 |         assert "Missing required keys" in str(exc_info.value)
+    |         ^^^^^^ S101
+414 |
+415 |     def test_validate_json_structure_wrong_type(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:423:9: S101 Use of `assert` detected
+    |
+421 |             validate_json_structure(invalid_data, required_keys)
+422 |
+423 |         assert "must be a dictionary" in str(exc_info.value)
+    |         ^^^^^^ S101
+424 |
+425 |     def test_validate_json_structure_empty_requirements(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:431:9: S101 Use of `assert` detected
+    |
+429 |         result = validate_json_structure(data, [])
+430 |
+431 |         assert result == data
+    |         ^^^^^^ S101
+432 |
+433 |     def test_validate_json_structure_extra_keys_allowed(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:440:9: S101 Use of `assert` detected
+    |
+438 |         result = validate_json_structure(data, required_keys)
+439 |
+440 |         assert result == data
+    |         ^^^^^^ S101
+    |
+
+tests/test_validation/test_validation.py:466:13: S101 Use of `assert` detected
+    |
+464 |             security_issues = check_security_patterns(content)
+465 |
+466 |             assert validated_path == test_file
+    |             ^^^^^^ S101
+467 |             assert file_size > 0
+468 |             assert safe_filename == "test_document.md"
+    |
+
+tests/test_validation/test_validation.py:467:13: S101 Use of `assert` detected
+    |
+466 |             assert validated_path == test_file
+467 |             assert file_size > 0
+    |             ^^^^^^ S101
+468 |             assert safe_filename == "test_document.md"
+469 |             assert security_issues == []
+    |
+
+tests/test_validation/test_validation.py:468:13: S101 Use of `assert` detected
+    |
+466 |             assert validated_path == test_file
+467 |             assert file_size > 0
+468 |             assert safe_filename == "test_document.md"
+    |             ^^^^^^ S101
+469 |             assert security_issues == []
+    |
+
+tests/test_validation/test_validation.py:469:13: S101 Use of `assert` detected
+    |
+467 |             assert file_size > 0
+468 |             assert safe_filename == "test_document.md"
+469 |             assert security_issues == []
+    |             ^^^^^^ S101
+470 |
+471 |     def test_validation_error_propagation(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:474:9: PT012 `pytest.raises()` block should contain a single simple statement
+    |
+472 |           """Test that validation errors propagate correctly."""
+473 |           # Test chain of validation that should fail
+474 | /         with pytest.raises(ValidationError):
+475 | |             # This should fail at the first validation step
+476 | |             nonexistent_file = Path("/definitely/does/not/exist.txt")
+477 | |             validated_path = validate_file_path(nonexistent_file)
+478 | |             validate_file_size(validated_path)  # Should not reach here
+    | |______________________________________________^ PT012
+    |
+
+tests/test_validation/test_validation.py:495:13: S101 Use of `assert` detected
+    |
+493 |             sanitized = sanitize_filename(unicode_filename)
+494 |
+495 |             assert result == test_file
+    |             ^^^^^^ S101
+496 |             assert len(sanitized) > 0
+    |
+
+tests/test_validation/test_validation.py:496:13: S101 Use of `assert` detected
+    |
+495 |             assert result == test_file
+496 |             assert len(sanitized) > 0
+    |             ^^^^^^ S101
+497 |
+498 |     def test_very_long_paths(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:512:13: S101 Use of `assert` detected
+    |
+511 |             result = validate_file_path(test_file)
+512 |             assert result == test_file
+    |             ^^^^^^ S101
+513 |
+514 |     def test_symbolic_link_handling(self) -> None:
+    |
+
+tests/test_validation/test_validation.py:528:17: S101 Use of `assert` detected
+    |
+526 |                 # Should be able to validate the link
+527 |                 result = validate_file_path(link_file)
+528 |                 assert result == link_file
+    |                 ^^^^^^ S101
+529 |
+530 |             except OSError:
+    |
+
+Found 400 errors.

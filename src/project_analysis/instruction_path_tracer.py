@@ -9,11 +9,14 @@ to ensure they lead to complete implementation coverage including:
 - FILES_REQUIRED.md alignment
 """
 
+import logging
 import re
 from collections import deque
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -34,6 +37,11 @@ class InstructionPathTracer:
     """Traces instruction paths through documentation."""
 
     def __init__(self, root_dir: Path | None = None):
+        """Initialize instruction path tracer.
+
+        Args:
+            root_dir: Root directory of the project. If None, uses current working directory.
+        """
         self.root_dir = root_dir or Path.cwd()
         self.visited: set[str] = set()
         self.instruction_graph: dict[str, Any] = {}
@@ -268,15 +276,15 @@ class InstructionPathTracer:
 
         # Print current node
         rel_path = node.path.relative_to(self.root_dir)
-        print(f"{prefix}📄 {rel_path}")
+        logger.info(f"{prefix}📄 {rel_path}")
 
         if node.instructions:
-            print(f"{prefix}  📝 {len(node.instructions)} instructions found")
+            logger.info(f"{prefix}  📝 {len(node.instructions)} instructions found")
 
         if node.generates:
-            print(f"{prefix}  🔧 Generates: {', '.join(node.generates[:3])}")
+            logger.info(f"{prefix}  🔧 Generates: {', '.join(node.generates[:3])}")
             if len(node.generates) > 3:
-                print(f"{prefix}     ... and {len(node.generates) - 3} more")
+                logger.info(f"{prefix}     ... and {len(node.generates) - 3} more")
 
         # Print children
         for i, child in enumerate(node.children):
@@ -287,10 +295,10 @@ class InstructionPathTracer:
 
     def generate_trace_report(self) -> None:
         """Generate comprehensive instruction path trace report."""
-        print("=" * 80)
-        print("📊 INSTRUCTION PATH TRACE REPORT")
-        print("=" * 80)
-        print()
+        logger.info("=" * 80)
+        logger.info("📊 INSTRUCTION PATH TRACE REPORT")
+        logger.info("=" * 80)
+        logger.info("")
 
         # Check if entry points exist
         readme_path = self.root_dir / "README.md"
@@ -303,75 +311,75 @@ class InstructionPathTracer:
             entry_points.append(("PLANNING.md", planning_path))
 
         if not entry_points:
-            print("❌ No entry points found (README.md or PLANNING.md)")
+            logger.info("❌ No entry points found (README.md or PLANNING.md)")
             return
 
         # Trace from each entry point
         for name, path in entry_points:
-            print(f"\n{'=' * 40}")
-            print(f"🚀 TRACING FROM: {name}")
-            print(f"{'=' * 40}")
+            logger.info(f"\n{'=' * 40}")
+            logger.info(f"🚀 TRACING FROM: {name}")
+            logger.info(f"{'=' * 40}")
 
             self.visited.clear()
             root_node = self.trace_from_document(path)
 
             if root_node:
-                print("\n📊 INSTRUCTION TREE:")
-                print("-" * 40)
+                logger.info("\n📊 INSTRUCTION TREE:")
+                logger.info("-" * 40)
                 self.print_instruction_tree(root_node)
 
                 # Check coverage
-                print("\n📈 COVERAGE ANALYSIS:")
-                print("-" * 40)
+                logger.info("\n📈 COVERAGE ANALYSIS:")
+                logger.info("-" * 40)
                 coverage = self.check_coverage(root_node)
 
                 for aspect, items in coverage.items():
-                    print(f"\n{aspect.replace('_', ' ').title()}:")
+                    logger.info(f"\n{aspect.replace('_', ' ').title()}:")
                     if items:
                         for item in items[:5]:
-                            print(f"  ✅ {item}")
+                            logger.info(f"  ✅ {item}")
                         if len(items) > 5:
-                            print(f"  ... and {len(items) - 5} more")
+                            logger.info(f"  ... and {len(items) - 5} more")
                     else:
-                        print("  ❌ No coverage found")
+                        logger.info("  ❌ No coverage found")
 
         # Check FILES_REQUIRED.md alignment
-        print("\n" + "=" * 80)
-        print("📁 FILES_REQUIRED.md ALIGNMENT CHECK")
-        print("=" * 80)
+        logger.info("\n" + "=" * 80)
+        logger.info("📁 FILES_REQUIRED.md ALIGNMENT CHECK")
+        logger.info("=" * 80)
 
         alignment = self.check_files_required_alignment()
         if not alignment:
-            print("❌ FILES_REQUIRED.md not found or empty")
+            logger.info("❌ FILES_REQUIRED.md not found or empty")
         else:
             exists_count = sum(1 for exists in alignment.values() if exists)
             total_count = len(alignment)
 
-            print(f"\n✅ Exists: {exists_count}/{total_count} files ({exists_count / total_count * 100:.1f}%)")
+            logger.info(f"\n✅ Exists: {exists_count}/{total_count} files ({exists_count / total_count * 100:.1f}%)")
 
             missing = [f for f, exists in alignment.items() if not exists]
             if missing:
-                print(f"❌ Missing: {len(missing)} files")
-                print("\nMissing files:")
+                logger.info(f"❌ Missing: {len(missing)} files")
+                logger.info("\nMissing files:")
                 for f in missing[:10]:
-                    print(f"  - {f}")
+                    logger.info(f"  - {f}")
                 if len(missing) > 10:
-                    print(f"  ... and {len(missing) - 10} more")
+                    logger.info(f"  ... and {len(missing) - 10} more")
 
         # Summary
-        print("\n" + "=" * 80)
-        print("📊 SUMMARY")
-        print("=" * 80)
+        logger.info("\n" + "=" * 80)
+        logger.info("📊 SUMMARY")
+        logger.info("=" * 80)
 
         total_docs = len(self.visited)
-        print(f"📄 Documents traced: {total_docs}")
-        print(f"🔗 Entry points analyzed: {len(entry_points)}")
+        logger.info(f"📄 Documents traced: {total_docs}")
+        logger.info(f"🔗 Entry points analyzed: {len(entry_points)}")
 
         # Overall assessment
         if total_docs > 10:
-            print("\n✅ Overall: Good documentation connectivity")
+            logger.info("\n✅ Overall: Good documentation connectivity")
         else:
-            print("\n⚠️  Overall: Limited documentation reach - consider adding more cross-references")
+            logger.info("\n⚠️  Overall: Limited documentation reach - consider adding more cross-references")
 
 
 def main() -> None:

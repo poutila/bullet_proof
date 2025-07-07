@@ -54,23 +54,23 @@ class MarkdownAnalyzer:
 
         for token in tokens:
             if isinstance(token, dict):
-                token_type = token.get("type", "")
+                element_type = token.get("type", "")
             else:
                 continue  # Skip non-dict tokens
 
-            if token_type == "heading" and isinstance(token, dict):  # nosec B105
+            if element_type == "heading" and isinstance(token, dict):
                 children = token.get("children", [])
                 attrs = token.get("attrs", {})
                 level = attrs.get("level", 1) if isinstance(attrs, dict) else 1
                 blocks.append(MarkdownBlock(type=BlockType.HEADING, content=self._extract_text(children), level=level))
 
-            elif token_type == "paragraph" and isinstance(token, dict):  # nosec B105
+            elif element_type == "paragraph" and isinstance(token, dict):
                 children = token.get("children", [])
                 text = self._extract_text(children)
                 if text.strip():
                     blocks.append(MarkdownBlock(type=BlockType.PARAGRAPH, content=text.strip()))
 
-            elif token_type == "block_code" and isinstance(token, dict):  # nosec B105
+            elif element_type == "block_code" and isinstance(token, dict):
                 raw_content = token.get("raw", "")
                 attrs = token.get("attrs", {})
                 language = attrs.get("info") if isinstance(attrs, dict) else None
@@ -82,17 +82,17 @@ class MarkdownAnalyzer:
                     )
                 )
 
-            elif token_type == "list" and isinstance(token, dict):  # nosec B105
+            elif element_type == "list" and isinstance(token, dict):
                 # Extract list items
                 self._extract_list_items(token, blocks)
 
-            elif token_type == "block_quote" and isinstance(token, dict):  # nosec B105
+            elif element_type == "block_quote" and isinstance(token, dict):
                 children = token.get("children", [])
                 quote_content = self._extract_from_children(children)
                 if quote_content:
                     blocks.append(MarkdownBlock(type=BlockType.BLOCKQUOTE, content=quote_content))
 
-            elif token_type == "table" and isinstance(token, dict):  # nosec B105
+            elif element_type == "table" and isinstance(token, dict):
                 # Simplified table extraction
                 table_text = self._extract_table_text(token)
                 if table_text:

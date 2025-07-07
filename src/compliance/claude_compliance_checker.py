@@ -12,9 +12,12 @@ with the standards defined in CLAUDE.md including:
 """
 
 import ast
+import logging
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -48,6 +51,11 @@ class ClaudeComplianceChecker:
     """Checks compliance with CLAUDE.md standards."""
 
     def __init__(self, root_dir: Path | None = None):
+        """Initialize compliance checker.
+
+        Args:
+            root_dir: Root directory of the project. If None, uses current working directory.
+        """
         self.root_dir = root_dir or Path.cwd()
         self.document_analyzer_dir = self.root_dir / "document_analyzer"
 
@@ -179,13 +187,10 @@ class ClaudeComplianceChecker:
                             ) for handler in try_block.handlers if handler.type is None)
 
             # Check for file operations without context managers
-            file_operations = []
-            for node in ast.walk(tree):
-                if isinstance(node, ast.Call):
-                    if (isinstance(node.func, ast.Name) and node.func.id == "open") or (
-                        isinstance(node.func, ast.Attribute) and node.func.attr in ["read_text", "write_text"]
-                    ):
-                        file_operations.append(node)
+            [node for node in ast.walk(tree) if isinstance(node, ast.Call) and (
+                    (isinstance(node.func, ast.Name) and node.func.id == "open") or
+                    (isinstance(node.func, ast.Attribute) and node.func.attr in ["read_text", "write_text"])
+                )]
 
             # Simple heuristic: if we have try blocks or path operations, assume error handling
             if try_blocks or any("Path" in str(type(node)) for node in ast.walk(tree)):
@@ -484,19 +489,19 @@ class ClaudeComplianceChecker:
 
     def generate_compliance_report(self) -> None:
         """Generate comprehensive CLAUDE.md compliance report."""
-        print("=" * 80)
-        print("🔍 CLAUDE.md COMPLIANCE ANALYSIS")
-        print("=" * 80)
-        print()
+        logger.info("=" * 80)
+        logger.info("🔍 CLAUDE.md COMPLIANCE ANALYSIS")
+        logger.info("=" * 80)
+        logger.info("")
 
         python_files = self.find_python_files()
 
         if not python_files:
-            print("❌ No Python files found in document_analyzer/ directory")
+            logger.error("❌ No Python files found in document_analyzer/ directory")
             return
 
-        print(f"📁 Analyzing {len(python_files)} Python files in document_analyzer/")
-        print()
+        logger.info(f"📁 Analyzing {len(python_files)} Python files in document_analyzer/")
+        logger.info("")
 
         # Analyze each file
         compliance_results = []
@@ -515,30 +520,30 @@ class ClaudeComplianceChecker:
         high_issues = sum(len([i for i in c.issues if i.severity == "high"]) for c in compliance_results)
         medium_issues = sum(len([i for i in c.issues if i.severity == "medium"]) for c in compliance_results)
 
-        print("📊 COMPLIANCE SUMMARY")
-        print("-" * 50)
-        print(
+        logger.info("📊 COMPLIANCE SUMMARY")
+        logger.info("-" * 50)
+        logger.info(
             f"✅ Type Hints: {files_with_type_hints}/{total_files} files ({files_with_type_hints / total_files * 100:.1f}%)"
         )
-        print(f"🧪 Test Coverage: {files_with_tests}/{total_files} files ({files_with_tests / total_files * 100:.1f}%)")
-        print(
+        logger.info(f"🧪 Test Coverage: {files_with_tests}/{total_files} files ({files_with_tests / total_files * 100:.1f}%)")
+        logger.info(
             f"📚 Documentation: {files_with_docstrings}/{total_files} files ({files_with_docstrings / total_files * 100:.1f}%)"
         )
-        print(f"🔒 Security Issues: {files_with_security_issues} files")
-        print()
-        print(f"🚨 Critical Issues: {critical_issues}")
-        print(f"⚠️  High Issues: {high_issues}")
-        print(f"💡 Medium Issues: {medium_issues}")
-        print()
+        logger.info(f"🔒 Security Issues: {files_with_security_issues} files")
+        logger.info("")
+        logger.info(f"🚨 Critical Issues: {critical_issues}")
+        logger.info(f"⚠️  High Issues: {high_issues}")
+        logger.info(f"💡 Medium Issues: {medium_issues}")
+        logger.info("")
 
         # Detailed file analysis
-        print("📋 DETAILED FILE ANALYSIS")
-        print("-" * 50)
+        logger.info("📋 DETAILED FILE ANALYSIS")
+        logger.info("-" * 50)
 
         for compliance in compliance_results:
             rel_path = compliance.file_path.relative_to(self.root_dir)
-            print(f"\n📄 {rel_path}")
-            print(f"   Lines: {compliance.line_count}")
+            logger.info(f"\n📄 {rel_path}")
+            logger.info(f"   Lines: {compliance.line_count}")
 
             # Status indicators
             status_icons = []
@@ -552,7 +557,7 @@ class ClaudeComplianceChecker:
                 status_icons.append("🔒")
 
             if status_icons:
-                print(f"   Status: {' '.join(status_icons)}")
+                logger.info(f"   Status: {' '.join(status_icons)}")
 
             # Issues by severity
             critical = [i for i in compliance.issues if i.severity == "critical"]
@@ -560,26 +565,26 @@ class ClaudeComplianceChecker:
             medium = [i for i in compliance.issues if i.severity == "medium"]
 
             if critical:
-                print(f"   🚨 Critical: {len(critical)} issues")
+                logger.info(f"   🚨 Critical: {len(critical)} issues")
                 for issue in critical[:2]:
-                    print(f"      - {issue.description}")
+                    logger.info(f"      - {issue.description}")
                 if len(critical) > 2:
-                    print(f"      ... and {len(critical) - 2} more")
+                    logger.info(f"      ... and {len(critical) - 2} more")
 
             if high:
-                print(f"   ⚠️  High: {len(high)} issues")
+                logger.info(f"   ⚠️  High: {len(high)} issues")
                 for issue in high[:2]:
-                    print(f"      - {issue.description}")
+                    logger.info(f"      - {issue.description}")
                 if len(high) > 2:
-                    print(f"      ... and {len(high) - 2} more")
+                    logger.info(f"      ... and {len(high) - 2} more")
 
             if medium:
-                print(f"   💡 Medium: {len(medium)} issues")
+                logger.info(f"   💡 Medium: {len(medium)} issues")
 
         # Overall assessment
-        print("\n" + "=" * 80)
-        print("📊 OVERALL CLAUDE.md COMPLIANCE")
-        print("=" * 80)
+        logger.info("\n" + "=" * 80)
+        logger.info("📊 OVERALL CLAUDE.md COMPLIANCE")
+        logger.info("=" * 80)
 
         # Calculate compliance score
         type_score = (files_with_type_hints / total_files) * 100
@@ -589,31 +594,31 @@ class ClaudeComplianceChecker:
 
         overall_score = (type_score + test_score + doc_score + security_score) / 4
 
-        print(f"🔤 Type Hints: {type_score:.1f}%")
-        print(f"🧪 Test Coverage: {test_score:.1f}%")
-        print(f"📚 Documentation: {doc_score:.1f}%")
-        print(f"🔒 Security: {security_score:.1f}%")
-        print(f"\n📈 Overall Score: {overall_score:.1f}%")
+        logger.info(f"🔤 Type Hints: {type_score:.1f}%")
+        logger.info(f"🧪 Test Coverage: {test_score:.1f}%")
+        logger.info(f"📚 Documentation: {doc_score:.1f}%")
+        logger.info(f"🔒 Security: {security_score:.1f}%")
+        logger.info(f"\n📈 Overall Score: {overall_score:.1f}%")
 
         if overall_score >= 90:
-            print("✅ EXCELLENT - Fully CLAUDE.md compliant")
+            logger.info("✅ EXCELLENT - Fully CLAUDE.md compliant")
         elif overall_score >= 75:
-            print("⚠️  GOOD - Mostly compliant, minor improvements needed")
+            logger.info("⚠️  GOOD - Mostly compliant, minor improvements needed")
         elif overall_score >= 50:
-            print("❌ NEEDS WORK - Significant compliance gaps")
+            logger.info("❌ NEEDS WORK - Significant compliance gaps")
         else:
-            print("🚨 CRITICAL - Major compliance issues need immediate attention")
+            logger.info("🚨 CRITICAL - Major compliance issues need immediate attention")
 
         # Recommendations
-        print("\n💡 TOP RECOMMENDATIONS:")
+        logger.info("\n💡 TOP RECOMMENDATIONS:")
         if test_score < 80:
-            print("   - Create missing test files (CLAUDE.md requirement)")
+            logger.info("   - Create missing test files (CLAUDE.md requirement)")
         if type_score < 80:
-            print("   - Add type hints to all functions and variables")
+            logger.info("   - Add type hints to all functions and variables")
         if doc_score < 70:
-            print("   - Add Google-style docstrings to public functions")
+            logger.info("   - Add Google-style docstrings to public functions")
         if critical_issues > 0:
-            print(f"   - Fix {critical_issues} critical issues immediately")
+            logger.info(f"   - Fix {critical_issues} critical issues immediately")
 
 
 def main() -> None:

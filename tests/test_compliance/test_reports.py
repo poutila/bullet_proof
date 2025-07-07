@@ -64,6 +64,15 @@ class DocumentMatch:
     """Document match class."""
 
     def __init__(self, file1: Path, file2: Path, similarity_score: float, match_type: str, details: dict[str, Any]):
+        """Initialize document match.
+
+        Args:
+            file1: First file path.
+            file2: Second file path.
+            similarity_score: Similarity score between files.
+            match_type: Type of match (e.g., 'content', 'semantic').
+            details: Additional match details.
+        """
         self.file1 = file1
         self.file2 = file2
         self.similarity_score = similarity_score

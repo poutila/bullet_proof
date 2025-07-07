@@ -43,6 +43,11 @@ class ClaudeComplianceChecker:
     """Checks compliance with CLAUDE.md standards."""
 
     def __init__(self, root_dir: Path | None = None) -> None:
+        """Initialize compliance checker.
+
+        Args:
+            root_dir: Root directory of the project. If None, uses current working directory.
+        """
         self.root_dir = root_dir or Path.cwd()
         self.document_analyzer_dir = self.root_dir / "document_analyzer"
 

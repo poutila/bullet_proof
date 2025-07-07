@@ -323,10 +323,8 @@ class DependencyUpdater:
             if self.requirements_file.exists():
                 shutil.copy2(self.requirements_file, self.backup_file)
                 logger.info(f"Backup created: {self.backup_file}")
-                print(f"✓ Backup created: {self.backup_file}")
             else:
                 logger.warning("No existing requirements-dev.txt found")
-                print("⚠️  No existing requirements-dev.txt found")
         except OSError as e:
             logger.error(f"Failed to create backup: {e}")
             raise OSError(f"Failed to create backup: {e}") from e
@@ -447,9 +445,9 @@ class DependencyUpdater:
         lines = requirements_content.strip().split("\n")
 
         for line in lines:
-            line = line.strip()
-            if line and not line.startswith("#") and "==" in line:
-                package, version = line.split("==", 1)
+            stripped_line = line.strip()
+            if stripped_line and not stripped_line.startswith("#") and "==" in stripped_line:
+                package, version = stripped_line.split("==", 1)
                 packages[package.strip()] = version.strip()
 
         return packages
@@ -689,13 +687,11 @@ class DependencyUpdater:
             try:
                 registry_file.write_text(updated_content)
                 logger.info("Updated TECHNICAL_REGISTRY.md")
-                print("✓ Updated TECHNICAL_REGISTRY.md")
             except OSError as e:
                 logger.error(f"Failed to update registry: {e}")
                 raise OSError(f"Failed to update TECHNICAL_REGISTRY.md: {e}") from e
         else:
             logger.warning("TECHNICAL_REGISTRY.md not found - skipping update")
-            print("⚠️  TECHNICAL_REGISTRY.md not found - skipping update")
 
     def run_update(self, requirements_content: str, dry_run: bool = False) -> bool:
         """Execute the dependency update process.
@@ -723,7 +719,6 @@ class DependencyUpdater:
             raise ValueError("requirements_content cannot be empty")
 
         time.time()
-        print(f"🔄 Starting dependency update process with {self.package_manager}...")
         logger.info(
             "Starting dependency update process",
             operation="dependency_update",
@@ -735,82 +730,58 @@ class DependencyUpdater:
         self.backup_current_requirements()
 
         # Step 2: Validate new requirements
-        print(f"\n📋 Validating new requirements with {self.package_manager}...")
         validation_result = self.validate_new_requirements(requirements_content)
 
         if not validation_result.success:
-            print("❌ Validation failed:")
-            for error in validation_result.errors:
-                print(f"  - {error}")
+            logger.error("Validation failed", errors=validation_result.errors)
             return False
 
         if validation_result.warnings:
-            print("⚠️  Warnings:")
-            for warning in validation_result.warnings:
-                print(f"  - {warning}")
+            logger.warning("Validation warnings", warnings=validation_result.warnings)
 
-        print(f"✅ Requirements validation passed using {self.package_manager}")
+        logger.info(f"Requirements validation passed using {self.package_manager}")
 
         # Step 3: Write new requirements (if not dry run)
         if not dry_run:
             self.requirements_file.write_text(requirements_content)
-            print(f"✅ Updated {self.requirements_file}")
+            logger.info(f"Updated {self.requirements_file}")
         else:
-            print("🔍 DRY RUN: Would write new requirements file")
+            logger.info("DRY RUN: Would write new requirements file")
 
         # Step 4: Test tool compatibility
-        print(f"\n🔧 Testing tool compatibility with {self.package_manager}...")
         if not dry_run:
             tools_status = self.test_tool_compatibility()
 
             all_working = True
             for tool, working in tools_status.items():
-                status = "✅" if working else "❌"
-                print(f"  {status} {tool}")
                 if not working:
                     all_working = False
+                    logger.warning(f"Tool not working: {tool}")
+                else:
+                    logger.info(f"Tool working: {tool}")
 
             if not all_working:
-                print(f"⚠️  Some tools may need reinstallation using {self.package_manager}")
+                logger.warning(f"Some tools may need reinstallation using {self.package_manager}")
 
         # Step 5: Security check
-        print("\n🔒 Running security vulnerability check...")
         if not dry_run:
             is_secure, security_issues = self.check_security_vulnerabilities()
             if is_secure:
-                print("✅ No security vulnerabilities found")
+                logger.info("No security vulnerabilities found")
             else:
-                print("⚠️  Security issues detected:")
-                for issue in security_issues:
-                    print(f"  - {issue}")
+                logger.warning("Security issues detected", issues=security_issues)
 
         # Step 6: Update registry
         if not dry_run:
-            print("\n📝 Updating technical registry...")
+            logger.info("Updating technical registry...")
             self.update_technical_registry()
 
-        print(f"\n🎉 Dependency update {'would be' if dry_run else 'completed'} successfully!")
+        logger.info(f"Dependency update {'would be' if dry_run else 'completed'} successfully!")
 
         if not dry_run:
-            print(f"📁 Backup available at: {self.backup_file}")
-            self._print_next_steps()
+            logger.info(f"Backup available at: {self.backup_file}")
 
         return True
-
-    def _print_next_steps(self) -> None:
-        """Print context-aware next steps based on detected package manager."""
-        print("\n📋 Next steps:")
-
-        if self.package_manager == "uv":
-            print("1. 🚀 Fast install: uv pip install -r requirements-dev.txt && nox -s tests lint")
-            print("2. 🔄 Alternative: pip install -r requirements-dev.txt && nox -s tests lint")
-        else:
-            print("1. 📦 Install: pip install -r requirements-dev.txt && nox -s tests lint")
-            print("2. 💡 Consider uv for faster local development:")
-            print("   curl -LsSf https://astral.sh/uv/install.sh | sh")
-
-        print("3. 🧪 Test all automation workflows")
-        print("4. 📝 Commit changes with: 'fix: update development dependencies for security'")
 
 
 def main() -> None:
@@ -895,7 +866,7 @@ py-spy==0.4.0                   # Performance profiler
         try:
             new_requirements = Path(args.file).read_text(encoding="utf-8")
         except FileNotFoundError:
-            print(f"❌ File not found: {args.file}")
+            logger.error(f"File not found: {args.file}")
             sys.exit(1)
 
     updater = DependencyUpdater()

@@ -184,7 +184,7 @@ def validate_string_input(
 
     str_value = str(value).strip()
 
-    if not allow_empty and str_value == "":
+    if not allow_empty and not str_value:
         raise ValidationError(f"{field_name} cannot be empty")
 
     if max_length and len(str_value) > max_length:
@@ -329,7 +329,7 @@ def validate_encoding(encoding: str | None) -> str:
         codecs.lookup(encoding)
         return encoding
     except LookupError:
-        raise ValidationError(f"Invalid encoding: {encoding}")
+        raise ValidationError(f"Invalid encoding: {encoding}") from None
 
 
 def validate_file_size(file_path: Path | str, max_size_bytes: int = 100 * 1024 * 1024) -> int:

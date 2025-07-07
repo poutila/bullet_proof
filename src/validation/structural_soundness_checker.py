@@ -43,6 +43,11 @@ class StructuralSoundnessChecker:
     """Checks structural soundness of documentation system."""
 
     def __init__(self, root_dir: Path | None = None) -> None:
+        """Initialize structural soundness checker.
+
+        Args:
+            root_dir: Root directory of the project. If None, uses current working directory.
+        """
         self.root_dir = root_dir or Path.cwd()
         self.documents_md_path = self.root_dir / "planning" / "DOCUMENTS.md"
 
@@ -77,8 +82,7 @@ class StructuralSoundnessChecker:
         # Find architecture files
         arch_dir = self.root_dir / "docs" / "architecture"
         if arch_dir.exists():
-            for file in arch_dir.rglob("*.md"):
-                arch_files.append(file)
+            arch_files.extend(arch_dir.rglob("*.md"))
 
         return adr_files, arch_files
 
@@ -239,7 +243,8 @@ class StructuralSoundnessChecker:
                         if re.search(indicator, content, re.IGNORECASE):
                             is_template = True
                             break
-                except Exception:
+                except Exception as e:
+                    logger.warning(f"Failed to check if {doc} is a template: {e}")
                     continue
 
             if is_template:
