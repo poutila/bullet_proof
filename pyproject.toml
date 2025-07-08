@@ -39,6 +39,7 @@ dependencies = [
     "pytest-cov>=6.2.1",
     "ruff>=0.12.2",
     "bandit>=1.8.6",
+    "docpipe[all]",
 ]
 
 [project.optional-dependencies]
@@ -364,3 +365,6 @@ ignore_names = [
     # Path attributes
     "src", "tests", "docs", "logs",
 ]
+
+[tool.uv.sources]
+docpipe = { path = "docpipe", editable = true }

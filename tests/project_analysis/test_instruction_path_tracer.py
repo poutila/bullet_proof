@@ -5,12 +5,12 @@ from pathlib import Path
 
 import pytest
 
-from src.coverage_analyzer import CoverageAnalyzer
-from src.document_parser import DocumentParser
-from src.instruction_node import InstructionNode
-from src.instruction_path_tracer import InstructionPathTracer
-from src.path_resolver import PathResolver
-from src.report_generator import ReportGenerator
+from src.project_analysis.coverage_analyzer import CoverageAnalyzer
+from src.project_analysis.document_parser import DocumentParser
+from src.project_analysis.instruction_node import InstructionNode
+from src.project_analysis.instruction_path_tracer import InstructionPathTracer
+from src.project_analysis.path_resolver import PathResolver
+from src.project_analysis.report_generator import ReportGenerator
 
 
 class TestDocumentParser:

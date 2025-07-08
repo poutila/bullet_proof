@@ -1,0 +1,222 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docpipe"
+version = "0.1.0"
+description = "A comprehensive tool for analyzing AI coding instructions in markdown documentation"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Docpipe Contributors", email = "docpipe@example.com"},
+]
+keywords = [
+    "documentation",
+    "analysis",
+    "markdown",
+    "ai",
+    "coding-standards",
+    "compliance",
+    "similarity",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Text Processing :: Markup",
+]
+
+dependencies = [
+    # Core dependencies
+    "pydantic>=2.0",
+    "pathlib>=1.0",
+    "typing-extensions>=4.0",
+    
+    # Text processing
+    "mistune>=3.0",
+    "rapidfuzz>=3.0",
+    
+    # CLI
+    "click>=8.0",
+    "rich>=13.0",
+    
+    # Utilities
+    "loguru>=0.7",
+]
+
+[project.optional-dependencies]
+# NLP dependencies (optional for semantic similarity)
+nlp = [
+    "sentence-transformers>=2.0",
+    "torch>=2.0",
+]
+
+# Data processing
+data = [
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "openpyxl>=3.0",  # For Excel export
+]
+
+# Development dependencies
+dev = [
+    # Testing
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pytest-asyncio>=0.21",
+    "pytest-mock>=3.0",
+    
+    # Code quality
+    "mypy>=1.0",
+    "ruff>=0.4",
+    "black>=24.0",
+    "bandit>=1.7",
+    "safety>=3.0",
+    
+    # Documentation
+    "mkdocs>=1.5",
+    "mkdocs-material>=9.0",
+    "mkdocstrings[python]>=0.24",
+]
+
+# All optional dependencies
+all = [
+    "docpipe[nlp,data,dev]",
+]
+
+[project.urls]
+Homepage = "https://github.com/username/docpipe"
+Documentation = "https://docpipe.readthedocs.io"
+Repository = "https://github.com/username/docpipe"
+Issues = "https://github.com/username/docpipe/issues"
+Changelog = "https://github.com/username/docpipe/blob/main/CHANGELOG.md"
+
+[project.scripts]
+docpipe = "docpipe.cli.main:cli"
+
+[tool.setuptools]
+package-data = {"docpipe" = ["py.typed"]}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["docpipe*"]
+namespaces = false
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md"], content-type = "text/markdown"}
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = [
+    "--strict-markers",
+    "--cov=docpipe",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-fail-under=90",
+]
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = "sentence_transformers.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "rapidfuzz.*"
+ignore_missing_imports = true
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+fix = true
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "C",    # flake8-comprehensions
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+    "S",    # flake8-bandit
+    "A",    # flake8-builtins
+    "DTZ",  # flake8-datetimez
+    "ICN",  # flake8-import-conventions
+    "PIE",  # flake8-pie
+    "PT",   # flake8-pytest-style
+    "RET",  # flake8-return
+    "SIM",  # flake8-simplify
+    "TID",  # flake8-tidy-imports
+    "TCH",  # flake8-type-checking
+    "ARG",  # flake8-unused-arguments
+    "PTH",  # flake8-use-pathlib
+    "PL",   # pylint
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "PLR0913",  # too many arguments
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "ARG", "PLR2004"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["docpipe"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39"]
+include = '\.pyi?$'
+
+[tool.coverage.run]
+source = ["docpipe"]
+omit = [
+    "tests/*",
+    "*/migrations/*",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/virtualenv/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if __name__ == .__main__.:",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", "docs"]
+skips = ["B101"]  # assert_used

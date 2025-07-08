@@ -17,7 +17,7 @@ from src.document_analysis.analyzers import (
     find_not_in_use_documents,
     should_exclude,
 )
-from src.validation.validation import ValidationError
+from src.document_analysis.validation import ValidationError
 
 
 # Placeholder functions for tests

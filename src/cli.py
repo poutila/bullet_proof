@@ -44,13 +44,18 @@ def run_compliance_check(args: argparse.Namespace) -> None:
         # Check specific file
         file_path = Path(args.file)
         if file_path.exists():
-            compliance = checker.check_file_compliance(file_path)
-            checker.print_file_compliance(compliance)
+            compliance = checker.analyze_file(file_path)
+            # Print individual file results
+            logger.info(f"\n📄 {file_path}")
+            logger.info(f"   Type hints: {'✅' if compliance.has_type_hints else '❌'}")
+            logger.info(f"   Test coverage: {'✅' if compliance.has_tests else '❌'}")
+            logger.info(f"   Documentation: {'✅' if compliance.has_docstrings else '❌'}")
+            logger.info(f"   Issues: {len(compliance.issues)}")
         else:
             logger.error(f"File not found: {args.file}")
     else:
         # Check entire project
-        checker.check_project_compliance()
+        checker.generate_compliance_report()
 
 
 def run_reference_check(args: argparse.Namespace) -> None:
@@ -149,8 +154,8 @@ def run_similarity_analysis(args: argparse.Namespace) -> None:
         logger.info(f"\nFound {len(high_similarity_pairs)} document pairs above threshold:")
         for i, (doc1, doc2, score) in enumerate(high_similarity_pairs[:10]):
             logger.info(f"\n{i+1}. Similarity: {score:.3f}")
-            logger.info(f"   - {doc1.name}")
-            logger.info(f"   - {doc2.name}")
+            logger.info(f"   - {Path(doc1).name if isinstance(doc1, str) else doc1.name}")
+            logger.info(f"   - {Path(doc2).name if isinstance(doc2, str) else doc2.name}")
     else:
         logger.info("No document pairs found above threshold")
 
@@ -181,10 +186,51 @@ def run_merge_similar(args: argparse.Namespace) -> None:
         logger.info("\n💡 This was a dry run. Use --execute to actually merge files.")
 
 
+def run_demo(args: argparse.Namespace) -> None:
+    """Run a quick demo of all features."""
+    logger.info("🎯 BULLET PROOF CLI DEMO")
+    logger.info("=" * 80)
+    logger.info("This tool provides comprehensive analysis for your project:\n")
+    
+    # Show available commands
+    logger.info("📋 Available Commands:")
+    logger.info("  • compliance  - Check CLAUDE.md compliance")
+    logger.info("  • references  - Validate document references")
+    logger.info("  • structure   - Check structural soundness")
+    logger.info("  • trace       - Trace instruction paths")
+    logger.info("  • similarity  - Analyze document similarity")
+    logger.info("  • merge       - Find and merge similar documents")
+    logger.info("  • all         - Run all checks\n")
+    
+    # Quick compliance demo
+    logger.info("1️⃣ COMPLIANCE CHECK DEMO")
+    logger.info("-" * 40)
+    logger.info("Checking this CLI file for compliance...")
+    args.file = "src/cli.py"
+    run_compliance_check(args)
+    
+    # Quick similarity demo
+    logger.info("\n2️⃣ SIMILARITY ANALYSIS DEMO")
+    logger.info("-" * 40)
+    logger.info("Finding similar README files...")
+    args.pattern = "README"
+    args.threshold = 0.5
+    args.semantic = False
+    args.limit = 5
+    run_similarity_analysis(args)
+    
+    logger.info("\n" + "="*80)
+    logger.info("✅ Demo completed! Use --help to see all options.")
+
+
 def run_all_checks(args: argparse.Namespace) -> None:
     """Run all checks in sequence."""
     logger.info("🧪 Running ALL Checks...")
     logger.info("=" * 80)
+    
+    # Add missing attributes for subcommands
+    args.file = None  # For compliance checker
+    args.basic = False  # For reference validator
     
     # Compliance check
     logger.info("\n" + "="*80)
@@ -261,6 +307,9 @@ Examples:
     # All checks
     parser_all = subparsers.add_parser('all', help='Run all checks')
     
+    # Demo mode
+    parser_demo = subparsers.add_parser('demo', help='Run a quick demo of all features')
+    
     # Compliance checker
     parser_compliance = subparsers.add_parser('compliance', help='Check CLAUDE.md compliance')
     parser_compliance.add_argument('--file', '-f', help='Check specific file')
@@ -302,6 +351,7 @@ Examples:
     
     command_map = {
         'all': run_all_checks,
+        'demo': run_demo,
         'compliance': run_compliance_check,
         'references': run_reference_check,
         'structure': run_structural_check,

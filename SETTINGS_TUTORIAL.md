@@ -1,0 +1,624 @@
+# Claude Code Settings Tutorial
+
+## Overview
+
+Claude Code uses a `settings.json` file to configure its behavior, tools, and project-specific preferences. This tutorial covers all available settings, their usage, and recommended configurations for different scenarios.
+
+## Settings File Location
+
+Place your settings file in one of these locations (in order of precedence):
+1. `.claude/settings.json` - Project-specific settings (recommended)
+2. `~/.claude/settings.json` - User-wide settings
+3. `/etc/claude/settings.json` - System-wide settings (Linux/Mac)
+
+## Complete Settings Reference
+
+### 1. Environment Variables
+
+Configure environment variables that Claude Code will use:
+
+```json
+{
+  "environment": {
+    "PYTHONPATH": "${workspaceFolder}/src",
+    "NODE_ENV": "development",
+    "CUSTOM_VAR": "value"
+  }
+}
+```
+
+**Variables**:
+- `${workspaceFolder}` - Expands to current project root
+- `${userHome}` - User's home directory
+- `${file}` - Current file being edited
+
+### 2. Tools Configuration
+
+Control which tools Claude can use:
+
+```json
+{
+  "tools": {
+    "enabled": [
+      "Bash",
+      "Read",
+      "Write",
+      "Edit",
+      "MultiEdit",
+      "Glob",
+      "Grep",
+      "LS",
+      "WebSearch",
+      "WebFetch",
+      "TodoRead",
+      "TodoWrite",
+      "NotebookRead",
+      "NotebookEdit"
+    ],
+    "disabled": ["WebSearch"],  // Explicitly disable specific tools
+    "restrictions": {
+      "Bash": {
+        "forbidden_commands": ["rm -rf", "sudo"],
+        "allowed_directories": ["${workspaceFolder}"]
+      }
+    }
+  }
+}
+```
+
+**Available Tools**:
+- File Operations: `Read`, `Write`, `Edit`, `MultiEdit`
+- Search: `Glob`, `Grep`, `LS`
+- Execution: `Bash`
+- Web: `WebSearch`, `WebFetch`
+- Organization: `TodoRead`, `TodoWrite`
+- Notebooks: `NotebookRead`, `NotebookEdit`
+
+### 3. Context Management
+
+Control what Claude sees and ignores:
+
+```json
+{
+  "context": {
+    "includeFiles": [
+      "README.md",
+      "CLAUDE.md",
+      "pyproject.toml",
+      "package.json"
+    ],
+    "excludePatterns": [
+      "**/.venv/**",
+      "**/node_modules/**",
+      "**/__pycache__/**",
+      "**/*.pyc",
+      "**/dist/**",
+      "**/build/**"
+    ],
+    "maxFileSize": 1048576,  // 1MB in bytes
+    "followSymlinks": false
+  }
+}
+```
+
+### 4. Code Execution Settings
+
+Configure how Claude executes commands:
+
+```json
+{
+  "codeExecution": {
+    "defaultShell": "bash",  // or "zsh", "fish", "powershell"
+    "timeout": 120000,       // milliseconds (2 minutes)
+    "workingDirectory": "${workspaceFolder}",
+    "env": {
+      "PATH": "${env:PATH}:/custom/path"
+    },
+    "sandboxMode": false,    // Restrict file system access
+    "parallelExecution": true // Allow concurrent commands
+  }
+}
+```
+
+### 5. Language-Specific Settings
+
+#### Python Configuration
+
+```json
+{
+  "formatting": {
+    "python": {
+      "formatter": "ruff",   // or "black", "autopep8", "yapf"
+      "lineLength": 88,
+      "indentSize": 4,
+      "quoteStyle": "double"
+    }
+  },
+  "testing": {
+    "python": {
+      "framework": "pytest",  // or "unittest", "nose2"
+      "coverageThreshold": 90,
+      "testFilePattern": "test_*.py",
+      "testDirectory": "tests",
+      "additionalArgs": [
+        "--cov=src",
+        "--cov-report=html",
+        "--cov-fail-under=90",
+        "-v"
+      ]
+    }
+  },
+  "linting": {
+    "python": {
+      "linters": ["ruff", "mypy", "bandit", "pylint"],
+      "ruff": {
+        "args": ["check", "--fix", "--show-fixes"],
+        "config": "pyproject.toml"
+      },
+      "mypy": {
+        "args": ["--strict", "--ignore-missing-imports"],
+        "config": "mypy.ini"
+      },
+      "bandit": {
+        "args": ["-r", "src/", "-ll"],
+        "severity": "medium"
+      }
+    }
+  }
+}
+```
+
+#### JavaScript/TypeScript Configuration
+
+```json
+{
+  "formatting": {
+    "javascript": {
+      "formatter": "prettier",
+      "semiColons": true,
+      "singleQuote": false,
+      "tabWidth": 2
+    },
+    "typescript": {
+      "formatter": "prettier",
+      "strict": true
+    }
+  },
+  "testing": {
+    "javascript": {
+      "framework": "jest",
+      "coverageThreshold": 80,
+      "testMatch": ["**/__tests__/**/*.js", "**/?(*.)+(spec|test).js"]
+    }
+  }
+}
+```
+
+### 6. Security Settings
+
+Configure security scanning and restrictions:
+
+```json
+{
+  "security": {
+    "scanOnSave": true,
+    "scanOnCommit": true,
+    "secretDetection": true,
+    "secretPatterns": [
+      "api[_-]?key",
+      "secret[_-]?key",
+      "password",
+      "token"
+    ],
+    "forbiddenPatterns": [
+      "eval\\(",
+      "exec\\(",
+      "__import__\\(",
+      "shell=True",
+      "pickle\\.loads"
+    ],
+    "allowedDomains": [
+      "github.com",
+      "stackoverflow.com",
+      "docs.python.org"
+    ],
+    "blockMaliciousCode": true
+  }
+}
+```
+
+### 7. Documentation Settings
+
+Control documentation generation and requirements:
+
+```json
+{
+  "documentation": {
+    "autoGenerateDocstrings": true,
+    "docstringStyle": "google",  // or "numpy", "sphinx"
+    "requireDocstrings": true,
+    "minDocstringLength": 10,
+    "includeExamples": true,
+    "includeTypes": true,
+    "updateOnSave": false
+  }
+}
+```
+
+### 8. Git Integration
+
+Configure git-related behaviors:
+
+```json
+{
+  "git": {
+    "autoStage": false,
+    "commitMessageFormat": "conventional",  // or "simple"
+    "signCommits": false,
+    "fetchOnStartup": true,
+    "pushAfterCommit": false,
+    "defaultBranch": "main"
+  }
+}
+```
+
+### 9. Hooks Configuration
+
+Define commands to run at specific times:
+
+```json
+{
+  "hooks": {
+    "preEdit": [
+      "echo 'About to edit ${file}'"
+    ],
+    "postEdit": [
+      "ruff format ${file}",
+      "git add ${file}"
+    ],
+    "preCommit": [
+      "pytest",
+      "ruff check src/",
+      "mypy src/"
+    ],
+    "postCommit": [
+      "echo 'Committed successfully'"
+    ],
+    "onStartup": [
+      "git fetch",
+      "pip install -r requirements.txt"
+    ],
+    "onFileCreate": [
+      "echo '# Created on ${date}' > ${file}"
+    ]
+  }
+}
+```
+
+**Available Hooks**:
+- `preEdit` / `postEdit` - Before/after file modifications
+- `preCommit` / `postCommit` - Git commit hooks
+- `onStartup` / `onShutdown` - Session lifecycle
+- `onFileCreate` / `onFileDelete` - File operations
+- `onError` - When Claude encounters errors
+
+### 10. AI Assistant Configuration
+
+Fine-tune Claude's behavior:
+
+```json
+{
+  "ai": {
+    "contextWindow": 200000,
+    "includeProjectContext": true,
+    "autoloadContext": [
+      "README.md",
+      "CONTRIBUTING.md"
+    ],
+    "responseStyle": "concise",  // or "detailed", "explanatory"
+    "suggestTests": true,
+    "suggestImprovements": true,
+    "explainDecisions": true,
+    "codeReviewMode": false,
+    "learningMode": true,  // Remember project patterns
+    "language": "en"       // Response language
+  }
+}
+```
+
+### 11. Performance Settings
+
+Optimize Claude Code performance:
+
+```json
+{
+  "performance": {
+    "maxConcurrentOperations": 5,
+    "cacheEnabled": true,
+    "cacheDuration": 3600,  // seconds
+    "indexingEnabled": true,
+    "indexUpdateInterval": 300,  // seconds
+    "memoryLimit": "2GB",
+    "cpuLimit": "80%"
+  }
+}
+```
+
+### 12. UI/UX Preferences
+
+Customize the interface:
+
+```json
+{
+  "ui": {
+    "theme": "dark",  // or "light", "auto"
+    "showLineNumbers": true,
+    "wordWrap": true,
+    "fontSize": 14,
+    "fontFamily": "JetBrains Mono",
+    "showWhitespace": false,
+    "minimap": true,
+    "breadcrumbs": true,
+    "progressIndicators": true,
+    "verboseOutput": false
+  }
+}
+```
+
+### 13. Project-Specific Settings
+
+Add custom configuration for your project:
+
+```json
+{
+  "projectSpecific": {
+    "projectType": "python-package",
+    "mainEntry": "src/main.py",
+    "buildCommand": "python -m build",
+    "deployCommand": "twine upload dist/*",
+    "customField": "customValue"
+  }
+}
+```
+
+## Recommended Settings by Project Type
+
+### Python Web Application
+
+```json
+{
+  "environment": {
+    "PYTHONPATH": "${workspaceFolder}",
+    "FLASK_ENV": "development"
+  },
+  "tools": {
+    "enabled": ["Bash", "Read", "Write", "Edit", "MultiEdit", "Grep", "Glob"]
+  },
+  "testing": {
+    "python": {
+      "framework": "pytest",
+      "coverageThreshold": 85,
+      "additionalArgs": ["--cov=app", "--cov-report=html"]
+    }
+  },
+  "linting": {
+    "python": {
+      "linters": ["ruff", "mypy", "bandit"],
+      "ruff": {
+        "args": ["check", "--fix"]
+      }
+    }
+  },
+  "hooks": {
+    "preCommit": [
+      "pytest",
+      "ruff check .",
+      "bandit -r app/"
+    ]
+  }
+}
+```
+
+### Data Science Project
+
+```json
+{
+  "environment": {
+    "PYTHONPATH": "${workspaceFolder}/src"
+  },
+  "tools": {
+    "enabled": ["Bash", "Read", "Write", "Edit", "NotebookRead", "NotebookEdit"]
+  },
+  "context": {
+    "includeFiles": ["*.ipynb", "requirements.txt", "README.md"],
+    "excludePatterns": ["**/data/**", "**/models/**"]
+  },
+  "formatting": {
+    "python": {
+      "formatter": "black",
+      "lineLength": 100
+    }
+  },
+  "documentation": {
+    "docstringStyle": "numpy",
+    "includeTypes": true
+  }
+}
+```
+
+### Documentation-Heavy Project
+
+```json
+{
+  "tools": {
+    "enabled": ["Read", "Write", "Edit", "Grep", "Glob", "WebSearch"]
+  },
+  "context": {
+    "includeFiles": ["**/*.md", "**/*.rst"],
+    "maxFileSize": 5242880  // 5MB for large docs
+  },
+  "documentation": {
+    "autoGenerateDocstrings": true,
+    "updateOnSave": true
+  },
+  "ai": {
+    "responseStyle": "detailed",
+    "explainDecisions": true
+  }
+}
+```
+
+### Security-Critical Application
+
+```json
+{
+  "security": {
+    "scanOnSave": true,
+    "scanOnCommit": true,
+    "secretDetection": true,
+    "blockMaliciousCode": true,
+    "forbiddenPatterns": [
+      "eval\\(",
+      "exec\\(",
+      "pickle\\.loads",
+      "shell=True",
+      "disable.*verify",
+      "trust.*cert"
+    ]
+  },
+  "tools": {
+    "disabled": ["WebSearch", "WebFetch"],
+    "restrictions": {
+      "Bash": {
+        "forbidden_commands": ["curl", "wget", "nc", "telnet"],
+        "allowed_directories": ["${workspaceFolder}"]
+      }
+    }
+  },
+  "hooks": {
+    "preCommit": [
+      "bandit -r src/ -ll",
+      "safety check",
+      "gitleaks detect"
+    ]
+  }
+}
+```
+
+## Environment Variable Reference
+
+Built-in variables you can use:
+
+- `${workspaceFolder}` - Project root directory
+- `${file}` - Current file path
+- `${fileBasename}` - Current file name
+- `${fileDirname}` - Current file's directory
+- `${fileExtname}` - Current file extension
+- `${userHome}` - User home directory
+- `${tmpdir}` - System temp directory
+- `${env:VARIABLE}` - Access environment variables
+- `${date}` - Current date (YYYY-MM-DD)
+- `${time}` - Current time (HH:MM:SS)
+
+## Settings Validation
+
+Claude Code validates settings on load. Common validation errors:
+
+1. **Invalid JSON**: Check for syntax errors
+2. **Unknown properties**: Typos in setting names
+3. **Type mismatches**: String where number expected
+4. **Invalid patterns**: Malformed regex patterns
+5. **Missing required fields**: Some settings need specific fields
+
+## Best Practices
+
+1. **Start Simple**: Begin with minimal settings and add as needed
+2. **Version Control**: Commit `.claude/settings.json` for team consistency
+3. **Environment-Specific**: Use different settings for dev/prod
+4. **Security First**: Enable security scanning for all projects
+5. **Document Custom Settings**: Add comments explaining project-specific configurations
+
+## Troubleshooting
+
+### Settings Not Loading
+
+1. Check file location (`.claude/settings.json`)
+2. Validate JSON syntax
+3. Look for error messages in Claude Code output
+4. Try minimal settings to isolate issues
+
+### Performance Issues
+
+1. Reduce `maxConcurrentOperations`
+2. Disable unused tools
+3. Increase timeout values
+4. Limit context file size
+
+### Security Warnings
+
+1. Review `forbiddenPatterns`
+2. Check `allowedDomains` for web tools
+3. Enable `secretDetection`
+4. Configure proper `restrictions`
+
+## Advanced Features
+
+### Conditional Settings
+
+Use environment detection for dynamic configuration:
+
+```json
+{
+  "codeExecution": {
+    "defaultShell": "${env:SHELL || 'bash'}",
+    "timeout": "${env:CI ? 300000 : 120000}"
+  }
+}
+```
+
+### Settings Inheritance
+
+Project settings override user settings:
+
+1. System: `/etc/claude/settings.json`
+2. User: `~/.claude/settings.json` 
+3. Project: `.claude/settings.json` (highest priority)
+
+### Dynamic Reloading
+
+Claude Code watches for settings changes and reloads automatically. Some settings require restart:
+- `environment` variables
+- `tools.enabled/disabled`
+- `performance` limits
+
+## Security Considerations
+
+1. **Never commit secrets** in settings files
+2. **Use environment variables** for sensitive values
+3. **Restrict tool access** in shared environments
+4. **Enable security scanning** for all projects
+5. **Review hooks** for command injection risks
+
+## Migration Guide
+
+### From Default Settings
+
+1. Create `.claude/settings.json`
+2. Add only settings you want to change
+3. Test incrementally
+4. Document your choices
+
+### From Other AI Tools
+
+Map common settings:
+- Copilot → Claude: Similar structure
+- Cursor → Claude: Adjust tool names
+- Tabnine → Claude: Add AI configuration
+
+## Support and Resources
+
+- Official Docs: https://docs.anthropic.com/en/docs/claude-code/settings
+- Community Settings: https://github.com/anthropics/claude-code-settings
+- Report Issues: https://github.com/anthropics/claude-code/issues
+
+Remember: Good settings enhance productivity without compromising security or code quality. Start with recommended configurations and customize based on your project's specific needs.

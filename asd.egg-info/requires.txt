@@ -25,6 +25,7 @@ coverage>=7.9.2
 pytest-cov>=6.2.1
 ruff>=0.12.2
 bandit>=1.8.6
+docpipe[all]
 
 [dev]
 pytest>=8.4.0

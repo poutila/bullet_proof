@@ -5,12 +5,12 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from src.claude_compliance_checker_simple import (
+from src.compliance.claude_compliance_checker_simple import (
     ClaudeComplianceChecker,
     FileCompliance,
     main,
 )
-from src.compliance_checks import ComplianceIssue
+from src.compliance.compliance_checks import ComplianceIssue
 
 
 class TestFileCompliance:

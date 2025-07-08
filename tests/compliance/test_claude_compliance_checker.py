@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from src.claude_compliance_checker import (
+from src.compliance.claude_compliance_checker import (
     ClaudeComplianceChecker,
 )
 
@@ -30,12 +30,12 @@ def add(a, b):
         checker = ClaudeComplianceChecker(tmp_path)
 
         # File with hints should pass
-        compliance_with = checker.check_file_compliance(file_with)
-        assert compliance_with.type_hints_ok is True
+        compliance_with = checker.analyze_file(file_with)
+        assert compliance_with.has_type_hints is True
 
         # File without hints should fail
-        compliance_without = checker.check_file_compliance(file_without)
-        assert compliance_without.type_hints_ok is False
+        compliance_without = checker.analyze_file(file_without)
+        assert compliance_without.has_type_hints is False
 
     def test_check_test_coverage_integration(self, tmp_path: Path) -> None:
         """Test test coverage checking integration."""
@@ -48,15 +48,15 @@ def add(a, b):
         checker = ClaudeComplianceChecker(tmp_path)
 
         # Should pass since test file exists
-        compliance = checker.check_file_compliance(src_file)
-        assert compliance.test_coverage_ok is True
+        compliance = checker.analyze_file(src_file)
+        assert compliance.has_tests is True
 
         # Remove test file
         test_file.unlink()
 
         # Should fail now
-        compliance = checker.check_file_compliance(src_file)
-        assert compliance.test_coverage_ok is False
+        compliance = checker.analyze_file(src_file)
+        assert compliance.has_tests is False
 
     def test_check_file_length_integration(self, tmp_path: Path) -> None:
         """Test file length checking integration."""
@@ -69,12 +69,12 @@ def add(a, b):
         checker = ClaudeComplianceChecker(tmp_path)
 
         # Short file should pass
-        compliance_short = checker.check_file_compliance(short_file)
-        assert compliance_short.file_length_ok is True
+        compliance_short = checker.analyze_file(short_file)
+        assert compliance_short.line_count < 500
 
         # Long file should fail
-        compliance_long = checker.check_file_compliance(long_file)
-        assert compliance_long.file_length_ok is False
+        compliance_long = checker.analyze_file(long_file)
+        assert compliance_long.line_count > 500
 
     def test_check_forbidden_patterns_integration(self, tmp_path: Path) -> None:
         """Test forbidden patterns checking integration."""
@@ -101,12 +101,12 @@ def process():
         checker = ClaudeComplianceChecker(tmp_path)
 
         # Clean file should pass
-        compliance_clean = checker.check_file_compliance(clean_file)
-        assert compliance_clean.no_forbidden_patterns is True
+        compliance_clean = checker.analyze_file(clean_file)
+        assert len([i for i in compliance_clean.issues if i.issue_type == 'forbidden-pattern']) == 0
 
         # Dirty file should fail
-        compliance_dirty = checker.check_file_compliance(dirty_file)
-        assert compliance_dirty.no_forbidden_patterns is False
+        compliance_dirty = checker.analyze_file(dirty_file)
+        assert len([i for i in compliance_dirty.issues if i.issue_type == 'forbidden-pattern']) > 0
 
     def test_check_security_issues_integration(self, tmp_path: Path) -> None:
         """Test security issues checking integration."""
@@ -136,12 +136,12 @@ def run_command(cmd):
         checker = ClaudeComplianceChecker(tmp_path)
 
         # Secure file should pass
-        compliance_secure = checker.check_file_compliance(secure_file)
-        assert compliance_secure.security_ok is True
+        compliance_secure = checker.analyze_file(secure_file)
+        assert compliance_secure.has_security_issues is False
 
         # Insecure file should fail
-        compliance_insecure = checker.check_file_compliance(insecure_file)
-        assert compliance_insecure.security_ok is False
+        compliance_insecure = checker.analyze_file(insecure_file)
+        assert compliance_insecure.has_security_issues is True
 
     def test_check_error_handling_integration(self, tmp_path: Path) -> None:
         """Test error handling checking integration."""
@@ -174,12 +174,12 @@ def process():
         checker = ClaudeComplianceChecker(tmp_path)
 
         # Good error handling should pass
-        compliance_good = checker.check_file_compliance(good_file)
-        assert compliance_good.error_handling_ok is True
+        compliance_good = checker.analyze_file(good_file)
+        assert compliance_good.has_error_handling is True
 
         # Bad error handling should fail
-        compliance_bad = checker.check_file_compliance(bad_file)
-        assert compliance_bad.error_handling_ok is False
+        compliance_bad = checker.analyze_file(bad_file)
+        assert compliance_bad.has_error_handling is False
 
     def test_check_complexity_integration(self, tmp_path: Path) -> None:
         """Test complexity checking integration."""
@@ -225,12 +225,12 @@ def complex_func(x):
         checker = ClaudeComplianceChecker(tmp_path)
 
         # Simple code should pass
-        compliance_simple = checker.check_file_compliance(simple_file)
-        assert compliance_simple.complexity_ok is True
+        compliance_simple = checker.analyze_file(simple_file)
+        assert compliance_simple.complexity_score < 10
 
         # Complex code should fail
-        compliance_complex = checker.check_file_compliance(complex_file)
-        assert compliance_complex.complexity_ok is False
+        compliance_complex = checker.analyze_file(complex_file)
+        assert compliance_complex.complexity_score >= 10
 
     def test_full_project_compliance(self, tmp_path: Path) -> None:
         """Test full project compliance checking."""
